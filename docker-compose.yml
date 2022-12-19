@@ -152,7 +152,7 @@ services:
             # - SUBDOMAIN_SUFFIX=${SUBDOMAIN_SUFFIX}
 
         depends_on:
-            - cerberus
+            - _cerberus
             - cloudbeaver
 
         profiles: ["all"]
