@@ -1,0 +1,42 @@
+{
+  "server": {
+    "serverName": "CloudBeaver CE Server",
+    "serverURL": "http://localhost:8978",
+    "expireSessionAfterPeriod": 1800000,
+    "database": {
+      "driver": "postgres-jdbc",
+      "url": "jdbc:postgresql://timescaledb:5432/DATABASE_NAME",
+      // "url": "jdbc:postgresql://timescaledb:5432/DATABASE_NAME?currentSchema=cloudbeaver",
+      "user": "USER_NAME",
+      "password": "PASSWORD",
+      // "user": "cloudbeaver",
+      // "password": "cloudbeaver",
+      "createDatabase": true,
+      "allowPublicAccess": true,
+      "initialDataConfiguration": "conf/initial-data.conf",
+      "pool": {
+        "minIdleConnections": 4,
+        "maxIdleConnections": 10,
+        "maxConnections": 100,
+        "validationQuery": "SELECT 1"
+      }
+    }
+  },
+  "app": {
+    "anonymousAccessEnabled": true,
+    "supportsCustomConnections": false,
+    "publicCredentialsSaveEnabled": true,
+    "adminCredentialsSaveEnabled": true,
+    "resourceQuotas": {
+      "dataExportFileSizeLimit": 1.0E7,
+      "sqlMaxRunningQueries": 3.0,
+      "sqlResultSetRowsLimit": 100000.0,
+      "sqlResultSetMemoryLimit": 2000000.0
+    },
+    "defaultNavigatorSettings": {},
+    "enabledFeatures": [],
+    "enabledAuthProviders": [
+      "local"
+    ]
+  }
+}
