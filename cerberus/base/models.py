@@ -1,8 +1,6 @@
 import uuid
-
 from django.db import models
 from simple_history.models import HistoricalRecords
-
 
 
 class BaseModel(models.Model):
@@ -34,9 +32,6 @@ class BaseModel(models.Model):
         abstract = True
 
     def save(self, *args, **kwargs):
-        
-        # Manually append `modified_at` to the field list if `update_fields`
-        # argument is sent while saving the instance.
 
         if kwargs.get("update_fields"):
             kwargs.update(
