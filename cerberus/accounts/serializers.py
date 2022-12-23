@@ -56,7 +56,6 @@ class UserRegistrationSerializer(
             "is_staff",
             "is_active",
         ]
-        read_only_fields = ["id"]
 
         extra_kwargs = {
             "username": {
@@ -128,47 +127,5 @@ class UserRegistrationSerializer(
         user = User.objects.create_user(
             **user,
         )
-
-        if validated_data.get("password"):
-            
-            if email_address:
-                email_verify_device, _ = EmailDevice.objects.get_or_create(
-                    user=email_address.user, email=email_address.address
-                )
-                email_verify_device.generate_token(valid_secs=900)
-
-                print(email_verify_device.token)
-
-            if phone_number:
-                phone_verify_device, _ = PhoneDevice.objects.get_or_create(
-                    user=phone_number.user, number=phone_number.number
-                )
-
-                phone_verify_device.generate_token(valid_secs=900)
-
-                print(phone_verify_device.token)
-
-        else:
-
-            token = PasswordResetTokenGenerator().make_token(user)
-            if email_address:
-                uidb64 = urlsafe_base64_encode(smart_bytes(email_address.id))
-            elif phone_number:
-                uidb64 = urlsafe_base64_encode(smart_bytes(phone_number.id))
-            relative_link = f"/{uidb64}/set-password/?token={token}/"
-            if self.context != {}:
-                current_site = get_current_site(self.context["request"]).domain
-                absolute_url = "http://" + current_site + relative_link
-                print(absolute_url)
-            else:
-                reset_link = f"{settings.CURRENT_DOMAIN}/auth/set-password/{uidb64}/{token}/"
-
-                send_email(
-                    to=email_address.address,
-                    subject="VendorKredit - Account Activation Link",
-                    html_body=f"Hi {user.first_name}\n. Your Username is {user.username}. Use this link to activate your account and set the password.\n {reset_link}",
-                )
-                return user
-            # TODO: send the password generation link
 
         return user
