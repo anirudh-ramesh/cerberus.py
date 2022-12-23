@@ -7,7 +7,6 @@ from base.models import BaseModel
 from accounts.managers import UserManager
 
 
-
 class User(
     AbstractBaseUser,
     BaseModel,
@@ -27,7 +26,7 @@ class User(
         help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
         validators=[username_validator],
         error_messages={
-            "unique": "A user with that username already exists.",
+            "unique": "A user with that phone number already exists.",
         },
     )
 
@@ -53,12 +52,6 @@ class User(
         help_text="Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
     )
 
-    failed_login_attempts = models.IntegerField(default=0)
-
-    is_locked = models.BooleanField(default=False)
-
-    locked_date = models.DateTimeField(null=True)
-
     objects = UserManager()
 
     USERNAME_FIELD = "username"
@@ -69,3 +62,25 @@ class User(
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+
+
+class Email(models.Model):
+
+    user = models.ForeignKey(
+        "accounts.User",
+        on_delete=models.PROTECT,
+        related_name="emails",
+    )
+
+    address = models.EmailField(
+        blank=True,
+        null=True,
+    )
+
+    is_primary = models.BooleanField(
+        default=False,
+    )
+
+    def __str__(self):
+        return self.address
