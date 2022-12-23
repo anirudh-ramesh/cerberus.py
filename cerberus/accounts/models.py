@@ -73,14 +73,10 @@ class Email(models.Model):
         related_name="emails",
     )
 
-    address = models.EmailField(
+    email_address = models.EmailField(
         blank=True,
         null=True,
     )
 
-    is_primary = models.BooleanField(
-        default=False,
-    )
-
     def __str__(self):
-        return self.address
+        return self.email_address

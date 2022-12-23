@@ -1,7 +1,24 @@
-from django.contrib.auth.models import User
+from django.conf import settings
+from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from django.contrib.auth.password_validation import validate_password
+
+from accounts.models import Email, User
+
+
+
+class EmailSerializer(
+    serializers.ModelSerializer,
+):
+    class Meta:
+
+        model = Email
+
+        fields = "__all__"
+
+
+class AddRemoveEmailSerializer(serializers.Serializer):
+    email_address = serializers.EmailField()
 
 
 class UserSerializer(
@@ -34,6 +51,8 @@ class UserRegistrationSerializer(
     serializers.ModelSerializer,
 ):
     email = serializers.EmailField(write_only=True, required=False)
+
+    username = serializers.CharField(write_only = True, required=True)
 
     password = serializers.CharField(max_length=68, min_length=6, write_only=True, required=False)
 
