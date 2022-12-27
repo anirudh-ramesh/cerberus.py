@@ -25,6 +25,10 @@ class UserSerializer(
     serializers.ModelSerializer,
 ):
 
+    emails = EmailSerializer(
+        many=True,
+    )
+    
     class Meta:
 
         model = User

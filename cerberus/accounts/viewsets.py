@@ -34,16 +34,16 @@ class UserViewSet(
         context = {
             "request": request,
         }
-        serializer = UserRegistrationSerializer(data=request.data, context=context)
+        serializer_class = UserRegistrationSerializer(data=request.data, context=context)
 
-        serializer.is_valid(
+        serializer_class.is_valid(
             raise_exception=True,
         )
 
-        serializer.save()
+        serializer_class.save()
 
         return response.Created(
-            data=serializer.validated_data,
+            data=serializer_class.validated_data,
         )
 
     @action(
