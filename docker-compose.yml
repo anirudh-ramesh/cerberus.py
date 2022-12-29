@@ -98,7 +98,12 @@ services:
 
         image: irasus/cerberus:${IRASUS_DEVELOPMENT_CERBERUS_VERSION}
 
-        command: python manage.py runserver 0.0.0.0:8000
+        command: sh -c "
+             python3 manage.py makemigrations &&
+             python3 manage.py migrate &&
+             python3 manage.py runserver 0.0.0.0:8000"
+
+        # command: python manage.py runserver 0.0.0.0:8000
 
         environment:
             - TZ=${TZ}

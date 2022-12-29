@@ -4,6 +4,9 @@ FROM python:${PYTHON_VERSION}
 
 MAINTAINER Anirudh Ramesh
 
+RUN apt-get update &&\
+    apt-get install -y binutils libproj-dev gdal-bin
+
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
