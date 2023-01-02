@@ -20,6 +20,7 @@ class UserViewSet(
     RetrieveModelMixin,
 ):
     queryset = User.objects.all()
+    serializer_class = UserSerializer
 
     @action(
         detail=False,
@@ -34,16 +35,16 @@ class UserViewSet(
         context = {
             "request": request,
         }
-        serializer_class = UserRegistrationSerializer(data=request.data, context=context)
+        serializer = UserRegistrationSerializer(data=request.data, context=context)
 
-        serializer_class.is_valid(
+        serializer.is_valid(
             raise_exception=True,
         )
 
-        serializer_class.save()
+        serializer.save()
 
         return response.Created(
-            data=serializer_class.validated_data,
+            data=serializer.validated_data,
         )
 
     @action(

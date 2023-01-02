@@ -25,7 +25,7 @@ class UserSerializer(
     serializers.ModelSerializer,
 ):
 
-    emails = EmailSerializer(
+    email = EmailSerializer(
         many=True,
     )
     
@@ -88,42 +88,42 @@ class UserRegistrationSerializer(
             },
         }
 
-    def validate(self, attrs):
+    # def validate(self, attrs):
 
-        email = attrs.get("email")
-        phone_number = attrs.get("username")
-        firstname = attrs.get("first_name")
-        password = attrs.get("password")
+    #     email = attrs.get("email")
+    #     phone_number = attrs.get("username")
+    #     firstname = attrs.get("first_name")
+    #     password = attrs.get("password")
 
-        if password:
-            validate_password(password)
+    #     if password:
+    #         validate_password(password)
 
-        if not firstname:
-            raise ValidationError("First name is required")
+    #     if not firstname:
+    #         raise ValidationError("First name is required")
 
-        if not (email):
-            raise ValidationError("Email is required")
+    #     if not (email):
+    #         raise ValidationError("Email is required")
 
-        if not (phone_number):
+    #     if not (phone_number):
 
-            raise ValidationError("Phone Number is required")
-        try:
-            if email:
-                User.objects.get(email=email)
-                raise ValidationError(f"{email} is already in use")
+    #         raise ValidationError("Phone Number is required")
+    #     try:
+    #         if email:
+    #             User.objects.get(email=email)
+    #             raise ValidationError(f"{email} is already in use")
 
-        except Exception as e:
-            pass
+    #     except Exception as e:
+    #         pass
 
-        try:
-            if phone_number:
-                User.objects.get(username=phone_number)
-                raise ValidationError(f"{phone_number} is already in use")
+    #     try:
+    #         if phone_number:
+    #             User.objects.get(username=phone_number)
+    #             raise ValidationError(f"{phone_number} is already in use")
 
-        except Exception as e:
-            pass
+    #     except Exception as e:
+    #         pass
 
-        return attrs
+    #     return attrs
 
     def create(self, validated_data):
         user = {}
