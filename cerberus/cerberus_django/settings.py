@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -42,6 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bossoidc2',
+    'mozilla_django_oidc',
+    'djangooidc',
     'accounts.apps.AccountsConfig',
     'base.apps.BaseConfig',
     'rest_framework',
@@ -99,6 +103,26 @@ DATABASES = {
         'PASSWORD': os.environ.get('DATABASE_SERVER_PASSWORD'),
     }
 }
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'bossoidc2.backend.OpenIdConnectBackend'
+)
+
+# REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = (
+#     'mozilla_django_oidc.contrib.drf.OIDCAuthentication',
+#     'rest_framework.authentication.SessionAuthentication',
+#     'boss.authentication.TokenAuthentication',
+#     'oidc_auth.authentication.BearerTokenAuthentication',
+# )
+
+auth_uri = "http://cerberus.localhost/auth/realms/cerberus"
+client_id = "cerberus-client"
+public_uri = "http://localhost:8000"
+KEYCLOAK_ADMIN_USER = 'bossadmin'
+
+from bossoidc.settings import *
+configure_oidc(auth_uri, client_id, public_uri)
 
 
 # Password validation

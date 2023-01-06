@@ -14,7 +14,6 @@ from accounts.serializers import (
 from base import response
 
 
-
 class UserViewSet(
     GenericViewSet,
     RetrieveModelMixin,
