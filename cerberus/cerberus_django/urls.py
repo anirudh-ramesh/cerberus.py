@@ -21,8 +21,6 @@ from cerberus_django.routers import router
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('openid/', include('djangooidc.urls')),
-    path('openid/', include('mozilla_django_oidc.urls')),
     path("", include(router.urls)),
 ]
 
