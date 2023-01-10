@@ -1,30 +1,26 @@
 from django.db import models
 
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.contrib.auth.validators import UnicodeUsernameValidator
+# from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+# from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.gis.db import models
-from base.models import BaseModel
-from accounts.managers import UserManager
+# from base.models import BaseModel
+# from accounts.managers import UserManager
 
 
-class NewUser(
-    AbstractBaseUser,
-    BaseModel,
-    PermissionsMixin,
-):
+class NewUser(models.Model):
     """
     Model class to hold all the user related data
 
     Users are people who can login on the platform and interact with it
     """
 
-    username_validator = UnicodeUsernameValidator()
+    # username_validator = UnicodeUsernameValidator()
 
     username = models.CharField(
         max_length=150,
         unique=True,
         help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
-        validators=[username_validator],
+        # validators=[username_validator],
         error_messages={
             "unique": "A user with that phone number already exists.",
         },
@@ -52,7 +48,7 @@ class NewUser(
         help_text="Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
     )
 
-    objects = UserManager()
+    # objects = UserManager()
 
     USERNAME_FIELD = "username"
 

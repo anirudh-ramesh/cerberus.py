@@ -38,7 +38,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -57,7 +57,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    # 'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_keycloak.middleware.KeycloakMiddleware',
@@ -113,11 +113,11 @@ AUTHENTICATION_BACKENDS = (
 
 KEYCLOAK_CONFIG = {
     # The Keycloak's Public Server URL (e.g. http://localhost:8080)
-    'SERVER_URL': 'http://silly_swirles:8080',
+    'SERVER_URL': 'http://optimistic_goldstine:8080',
     # The Keycloak's Internal URL 
     # (e.g. http://keycloak:8080 for a docker service named keycloak)
     # Optional: Default is SERVER_URL
-    'INTERNAL_URL': 'http://silly_swirles:8080',
+    'INTERNAL_URL': 'http://optimistic_goldstine:8080',
     # Override for default Keycloak's base path
     # Default is '/auth/'
     'BASE_PATH': '/auth/',
@@ -126,7 +126,7 @@ KEYCLOAK_CONFIG = {
     # The ID of this client in the above Keycloak realm
     'CLIENT_ID': 'cerberus-client',
     # The secret for this confidential client
-    'CLIENT_SECRET_KEY': 'MIICrTCCAZUCBgGFklXgXjANBgkqhkiG9w0BAQsFADAaMRgwFgYDVQQDDA9jZXJiZXJ1cy1jbGllbnQwHhcNMjMwMTA4MTcwMTE5WhcNMzMwMTA4MTcwMjU5WjAaMRgwFgYDVQQDDA9jZXJiZXJ1cy1jbGllbnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCUAMomq/3SiyFKJK8DsCvHOcNu4nnz+DNV28HQXXUCMy9M3ZtPc5v+zHaamNgDrc2NuReuP6jGgAysFxFcUuIt9JbxuTS9fQB5g/dzMRfWcosbEGjIygLo4wOrm3rfyrq2EjRCU83RWGa1Lfhz+bbuJ5Xe03DE976g0TdAI5BYAbLkMw0mUPZr9YuFGFpHd+vK9KkMDKP/Rp4RrtuXAEoq7xCKrp59PLnVZiEovJ9ktpsI0Ti5gPz0KCjSGn2tjFtX2WmpI1BChUY8w0Ann67sImzVuf4HOjzCetCwotGEDAvWuecqR3lAD8WpgRQBdaZcUL/nq1jC3+mZ9UAmdpeLAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAGuF7nM+K1dJFT4nd0+W9FTomilWqF0EmVg0P489940r1A5CTgpat5qbgdhVqFoDyP5hZ2X/so75BjI5F0ldydlG7USTniZ8c7j6ETMjZ1FTt+QMKQaBtE4cs9FI3LAXWmgSyHML10UBsdwEMIM7nUW7oxprmeBHxeoaekxfQsFlGH0DTxi2xNStiQVDxPI0O+2/1T/jJ3ZauDvzITsoD11I6sFbFtksddXYh+bSo27Bf163k+Qsxo73ta86UknLgms3sxPFGHm/3b1IG9VackgOoWnGYjw18aeq7ej4ZHalyDAiYlpKAlH2aefZwklJmVKyr8GeYImglETpxorfuHo=',
+    'CLIENT_SECRET_KEY': 'MIICrTCCAZUCBgGFmnJK3zANBgkqhkiG9w0BAQsFADAaMRgwFgYDVQQDDA9jZXJiZXJ1cy1jbGllbnQwHhcNMjMwMTEwMDY0OTE5WhcNMzMwMTEwMDY1MDU5WjAaMRgwFgYDVQQDDA9jZXJiZXJ1cy1jbGllbnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCjZfH/5Ux94SqkPoPOrKMLb8B/lQpXH0wFjiTD2ltBdo308Jxc9z/ckwlcR3mWTOT3TtftUOGvL0/pIVs9v8xLOCkm91pNxFIxEjhaiJb1s0DqK5rjq4ByM6emnvmq4YTp3IH4jfGADESGJ5O8rBYPg/Kb2TvlfvnoxJyj+PgFJf01owNrETrgLTUoRUE2pKWot7lSDQapOAaMMiUJ3yokaB6CDZytSnWwAKBDcSyyxvGOCdVdUShm9zfcAhXd1HwPOeMP85kgwR4P23gdk65p0X+0WqfvyVr84o50I3+4DFMsi825u5uDFmazkoEmfvNbcvXUDA9lXMqbtFtG0zktAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAHsonCn6zVof5fuhKpyllF5/PVDZcj7RCnJ/PgceEAcq0VTGtGAACHaSA1FYftVv//zuQVwtPhBsmU7fJFZs3vj8xwqgsSdliX6mVD3jwiEXpXslq5/z2w3ilN9/uBpZAvjLyBg/liFa0sK6Al41lPEY8raJe0rs3A/NteEjYbM+E1f2tjQUVMjWTPKkNgua1Io4EKWrmuLnR8WmN+3du5/6QDOlOqsg7RGtghPaukrozK/jO5kfldRTy7tsF+yI4aSLfqr6e5gzzzUKeLFcPquP4zteioBoFsT7Cnsl69eZy0CbHimPQ4k1QoW+OWTqc67f9HwmeBq2SXcr/5quXkk=',
     # The name of the admin role for the client
     'CLIENT_ADMIN_ROLE': 'super-user-policy',
     # The name of the admin role for the realm
@@ -166,13 +166,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cerberus_django.wsgi.application'
 
-# AUTH_USER_MODEL = "accounts.User"
+# AUTH_USER_MODEL = "accounts.NewUser"
 # AUTH_USER_MODEL = "django_keycloak.KeycloakUserAutoId"
 
 REST_FRAMEWORK = {
     # ... other rest framework settings.
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
         'django_keycloak.authentication.KeycloakAuthentication'
     ],
 }

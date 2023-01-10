@@ -7,5 +7,5 @@ django-simple-history==3.2.0
 python-keycloak==2.8.0
 python-jose==3.3.0
 # django-keycloak-auth
-keycloak-client
+keycloak-client==0.15.4
 django-uw-keycloak==1.1.1
