@@ -22,6 +22,7 @@ from cerberus_django.routers import router
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include(router.urls)),
+    # path('keycloak/', include('django_keycloak.urls')),
 ]
 
 urlpatterns = urlpatterns + static(

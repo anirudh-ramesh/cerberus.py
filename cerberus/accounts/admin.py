@@ -1,6 +1,6 @@
 from django.contrib import admin
-from accounts.models import User, Email
+from accounts.models import Email
 
-
-admin.site.register(User)
+# admin.site.unregister(User)
+# admin.site.register(User)
 admin.site.register(Email)

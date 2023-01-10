@@ -5,7 +5,7 @@ from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
-from accounts.models import Email,User
+from accounts.models import Email,NewUser
 from accounts.serializers import (
     UserRegistrationSerializer,
     UserSerializer,
@@ -18,7 +18,7 @@ class UserViewSet(
     GenericViewSet,
     RetrieveModelMixin,
 ):
-    queryset = User.objects.all()
+    queryset = NewUser.objects.all()
     serializer_class = UserSerializer
 
     @action(

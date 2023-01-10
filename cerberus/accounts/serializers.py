@@ -1,7 +1,7 @@
 from django.conf import settings
 from rest_framework import serializers
 
-from accounts.models import Email, User
+from accounts.models import Email, NewUser
 
 
 
@@ -29,7 +29,7 @@ class UserSerializer(
     
     class Meta:
 
-        model = User
+        model = NewUser
 
         fields = [
             "id",
@@ -59,7 +59,7 @@ class UserRegistrationSerializer(
     password = serializers.CharField(max_length=68, min_length=6, write_only=True, required=False)
 
     class Meta:
-        model = User
+        model = NewUser
 
         read_only_fields = [
             "is_staff",
@@ -107,7 +107,7 @@ class UserRegistrationSerializer(
     #         raise ValidationError("Phone Number is required")
     #     try:
     #         if email:
-    #             User.objects.get(email=email)
+    #             NewUser.objects.get(email=email)
     #             raise ValidationError(f"{email} is already in use")
 
     #     except Exception as e:
@@ -115,7 +115,7 @@ class UserRegistrationSerializer(
 
     #     try:
     #         if phone_number:
-    #             User.objects.get(username=phone_number)
+    #             NewUser.objects.get(username=phone_number)
     #             raise ValidationError(f"{phone_number} is already in use")
 
     #     except Exception as e:
@@ -145,7 +145,7 @@ class UserRegistrationSerializer(
         email = validated_data.get("email")
 
         phone_number = validated_data.get("username")
-        user = User.objects.create_user(
+        user = NewUser.objects.create_user(
             **user,
         )
 

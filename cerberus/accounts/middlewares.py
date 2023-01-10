@@ -40,8 +40,8 @@ class KeycloakMiddleware(MiddlewareMixin):
                                        client_secret_key=self.client_secret_key)
 
         # Read policies
-        if self.keycloak_authorization_config:
-            self.keycloak.load_authorization_config(self.keycloak_authorization_config)
+        # if self.keycloak_authorization_config:
+        #     self.keycloak.load_authorization_config(self.keycloak_authorization_config)
 
         # Django
         self.get_response = get_response

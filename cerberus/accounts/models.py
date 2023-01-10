@@ -7,7 +7,7 @@ from base.models import BaseModel
 from accounts.managers import UserManager
 
 
-class User(
+class NewUser(
     AbstractBaseUser,
     BaseModel,
     PermissionsMixin,
@@ -68,7 +68,7 @@ class User(
 class Email(models.Model):
 
     user = models.ForeignKey(
-        "accounts.User",
+        "accounts.NewUser",
         on_delete=models.PROTECT,
         related_name="emails",
     )

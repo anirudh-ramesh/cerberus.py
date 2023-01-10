@@ -1,3 +1,5 @@
 cloudbeaver/cloudbeaver.conf
 cloudbeaver/*.bak
 cloudbeaver/*.json
+venv/
+__pycache__
