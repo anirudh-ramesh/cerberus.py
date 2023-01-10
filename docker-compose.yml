@@ -18,7 +18,53 @@ volumes:
 
         external: false
 
+    keycloak:
+
+        external: false
+
 services:
+
+    keycloak:
+
+        logging:
+
+            driver: local
+
+            options:
+                max-size: "20m"
+                max-file: "5"
+                compress: "true"
+
+        restart: unless-stopped
+
+        networks:
+            - khyber
+
+        ports:
+            - "8080:8080"
+
+        container_name: keycloak
+
+        volumes:
+            - "keycloak:/tmp"
+
+        image: jboss/keycloak:16.1.1
+
+        environment:
+            - KEYCLOAK_USER=${USER_NAME}
+            - KEYCLOAK_PASSWORD=${PASSWORD}
+            - DB_VENDOR=postgres
+            - DB_ADDR=timescaledb
+            - DB_PORT=5432
+            - DB_DATABASE=${DATABASE_NAME}
+            - DB_SCHEMA=public
+            - DB_USER=${USER_NAME}
+            - DB_PASSWORD=${PASSWORD}
+
+        depends_on:
+            - timescaledb
+
+        profiles: ["all"]
 
     timescaledb:
 
@@ -109,9 +155,9 @@ services:
             - TZ=${TZ}
             - DATABASE_SERVER_HOSTNAME=timescaledb
             - DATABASE_SERVER_PORTNUMBER=5432
-            - DATABASE_SERVER_DATABASENAME=DATABASE_NAME
-            - DATABASE_SERVER_USERNAME=USER_NAME
-            - DATABASE_SERVER_PASSWORD=PASSWORD
+            - DATABASE_SERVER_DATABASENAME=${DATABASE_NAME}
+            - DATABASE_SERVER_USERNAME=${USER_NAME}
+            - DATABASE_SERVER_PASSWORD=${PASSWORD}
 
         depends_on:
             - timescaledb
