@@ -126,7 +126,7 @@ KEYCLOAK_CONFIG = {
     # The ID of this client in the above Keycloak realm
     'CLIENT_ID': 'cerberus-client',
     # The secret for this confidential client
-    'CLIENT_SECRET_KEY': 'MIICrTCCAZUCBgGFmnJK3zANBgkqhkiG9w0BAQsFADAaMRgwFgYDVQQDDA9jZXJiZXJ1cy1jbGllbnQwHhcNMjMwMTEwMDY0OTE5WhcNMzMwMTEwMDY1MDU5WjAaMRgwFgYDVQQDDA9jZXJiZXJ1cy1jbGllbnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCjZfH/5Ux94SqkPoPOrKMLb8B/lQpXH0wFjiTD2ltBdo308Jxc9z/ckwlcR3mWTOT3TtftUOGvL0/pIVs9v8xLOCkm91pNxFIxEjhaiJb1s0DqK5rjq4ByM6emnvmq4YTp3IH4jfGADESGJ5O8rBYPg/Kb2TvlfvnoxJyj+PgFJf01owNrETrgLTUoRUE2pKWot7lSDQapOAaMMiUJ3yokaB6CDZytSnWwAKBDcSyyxvGOCdVdUShm9zfcAhXd1HwPOeMP85kgwR4P23gdk65p0X+0WqfvyVr84o50I3+4DFMsi825u5uDFmazkoEmfvNbcvXUDA9lXMqbtFtG0zktAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAHsonCn6zVof5fuhKpyllF5/PVDZcj7RCnJ/PgceEAcq0VTGtGAACHaSA1FYftVv//zuQVwtPhBsmU7fJFZs3vj8xwqgsSdliX6mVD3jwiEXpXslq5/z2w3ilN9/uBpZAvjLyBg/liFa0sK6Al41lPEY8raJe0rs3A/NteEjYbM+E1f2tjQUVMjWTPKkNgua1Io4EKWrmuLnR8WmN+3du5/6QDOlOqsg7RGtghPaukrozK/jO5kfldRTy7tsF+yI4aSLfqr6e5gzzzUKeLFcPquP4zteioBoFsT7Cnsl69eZy0CbHimPQ4k1QoW+OWTqc67f9HwmeBq2SXcr/5quXkk=',
+    'CLIENT_SECRET_KEY': os.environ.get('KEYCLOAK_SECRET_KEY'),
     # The name of the admin role for the client
     'CLIENT_ADMIN_ROLE': 'super-user-policy',
     # The name of the admin role for the realm

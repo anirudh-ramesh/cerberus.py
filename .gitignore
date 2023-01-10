@@ -3,3 +3,4 @@ cloudbeaver/*.bak
 cloudbeaver/*.json
 venv/
 __pycache__
+.env
