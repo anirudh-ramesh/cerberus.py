@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django_keycloak.apps.KeycloakAppConfig',
     'django_keycloak',
     'rest_framework',
     'accounts.apps.AccountsConfig',
@@ -57,53 +56,13 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    # 'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_keycloak.middleware.KeycloakMiddleware',
-    # 'accounts.middlewares.KeycloakMiddleware',
-    # 'django_keycloak.middleware.BaseKeycloakMiddleware',
-    # 'django-keycloak-auth.middleware.KeycloakMiddleware',
-    # 'django_keycloak.middleware.BaseKeycloakMiddleware',
-    # 'django_keycloak.middleware.RemoteUserAuthenticationMiddleware',
 ]
 
 KEYCLOAK_OIDC_PROFILE_MODEL = 'django_keycloak.OpenIdConnectProfile'
 KEYCLOAK_REMOTE_USER_MODEL = 'django_keycloak.remote_user.KeycloakRemoteUser'
-
-# KEYCLOAK_BEARER_AUTHENTICATION_EXEMPT_PATHS = [
-#     'admin', 'accounts',
-#     ]
-# CONFIG_DIR = os.path.join(os.path.dirname(__file__))
-# print("Config dir...",CONFIG_DIR)
-# KEYCLOAK_CLIENT_PUBLIC_KEY = """-----BEGIN PUBLIC KEY-----
-# MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmZXbaAH4VB56Op3piChTopZ+/AUzJQGVGcq9T/v0abEMOoEyTlHzlGrofOCrOG0PK4wm84Af//qrlOWc5uN6OrmYeJckXpTg3ctAuy0BBM9ffteg6IqZR9Zj6jEnsJ1D6A0VVyma64HORdR7YwGswlB91IxRq2wAttyzajgS6b9Lygan7GWI9FgFTamBRF88e91a3RwVRCsrh7cjBSaMft3hpi2qt4sQjEK1Otr0SV5OmtmRnNck6+mMWX/PHYle98u6A42c7ikcGy5tS9x6afJA7wZTIOCagkQAvBaE3nDvKu7OmaGGKkTObL08ECbvt545npISp84QmVFdIntO3wIDAQAB
-# -----END PUBLIC KEY-----"""
-# KEYCLOAK_CONFIG = {
-#     'KEYCLOAK_REALM': 'cerberus',
-#     'KEYCLOAK_CLIENT_ID': 'cerberus-client',
-#     'KEYCLOAK_DEFAULT_ACCESS': 'ALLOW', # DENY or ALLOW
-#     'KEYCLOAK_AUTHORIZATION_CONFIG': os.path.join(CONFIG_DIR , 'authorization-config.json'),
-#     'KEYCLOAK_METHOD_VALIDATE_TOKEN': 'DECODE',
-#     'KEYCLOAK_SERVER_URL': 'http://KEYCLOAK_HOST:8088/auth/',
-#     'KEYCLOAK_CLIENT_SECRET_KEY': 'MIICrTCCAZUCBgGFklXgXjANBgkqhkiG9w0BAQsFADAaMRgwFgYDVQQDDA9jZXJiZXJ1cy1jbGllbnQwHhcNMjMwMTA4MTcwMTE5WhcNMzMwMTA4MTcwMjU5WjAaMRgwFgYDVQQDDA9jZXJiZXJ1cy1jbGllbnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCUAMomq/3SiyFKJK8DsCvHOcNu4nnz+DNV28HQXXUCMy9M3ZtPc5v+zHaamNgDrc2NuReuP6jGgAysFxFcUuIt9JbxuTS9fQB5g/dzMRfWcosbEGjIygLo4wOrm3rfyrq2EjRCU83RWGa1Lfhz+bbuJ5Xe03DE976g0TdAI5BYAbLkMw0mUPZr9YuFGFpHd+vK9KkMDKP/Rp4RrtuXAEoq7xCKrp59PLnVZiEovJ9ktpsI0Ti5gPz0KCjSGn2tjFtX2WmpI1BChUY8w0Ann67sImzVuf4HOjzCetCwotGEDAvWuecqR3lAD8WpgRQBdaZcUL/nq1jC3+mZ9UAmdpeLAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAGuF7nM+K1dJFT4nd0+W9FTomilWqF0EmVg0P489940r1A5CTgpat5qbgdhVqFoDyP5hZ2X/so75BjI5F0ldydlG7USTniZ8c7j6ETMjZ1FTt+QMKQaBtE4cs9FI3LAXWmgSyHML10UBsdwEMIM7nUW7oxprmeBHxeoaekxfQsFlGH0DTxi2xNStiQVDxPI0O+2/1T/jJ3ZauDvzITsoD11I6sFbFtksddXYh+bSo27Bf163k+Qsxo73ta86UknLgms3sxPFGHm/3b1IG9VackgOoWnGYjw18aeq7ej4ZHalyDAiYlpKAlH2aefZwklJmVKyr8GeYImglETpxorfuHo=',
-#     'KEYCLOAK_CLIENT_PUBLIC_KEY': KEYCLOAK_CLIENT_PUBLIC_KEY, 
-# }
-
-# KEYCLOAK_EXEMPT_URIS = []
-# KEYCLOAK_CONFIG = {
-#     'KEYCLOAK_SERVER_URL': 'http://localhost:8080/auth',
-#     'KEYCLOAK_REALM': 'cerberus',
-#     'KEYCLOAK_CLIENT_ID': 'cerberus-client',
-#     'KEYCLOAK_CLIENT_SECRET_KEY': 'MIICrTCCAZUCBgGFklXgXjANBgkqhkiG9w0BAQsFADAaMRgwFgYDVQQDDA9jZXJiZXJ1cy1jbGllbnQwHhcNMjMwMTA4MTcwMTE5WhcNMzMwMTA4MTcwMjU5WjAaMRgwFgYDVQQDDA9jZXJiZXJ1cy1jbGllbnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCUAMomq/3SiyFKJK8DsCvHOcNu4nnz+DNV28HQXXUCMy9M3ZtPc5v+zHaamNgDrc2NuReuP6jGgAysFxFcUuIt9JbxuTS9fQB5g/dzMRfWcosbEGjIygLo4wOrm3rfyrq2EjRCU83RWGa1Lfhz+bbuJ5Xe03DE976g0TdAI5BYAbLkMw0mUPZr9YuFGFpHd+vK9KkMDKP/Rp4RrtuXAEoq7xCKrp59PLnVZiEovJ9ktpsI0Ti5gPz0KCjSGn2tjFtX2WmpI1BChUY8w0Ann67sImzVuf4HOjzCetCwotGEDAvWuecqR3lAD8WpgRQBdaZcUL/nq1jC3+mZ9UAmdpeLAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAGuF7nM+K1dJFT4nd0+W9FTomilWqF0EmVg0P489940r1A5CTgpat5qbgdhVqFoDyP5hZ2X/so75BjI5F0ldydlG7USTniZ8c7j6ETMjZ1FTt+QMKQaBtE4cs9FI3LAXWmgSyHML10UBsdwEMIM7nUW7oxprmeBHxeoaekxfQsFlGH0DTxi2xNStiQVDxPI0O+2/1T/jJ3ZauDvzITsoD11I6sFbFtksddXYh+bSo27Bf163k+Qsxo73ta86UknLgms3sxPFGHm/3b1IG9VackgOoWnGYjw18aeq7ej4ZHalyDAiYlpKAlH2aefZwklJmVKyr8GeYImglETpxorfuHo=',
-# }
-
-# keycloak_openid = KeycloakOpenID(
-#     server_url="https://localhost:8080/auth/",
-#     client_id="cerberus-client",
-#     realm_name="cerberus",
-#     client_secret_key='MIICrTCCAZUCBgGFklXgXjANBgkqhkiG9w0BAQsFADAaMRgwFgYDVQQDDA9jZXJiZXJ1cy1jbGllbnQwHhcNMjMwMTA4MTcwMTE5WhcNMzMwMTA4MTcwMjU5WjAaMRgwFgYDVQQDDA9jZXJiZXJ1cy1jbGllbnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCUAMomq/3SiyFKJK8DsCvHOcNu4nnz+DNV28HQXXUCMy9M3ZtPc5v+zHaamNgDrc2NuReuP6jGgAysFxFcUuIt9JbxuTS9fQB5g/dzMRfWcosbEGjIygLo4wOrm3rfyrq2EjRCU83RWGa1Lfhz+bbuJ5Xe03DE976g0TdAI5BYAbLkMw0mUPZr9YuFGFpHd+vK9KkMDKP/Rp4RrtuXAEoq7xCKrp59PLnVZiEovJ9ktpsI0Ti5gPz0KCjSGn2tjFtX2WmpI1BChUY8w0Ann67sImzVuf4HOjzCetCwotGEDAvWuecqR3lAD8WpgRQBdaZcUL/nq1jC3+mZ9UAmdpeLAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAGuF7nM+K1dJFT4nd0+W9FTomilWqF0EmVg0P489940r1A5CTgpat5qbgdhVqFoDyP5hZ2X/so75BjI5F0ldydlG7USTniZ8c7j6ETMjZ1FTt+QMKQaBtE4cs9FI3LAXWmgSyHML10UBsdwEMIM7nUW7oxprmeBHxeoaekxfQsFlGH0DTxi2xNStiQVDxPI0O+2/1T/jJ3ZauDvzITsoD11I6sFbFtksddXYh+bSo27Bf163k+Qsxo73ta86UknLgms3sxPFGHm/3b1IG9VackgOoWnGYjw18aeq7ej4ZHalyDAiYlpKAlH2aefZwklJmVKyr8GeYImglETpxorfuHo=',
-# )
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -167,7 +126,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'cerberus_django.wsgi.application'
 
 # AUTH_USER_MODEL = "accounts.NewUser"
-# AUTH_USER_MODEL = "django_keycloak.KeycloakUserAutoId"
+AUTH_USER_MODEL = "django_keycloak.KeycloakUserAutoId"
 
 REST_FRAMEWORK = {
     # ... other rest framework settings.
