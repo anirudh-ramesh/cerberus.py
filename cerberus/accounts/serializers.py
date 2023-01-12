@@ -22,10 +22,6 @@ class AddRemoveEmailSerializer(serializers.Serializer):
 class UserSerializer(
     serializers.ModelSerializer,
 ):
-
-    email = EmailSerializer(
-        many=True,
-    )
     
     class Meta:
 
@@ -36,7 +32,6 @@ class UserSerializer(
             "username",
             "first_name",
             "last_name",
-            "email",
             "is_active",
             "is_staff",
             ]
@@ -86,42 +81,6 @@ class UserRegistrationSerializer(
             },
         }
 
-    # def validate(self, attrs):
-
-    #     email = attrs.get("email")
-    #     phone_number = attrs.get("username")
-    #     firstname = attrs.get("first_name")
-    #     password = attrs.get("password")
-
-    #     if password:
-    #         validate_password(password)
-
-    #     if not firstname:
-    #         raise ValidationError("First name is required")
-
-    #     if not (email):
-    #         raise ValidationError("Email is required")
-
-    #     if not (phone_number):
-
-    #         raise ValidationError("Phone Number is required")
-    #     try:
-    #         if email:
-    #             NewUser.objects.get(email=email)
-    #             raise ValidationError(f"{email} is already in use")
-
-    #     except Exception as e:
-    #         pass
-
-    #     try:
-    #         if phone_number:
-    #             NewUser.objects.get(username=phone_number)
-    #             raise ValidationError(f"{phone_number} is already in use")
-
-    #     except Exception as e:
-    #         pass
-
-    #     return attrs
 
     def create(self, validated_data):
         user = {}

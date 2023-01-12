@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 # from keycloak.keycloak_openid import KeycloakOpenID
 
 
@@ -69,27 +70,25 @@ AUTHENTICATION_BACKENDS = (
     'django_keycloak.backends.KeycloakAuthenticationBackend',
 )
 
-print("SECRET KEY IS HERE....")
-print(os.environ.get('KEYCLOAK_SECRET_KEY'))
-
+print(config("KEYCLOAK_CLIENT_ID"))
 
 KEYCLOAK_CONFIG = {
     
-    'SERVER_URL': os.environ.get('KEYCLOAK_SERVER_URL'),
+    'SERVER_URL': config('KEYCLOAK_SERVER_URL'),
     
-    'INTERNAL_URL': os.environ.get('KEYCLOAK_INTERNAL_URL'),
+    'INTERNAL_URL': config('KEYCLOAK_INTERNAL_URL'),
     
     'BASE_PATH': '/auth/',
     
-    'REALM': os.environ.get('KEYCLOAK_REALM'),
+    'REALM': config('KEYCLOAK_REALM'),
     
-    'CLIENT_ID': os.environ.get('KEYCLOAK_CLIENT_ID'),
+    'CLIENT_ID': config('KEYCLOAK_CLIENT_ID'),
     
-    'CLIENT_SECRET_KEY': os.environ.get('KEYCLOAK_SECRET_KEY'),
+    'CLIENT_SECRET_KEY': config('KEYCLOAK_SECRETKEY'),
     
-    'CLIENT_ADMIN_ROLE': os.environ.get('KEYCLOAK_CLIENT_ADMIN_ROLE'),
+    'CLIENT_ADMIN_ROLE': config('KEYCLOAK_CLIENT_ADMIN_ROLE'),
     
-    'REALM_ADMIN_ROLE': os.environ.get('KEYCLOAK_REALM_ADMIN_ROLE'),
+    'REALM_ADMIN_ROLE': config('KEYCLOAK_REALM_ADMIN_ROLE'),
     
     'EXEMPT_URIS': [],
     

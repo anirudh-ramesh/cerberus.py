@@ -9,3 +9,4 @@ python-jose==3.3.0
 # django-keycloak-auth
 keycloak-client==0.15.4
 django-uw-keycloak==1.1.1
+python-decouple==3.7
