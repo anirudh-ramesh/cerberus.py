@@ -69,38 +69,38 @@ AUTHENTICATION_BACKENDS = (
     'django_keycloak.backends.KeycloakAuthenticationBackend',
 )
 
+print("SECRET KEY IS HERE....")
+print(os.environ.get('KEYCLOAK_SECRET_KEY'))
+
 
 KEYCLOAK_CONFIG = {
-    # The Keycloak's Public Server URL (e.g. http://localhost:8080)
-    'SERVER_URL': 'http://optimistic_goldstine:8080',
-    # The Keycloak's Internal URL 
-    # (e.g. http://keycloak:8080 for a docker service named keycloak)
-    # Optional: Default is SERVER_URL
-    'INTERNAL_URL': 'http://optimistic_goldstine:8080',
-    # Override for default Keycloak's base path
-    # Default is '/auth/'
+    
+    'SERVER_URL': os.environ.get('KEYCLOAK_SERVER_URL'),
+    
+    'INTERNAL_URL': os.environ.get('KEYCLOAK_INTERNAL_URL'),
+    
     'BASE_PATH': '/auth/',
-    # The name of the Keycloak's realm
-    'REALM': 'cerberus',
-    # The ID of this client in the above Keycloak realm
-    'CLIENT_ID': 'cerberus-client',
-    # The secret for this confidential client
+    
+    'REALM': os.environ.get('KEYCLOAK_REALM'),
+    
+    'CLIENT_ID': os.environ.get('KEYCLOAK_CLIENT_ID'),
+    
     'CLIENT_SECRET_KEY': os.environ.get('KEYCLOAK_SECRET_KEY'),
-    # The name of the admin role for the client
-    'CLIENT_ADMIN_ROLE': 'super-user-policy',
-    # The name of the admin role for the realm
-    'REALM_ADMIN_ROLE': 'super-user-policy',
-    # Regex formatted URLs to skip authentication
+    
+    'CLIENT_ADMIN_ROLE': os.environ.get('KEYCLOAK_CLIENT_ADMIN_ROLE'),
+    
+    'REALM_ADMIN_ROLE': os.environ.get('KEYCLOAK_REALM_ADMIN_ROLE'),
+    
     'EXEMPT_URIS': [],
-    # Flag if the token should be introspected or decoded (default is False)
+    
     'DECODE_TOKEN': False,
-    # Flag if the audience in the token should be verified (default is True)
+    
     'VERIFY_AUDIENCE': True,
-    # Flag if the user info has been included in the token (default is True)
+    
     'USER_INFO_IN_TOKEN': True,
-    # Flag to show the traceback of debug logs (default is False)
+    
     'TRACE_DEBUG_LOGS': False,
-    # The token prefix that is expected in Authorization header (default is 'Bearer')
+    
     'TOKEN_PREFIX': 'Bearer'
 }
 
