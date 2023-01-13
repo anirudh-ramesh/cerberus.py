@@ -70,8 +70,6 @@ AUTHENTICATION_BACKENDS = (
     'django_keycloak.backends.KeycloakAuthenticationBackend',
 )
 
-print(config("KEYCLOAK_CLIENT_ID"))
-
 KEYCLOAK_CONFIG = {
     
     'SERVER_URL': config('KEYCLOAK_SERVER_URL'),
@@ -124,13 +122,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cerberus_django.wsgi.application'
 
-# AUTH_USER_MODEL = "accounts.NewUser"
 AUTH_USER_MODEL = "django_keycloak.KeycloakUserAutoId"
 
 REST_FRAMEWORK = {
     # ... other rest framework settings.
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
         'django_keycloak.authentication.KeycloakAuthentication'
     ],
 }
