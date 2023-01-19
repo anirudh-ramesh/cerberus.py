@@ -6,6 +6,6 @@ djangorestframework==3.14.0
 django-simple-history==3.2.0
 python-keycloak==2.8.0
 python-jose==3.3.0
-keycloak-client==0.15.4
-django-uw-keycloak==1.1.1
+python-keycloak-client
+django-uw-keycloak==2.0.2
 python-decouple==3.7

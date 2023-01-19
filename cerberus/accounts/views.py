@@ -7,6 +7,7 @@ from django.http import HttpResponse
 class LoginView(View):
 
     def get(self, request):
+
         return render(
             request, 
             "accounts/login.html", 
@@ -16,8 +17,9 @@ class LoginView(View):
     def post(self,request):
         username = request.POST.get("username")
         password = request.POST.get("password")
-        if user_auth.authenticate(username, password):
-            print("Condition passed")
-            return HttpResponse("Hello User")
-        else:
-            return HttpResponse("Not Successful")
+     
+        user = user_auth.authenticate(request, username, password)
+        user.login()
+        print("Condition passed")
+        return HttpResponse("Hello User")
+        

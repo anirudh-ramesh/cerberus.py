@@ -130,6 +130,14 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'django_keycloak.authentication.KeycloakAuthentication'
     ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100,  
+    'PAGINATE_BY_PARAM': 'page_size',
+    'MAX_PAGINATE_BY': 100,
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }
 
 # Database
