@@ -168,6 +168,7 @@ services:
 
         depends_on:
             - timescaledb
+            - keycloak
 
         profiles: ["all", "development/cerberus"]
 

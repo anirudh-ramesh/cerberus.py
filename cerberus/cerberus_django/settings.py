@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 from decouple import config
-# from keycloak.keycloak_openid import KeycloakOpenID
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,14 +38,13 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_keycloak',
-    'rest_framework',
+    'django_keycloak.apps.KeycloakAppConfig',
     'accounts.apps.AccountsConfig',
     'base.apps.BaseConfig',
     
@@ -55,52 +53,22 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_keycloak.middleware.KeycloakMiddleware',
+    'django_keycloak.middleware.BaseKeycloakMiddleware',
 ]
 
-KEYCLOAK_OIDC_PROFILE_MODEL = 'django_keycloak.OpenIdConnectProfile'
-KEYCLOAK_REMOTE_USER_MODEL = 'django_keycloak.remote_user.KeycloakRemoteUser'
-
-AUTHENTICATION_BACKENDS = (
+AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'django_keycloak.backends.KeycloakAuthenticationBackend',
-)
+    'django_keycloak.auth.backends.KeycloakAuthorizationCodeBackend',
+]
 
-KEYCLOAK_CONFIG = {
-    
-    'SERVER_URL': config('KEYCLOAK_SERVER_URL'),
-    
-    'INTERNAL_URL': config('KEYCLOAK_INTERNAL_URL'),
-    
-    'BASE_PATH': '/auth/',
-    
-    'REALM': config('KEYCLOAK_REALM'),
-    
-    'CLIENT_ID': config('KEYCLOAK_CLIENT_ID'),
-    
-    'CLIENT_SECRET_KEY': config('KEYCLOAK_SECRETKEY'),
-    
-    'CLIENT_ADMIN_ROLE': config('KEYCLOAK_CLIENT_ADMIN_ROLE'),
-    
-    'REALM_ADMIN_ROLE': config('KEYCLOAK_REALM_ADMIN_ROLE'),
-    
-    'EXEMPT_URIS': [],
-    
-    'DECODE_TOKEN': False,
-    
-    'VERIFY_AUDIENCE': True,
-    
-    'USER_INFO_IN_TOKEN': True,
-    
-    'TRACE_DEBUG_LOGS': False,
-    
-    'TOKEN_PREFIX': 'Bearer'
-}
+LOGIN_URL = 'keycloak_login'
 
+KEYCLOAK_OIDC_PROFILE_MODEL = 'django_keycloak.OpenIdConnectProfile'
 
 ROOT_URLCONF = 'cerberus_django.urls'
 
@@ -122,23 +90,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cerberus_django.wsgi.application'
 
-AUTH_USER_MODEL = "django_keycloak.KeycloakUserAutoId"
-
-REST_FRAMEWORK = {
-    # ... other rest framework settings.
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'django_keycloak.authentication.KeycloakAuthentication'
-    ],
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-    ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 100,  
-    'PAGINATE_BY_PARAM': 'page_size',
-    'MAX_PAGINATE_BY': 100,
-    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
-}
+AUTH_USER_MODEL = "auth.User"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -196,6 +148,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
+
+LOGIN_URL = 'keycloak_login'
 
 STATIC_URL = 'static/'
 
