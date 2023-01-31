@@ -51,15 +51,8 @@ services:
         image: jboss/keycloak:16.1.1
 
         environment:
-            - KEYCLOAK_USER=${KEYCLOAK_USER_NAME}
-            - KEYCLOAK_PASSWORD=${KEYCLOAK_PASSWORD}
-            - KEYCLOAK_CLIENT_ID=${KEYCLOAK_CLIENT_ID}
-            - KEYCLOAK_SERVER_URL=${KEYCLOAK_SERVER_URL}
-            - KEYCLOAK_INTERNAL_URL=${KEYCLOAK_INTERNAL_URL}
-            - KEYCLOAK_REALM=${KEYCLOAK_REALM}
-            - KEYCLOAK_CLIENT_ADMIN_ROLE=${KEYCLOAK_CLIENT_ADMIN_ROLE}
-            - KEYCLOAK_REALM_ADMIN_ROLE=${KEYCLOAK_REALM_ADMIN_ROLE}
-            - KEYCLOAK_SECRET_KEY=${KEYCLOAK_SECRETKEY}
+            - KEYCLOAK_USER=${USER_NAME}
+            - KEYCLOAK_PASSWORD=${PASSWORD}
             - DB_VENDOR=postgres
             - DB_ADDR=timescaledb
             - DB_PORT=5432
