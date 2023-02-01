@@ -1,52 +1,27 @@
-# from django.shortcuts import render
-# from django_keycloak.backends import KeycloakAuthenticationBackend as user_auth
-# from django.views.generic import View
-# from django.http import HttpResponse
-# from django.contrib.auth import get_user_model
-# from django_keycloak.models import KeycloakUserAutoId
-# from django.contrib.auth import login
+from django_keycloak.models import Server, OpenIdConnectProfile
+from django.views.generic import ListView
+from django.contrib.auth.models import User
 
 
-# class LoginView(View):
+class ServerList(ListView):
+    model = Server
+    template_name = "accounts/server_list.html"
 
-#     def get(self, request):
+    def get_queryset(self, *args, **kwargs):
+        qs = super(ServerList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("-id")
+        return qs
+    
 
-#         user_model = get_user_model()
+class UserList(ListView):
+    model = User
+    template_name = "accounts/user_list.html"
 
-#         print(user_model)
+    def get_queryset(self, *args, **kwargs):
+        qs = super(UserList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("-id")
+        print("Queryset :", qs)
+        return qs
+    
 
-#         for f in KeycloakUserAutoId._meta.get_fields():
-#             print(f)
-
-#         users = KeycloakUserAutoId.objects.all()
-#         print(users)
-
-#         return render(
-#             request, 
-#             "accounts/login.html", 
-#             {},
-#             )
-
-#     def post(self,request):
-#         username = request.POST.get("username")
-#         password = request.POST.get("password")
-
-#         print("Username :", username, "password :", password)
-
-#         # user = user_auth.authenticate(request, username, password)
-#         # if user.is_authenticated:
-#         #     login(user)
-
-#         user = KeycloakUserAutoId.objects.create(keycloak_id = 1, username= username, password=password)
-#         user.save()
-
-#         print(user)
-     
-#         # user = authenticate(username, password)
-#         # if user.is_authenticated:
-#         #     print("User Logged in")
-#         #     login(user)
-        
-#         print("Condition passed")
-#         return HttpResponse("Hello User %s",user)
-        
+    
