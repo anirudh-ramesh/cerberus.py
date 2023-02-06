@@ -225,7 +225,7 @@ def battery_deallocate(request, battery_pack_sr_no):
 
 
 
-def battery_immoblization(request, battery_pack_sr_no):
+def battery_moblization(request, battery_pack_sr_no):
     if request.method == "POST":
         url = "http://iot.igt-ev.com/battery/moblization/"
         data = {
