@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+
+*, body{
+    font-family: 'Roboto', sans-serif;
+}
+
+.font-size-1{
+    font-size: 40px;
+    font-weight: bolder;
+}
+
+.font-size-2{
+    font-size: 18px;
+}
+
+.font-size-3{
+    font-size: 16px;
+}
+
+.font-size-4{
+    font-size: 20px;
+}
+
+.font-size-5{
+    font-size: 25px;
+}
+
+.font-size-6{
+    font-size: 35px;
+}
+
+.color-1{
+    color: #055087;
+}
+
+.color-2{
+    color: #0D0106;
+}
+
+.color-3{
+    color: #575555;
+}
+
+.color-4{
+    color: #FFFFFF;
+}
+
+.bgcolor-1{
+    background-color: #055087;
+}
+
+.bgcolor-2{
+    background-color: #0D0106;
+}
+
+.bgcolor-3{
+    background-color: #575555;
+}
+
+.bgcolor-4{
+    background-color: #FFFFFF;
+}
+
+.button-1{
+    background: linear-gradient(186.75deg, #0D0106 -353.09%, #052F4F 393.06%);
+}
+
+.button-2{
+    border: 1px solid #070707;
+    border-radius: 8px;
+}
+
+.active-menu-icon{
+    color: #0D0106;
+}
+
+.inactive-menu-icon{
+    color:#c6c6c6;
+}
+
+.logo{
+    width:20px;
+    height: 20px;
+    margin-right: 20px;
+}
+
+.box{
+    margin-top: 10%;
+}
+
+.hr-lines{
+  position: relative;
+  max-width: 100%;
+  text-align: center;
+}
+
+.hr-lines:before{
+  content:" ";
+  height: 1px;
+  width: 45%;
+  background: #c6c6c6;
+  display: block;
+  position: absolute;
+  top: 50%;
+}
+
+.hr-lines:after{
+  content:" ";
+  height: 1px;
+  width: 45%;
+  background: #c6c6c6;
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 0;
+}
+
+.text-alignment{
+    float: right;
+}

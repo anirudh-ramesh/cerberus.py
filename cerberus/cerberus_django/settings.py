@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 from decouple import config
+import redis
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'django_keycloak.apps.KeycloakAppConfig',
     'accounts.apps.AccountsConfig',
     'base.apps.BaseConfig',
+    'rest_framework',
     
 ]
 
@@ -161,6 +163,11 @@ MAIL_SERVER_PORTNUMBER = os.environ.get('MAIL_SERVER_PORTNUMBER')
 MAIL_SERVER_SECURITYFLAG = os.environ.get('MAIL_SERVER_SECURITYFLAG')
 MAIL_SERVER_USERNAME = os.environ.get('MAIL_SERVER_USERNAME')
 MAIL_SERVER_PASSWORD = os.environ.get('MAIL_SERVER_PASSWORD')
+
+
+REDIS_CONNECTION=redis.Redis(host="localhost", port=6379, db=0)
+
+DEFAULT_ALGORITHM="HS256"
 
 # 
 

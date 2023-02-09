@@ -4,3 +4,5 @@ cloudbeaver/*.json
 venv/
 __pycache__
 .env
+node_modules/
+*.json
