@@ -11,6 +11,7 @@ router.register("keycloak",AuthFormView,basename="auth-register")
 urlpatterns = [
     path('', include(router.urls)),
     # path('', ServerList.as_view(), name="server_list"),
+    path('dashboard/', ServerList.as_view(), name="server_list"),
     path('user/', UserList.as_view(), name="user_list"),
     path("token/", UserAccessAPI.as_view(), name="user_access"),
     path("battery/", BatteryCRUD.as_view(), name="battery_crud"),

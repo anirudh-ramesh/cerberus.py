@@ -1,1 +1,119 @@
 {% extends 'menu.html' %}
+{% load static %}
+
+{% block head %}
+    <title>DASHBOARD | Cerberus</title>
+{% endblock head %}
+
+{% block menu %}
+    <div class="row px-5 mt-5">
+        <div class="col-md-12">
+            <label class="font-size-1">DASHBOARD</label>
+        </div>
+    </div>
+    <div class="row px-5 mt-3">
+        <div class="col-md-4">
+            <div class="dashboard-box row">
+                <div class="col-md-7">
+                    <label class="font-size-3 px-3 py-5">Extracting real time insights from Energy Assests</label>
+                    <label class="bottom px-5 py-5 font-size-5 fw-bold">Battery Packs</label>
+                </div>
+                <div class="col-md-5">
+                    <img class="w-100 h-100" src="{% static 'accounts/images/dashboard_icons/Battery_Packs.svg' %}">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-box row">
+                <div class="col-md-7">
+                    <label class="font-size-3 px-3 py-5">Extracting real time insights from Energy Assests</label>
+                    <label class="bottom px-5 py-5 font-size-5 fw-bold">Swapping Station</label>
+                </div>
+                <div class="col-md-5">
+                    <img class="w-50" src="{% static 'accounts/images/dashboard_icons/Swapping_Station.svg' %}">
+                </div>
+            </div<div class="dashboard-box"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-box row">
+                <div class="col-md-7">
+                    <label class="font-size-3 px-3 py-5">Extracting real time insights from Energy Assests</label>
+                    <label class="bottom px-5 py-5 font-size-5 fw-bold">Geography</label>
+                </div>
+                <div class="col-md-5">
+                    <img class="w-75" src="{% static 'accounts/images/dashboard_icons/Geography.svg' %}">
+                </div>
+            </div<div class="dashboard-box"></div>
+        </div>
+    </div>
+    <div class="row mt-5 px-5">
+        <div class="col-md-4">
+            <div class="dashboard-box row">
+                <div class="col-md-7">
+                    <label class="font-size-3 px-3 py-5">Extracting real time insights from Energy Assests</label>
+                    <label class="bottom px-5 py-5 font-size-5 fw-bold">Users</label>
+                </div>
+                <div class="col-md-5">
+                    <img class="w-75" src="{% static 'accounts/images/dashboard_icons/users.svg' %}">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-box row">
+                <div class="col-md-7">
+                    <label class="font-size-3 px-3 py-5">Extracting real time insights from Energy Assests</label>
+                    <label class="bottom px-5 py-5 font-size-5 fw-bold">Vehicles</label>
+                </div>
+                <div class="col-md-5">
+                    <img class="w-75" src="{% static 'accounts/images/dashboard_icons/vehicles.svg' %}">
+                </div>
+            </div<div class="dashboard-box"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-box row">
+                <div class="col-md-7">
+                    <label class="font-size-3 px-3 py-5">Extracting real time insights from Energy Assests</label>
+                    <label class="bottom px-5 py-5 font-size-5 fw-bold">VCU</label>
+                </div>
+                <div class="col-md-5">
+                    <img class="w-100 h-100" src="{% static 'accounts/images/dashboard_icons/vcu.svg' %}">
+                </div>
+            </div<div class="dashboard-box"></div>
+        </div>
+    </div>
+    <div class="row mt-5 px-5 mb-5">
+        <div class="col-md-4">
+            <div class="dashboard-box row">
+                <div class="col-md-7">
+                    <label class="font-size-3 px-3 py-5">Extracting real time insights from Energy Assests</label>
+                    <label class="bottom px-5 py-5 font-size-5 fw-bold">IOT Devices</label>
+                </div>
+                <div class="col-md-5">
+                    <img class="w-100 h-100" src="{% static 'accounts/images/dashboard_icons/iot_devices.svg' %}">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-box row">
+                <div class="col-md-7">
+                    <label class="font-size-3 px-3 py-5">Extracting real time insights from Energy Assests</label>
+                    <label class="bottom px-5 py-5 font-size-5 fw-bold">Reports</label>
+                </div>
+                <div class="col-md-5">
+                    <img class="w-75" src="{% static 'accounts/images/dashboard_icons/reports.svg' %}">
+                </div>
+            </div<div class="dashboard-box"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-box row">
+                <div class="col-md-7">
+                    <label class="font-size-3 px-3 py-5">Extracting real time insights from Energy Assests</label>
+                    <label class="bottom px-5 py-5 font-size-5 fw-bold">Settings</label>
+                </div>
+                <div class="col-md-5">
+                    <img class="w-100 h-100" src="{% static 'accounts/images/dashboard_icons/settings.svg' %}">
+                </div>
+            </div<div class="dashboard-box"></div>
+        </div>
+    </div>
+{% endblock menu %}

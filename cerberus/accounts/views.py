@@ -17,8 +17,6 @@ from .serializers import SignupSerilizer,ValidateOTPSerializer,SendOTPSerilizer
 from rest_framework.decorators import action
 import requests
 
-# print("dddddddddddddddddddddd")
-
 class AuthFormView(viewsets.ViewSet):
     
     @action(methods=['POST'],detail=False)
@@ -50,30 +48,57 @@ class AuthFormView(viewsets.ViewSet):
         
         if email_exist:
         
-            return Response("Email allready existing ")
+            return Response("Email already existing ")
         
         if phoneNo_exist:
         
-            return Response("PhoneNo allready existing ")
+            return Response("PhoneNo already existing ")
         
         print(requested_phone_No,requested_email_id)
         
         addUserUrl=f"{server}auth/admin/realms/{realm}/users"
 
         print(get_keycloak_access_token())
+
+        access_token = get_keycloak_access_token()
         
         headers = {
-            'Authorization': 'Bearer '+get_keycloak_access_token()+'',
+            'Authorization': 'Bearer '+access_token+'',
             'Content-Type': 'application/json'
         }
         
         if requested_email_id !=None and requested_phone_No==None:
 
-            payload=email_payload(requested_email_id,password,requested_phone_No)
 
-            print(payload)
+            client = Client.objects.get(realm=realm)
 
-            response = requests.request("POST", addUserUrl, headers=headers,data=json.dumps(payload))  
+            user_data = {
+                    "username" : "cerberus_user",
+                    "password" :"cerberus@123",
+                    "client_id":client.client_id,
+                    "client_secret": client.secret,
+                    "grant_type" : "password",
+                }
+            url = f"{server}auth/realms/{realm}/protocol/openid-connect/token"
+            response = requests.post(
+                url=url,
+                data=user_data,
+            )
+
+            access_token=json.loads(response.text)['access_token']
+
+            addUserUrl=f"{server}auth/admin/realms/{realm}/users"
+
+            headers = {
+            'Authorization': 'Bearer '+access_token+'',
+            'Content-Type': 'application/json'
+            }
+
+            payload=email_payload(requested_email_id,requested_phone_No,password)
+
+            response = requests.request("POST", addUserUrl, headers=headers,data=json.dumps(payload))
+
+            print("Email :",response)
 
         if requested_email_id ==None and requested_phone_No!=None:
 
@@ -83,11 +108,13 @@ class AuthFormView(viewsets.ViewSet):
 
             response = requests.request("POST", addUserUrl, headers=headers,data=json.dumps(payload))    
 
+            print("Phone no :",response)
+
         if response.status_code in [201,202,203,204,205]:
 
             return Response("user created successfully")
 
-        return Response("already exist")
+        return Response("Something went wrong!!!")
        
     @action(methods=['POST'],detail=False)
     def validate_otp(self,request):
@@ -225,14 +252,14 @@ class UserAccessAPI(View):
         access_token=json.loads(response.text)['access_token']
 
         addUserUrl=f"{server}auth/admin/realms/{realm}/users"
-        payload="{\r\n    \"username\":\""+"snehlata@123"+"\",\r\n    \"firstName\":\""+"mayur"+"\",\r\n    \"lastName\":\""+"chaurasiya"+"\",\r\n    \"enabled\":true,\r\n    \"emailVerified\":true,\r\n    \"email\":\""+"mayur@gmail.com"+"\",    \"credentials\":[ {\r\n      \"type\": \"password\",\r\n      \"value\":\"password\"\r\n    }]\r\n}"
+        # payload="{\r\n    \"username\":\""+"snehlata@123"+"\",\r\n    \"firstName\":\""+"mayur"+"\",\r\n    \"lastName\":\""+"chaurasiya"+"\",\r\n    \"enabled\":true,\r\n    \"emailVerified\":true,\r\n    \"email\":\""+"mayur@gmail.com"+"\",    \"credentials\":[ {\r\n      \"type\": \"password\",\r\n      \"value\":\"password\"\r\n    }]\r\n}"
         headers = {
             'Authorization': 'Bearer '+access_token+'',
             'Content-Type': 'application/json'
         }
                 
-        response = requests.request("POST", addUserUrl, headers=headers, data=payload)
-        print(access_token)
+        response = requests.request("GET", addUserUrl, headers=headers)
+
         return render(
             request,
             "accounts/login.html",

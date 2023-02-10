@@ -14,23 +14,60 @@
   </head>
   <body>
 
-    <div class="row">
-        <div class="col-1">
-            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
-                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</a>
-                <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>
-                <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+    <div class="row inactive-menu-icon-bg">
+        <div class="col-md-1">
+            <div class="row py-5">
+                <div class="col-md-12 text-center d-flex align-items-center justify-content-center">
+                    <div class="profile_pic px-3 py-3">
+                        <img src="{% static 'accounts/images/icons/02-Users.svg' %}">
+                    </div>
+                </div>
             </div>
-            <div class="tab-content" id="v-pills-tabContent">
+            <div class="nav flex-column nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                
+                <a class="nav-link" id="home-tab" data-toggle="pill" href="#home-tab" role="tab" aria-controls="v-pills-home" aria-selected="true">
+                    <img class="icon" src="{% static 'accounts/images/icons/01-home-dasboard.svg' %}">
+                </a>
+                <a class="nav-link" id="profile-tab" data-toggle="pill" href="#profile-tab" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+                    <img class="icon" src="{% static 'accounts/images/icons/02-Users.svg' %}">
+                </a>
+                <a class="nav-link" id="battery-tab" data-toggle="pill" href="#battery-tab" role="tab" aria-controls="v-pills-messages" aria-selected="false">
+                    <img class="icon" src="{% static 'accounts/images/icons/03-Battery.svg' %}">
+                </a>
+                <a class="nav-link" id="swapping-station-tab" data-toggle="pill" href="#swapping-station-tab" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+                    <img class="icon" src="{% static 'accounts/images/icons/04-Swapping_station.svg' %}">
+                </a>
+                <a class="nav-link" id="geography-tab" data-toggle="pill" href="#geography-tab" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+                    <img class="icon" src="{% static 'accounts/images/icons/05-Geography.svg' %}">
+                </a>
+                <a class="nav-link" id="vehicles-tab" data-toggle="pill" href="#vehicles-tab" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+                    <img class="icon" src="{% static 'accounts/images/icons/06-Vehicles.svg' %}">
+                </a>
+                <a class="nav-link" id="vcu-tab" data-toggle="pill" href="#vcu-tab" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+                    <img class="icon" src="{% static 'accounts/images/icons/07-VCU.svg' %}">
+                </a>
+                <a class="nav-link" id="iot-tab" data-toggle="pill" href="#iot-tab" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+                    <img class="icon" src="{% static 'accounts/images/icons/08-IOT.svg' %}">
+                </a>
+                <a class="nav-link" id="reports-tab" data-toggle="pill" href="#reports-tab" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+                    <img class="icon" src="{% static 'accounts/images/icons/09-reports.svg' %}">
+                </a>
+                <a class="nav-link" id="settings-tab" data-toggle="pill" href="#settings-tab" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+                    <img class="icon" src="{% static 'accounts/images/icons/10-settings.svg' %}">
+                </a>
+                <a class="nav-link" id="complaint-tab" data-toggle="pill" href="#complaint-tab" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+                    <img class="icon" src="{% static 'accounts/images/icons/11-complaint.svg' %}">
+                </a>
+            </div>
+            {% comment %} <div class="tab-content" id="v-pills-tabContent">
                 <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">...</div>
                 <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
                 <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
                 <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
-            </div>
+            </div> {% endcomment %}
             
         </div>
-        <div class="col-11">
+        <div class="col-md-11 border-start">
             {% block menu %}
                 <div class="container">
                     The Web Content in detail.

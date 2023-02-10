@@ -45,8 +45,6 @@ def set_redis_key(id, return_token=None, return_if_set=None):
     
     if_set = REDIS_CONNECTION.setex(str(id),144000,create_redis_value(key =id, token = token))
 
-    print("-------------",if_set)
-
     if return_token == True:
         return token
 
@@ -69,6 +67,8 @@ def get_keycloak_access_token():
     print(accessTokenUrl)
 
     payload={
+                "username" : "cerberus_user",
+                "password" :"cerberus@123",
                 "client_id":client.client_id,
                 "client_secret": client.secret,
                 "grant_type" : "client_credentials",
@@ -90,23 +90,43 @@ def get_users():
 
     realm = Realm.objects.first()
 
-    addUserUrl = f"{server}auth/admin/realms/{realm}/users"
+    client = Client.objects.get(realm=realm)
+
+    user_data = {
+            "username" : "cerberus_user",
+            "password" :"cerberus@123",
+            "client_id":client.client_id,
+            "client_secret": client.secret,
+            "grant_type" : "password",
+        }
+    url = f"{server}auth/realms/{realm}/protocol/openid-connect/token"
+    response = requests.post(
+        url=url,
+        data=user_data,
+    )
+
+    access_token=json.loads(response.text)['access_token']
+
+    addUserUrl=f"{server}auth/admin/realms/{realm}/users"
     
     headers = {
-        'Authorization': 'Bearer '+get_keycloak_access_token()+'',
-        'Content-Type': 'application/json'
-    }
+            'Authorization': 'Bearer '+access_token+'',
+            'Content-Type': 'application/json'
+        }
             
-    response = requests.request("GET", addUserUrl, headers=headers)   
+    response = requests.request("GET", addUserUrl, headers=headers)  
+
+    print(response.__dict__) 
 
     user_data=json.loads(response.text)
+
+    print(user_data)
     
     return user_data
 
 def is_user_exist(requested_email,requested_phoneNo):
 
     flag_email=flag_phoneNo=False
-    # print(get_users())
 
     for i in get_users():
         if i.get('email')==requested_email.lower():
@@ -277,7 +297,9 @@ def valid_name(name):
             raise TypeError(INVALID_NAME_TYPE)
     return True
 
-def email_payload(requested_email_id,requested_phone_No,password,is_email_verify=False):     
+def email_payload(requested_email_id,requested_phone_No,password,is_email_verify=False):  
+    # print(requested_email_id)
+    # payload="{\r\n    \"username\":\""+requested_email_id.lower()+"\",\r\n    \"firstName\":\""+""+"\",\r\n    \"lastName\":\""+""+"\",\r\n    \"enabled\":true,\r\n    \"emailVerified\":true,\r\n    \"email\":\""+requested_email_id.lower()+"\",    \"credentials\":[ {\r\n      \"type\": \"password\",\r\n      \"value\":\"password\"\r\n    }]\r\n}"   
     payload={
             "username":requested_email_id.lower(),
             "email":requested_email_id.lower(),
