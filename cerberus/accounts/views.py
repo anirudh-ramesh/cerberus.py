@@ -6,16 +6,166 @@ from django.http import HttpResponse
 import json
 from django_keycloak.auth.backends import KeycloakAuthorizationBase as keycloak_auth
 from django.shortcuts import render
-
-from django.views.generic import View
-import requests
 from rest_framework import viewsets
 from rest_framework.response import Response
 from cerberus_django.messages import ERROR_USER_DOESNT_EXIST
 from cerberus_django.utility import is_user_exist,get_keycloak_access_token,get_user_obj,email_payload,phoneNo_payload,verify_otp,get_keycloak_access_token,set_redis_key,check_session
 from .serializers import SignupSerilizer,ValidateOTPSerializer,SendOTPSerilizer
 from rest_framework.decorators import action
-import requests
+
+
+
+class SignUP(View):
+
+    def get(self, request):
+        return render(request, "accounts/signup.html")
+    
+    def post(self, request):
+
+        server = Server.objects.first().url
+
+        realm = Realm.objects.first()
+
+        client = Client.objects.get(realm=realm)
+       
+        requested_phone_No=request.POST.get("phoneNo")
+
+        requested_email_id=request.POST.get("email")
+        
+        password=request.POST.get("password")
+
+        print(requested_email_id, requested_phone_No, password)
+        
+        serilizer_obj=SignupSerilizer(data=request.POST)
+        
+        serilizer_obj.is_valid(raise_exception = True)
+        
+        if requested_phone_No==None and requested_email_id==None:
+        
+            return Response("invalid input")
+        
+        email_exist,phoneNo_exist=is_user_exist(requested_email_id,requested_phone_No)
+        
+        if email_exist:
+        
+            return Response("Email already existing ")
+        
+        if phoneNo_exist:
+        
+            return Response("PhoneNo already existing ")
+        
+        print(requested_phone_No,requested_email_id)
+        
+        addUserUrl=f"{server}auth/admin/realms/{realm}/users"
+
+        print(get_keycloak_access_token())
+
+        access_token = get_keycloak_access_token()
+        
+        headers = {
+            'Authorization': 'Bearer '+access_token+'',
+            'Content-Type': 'application/json'
+        }
+        
+        if requested_email_id !=None and requested_phone_No==None:
+
+
+            client = Client.objects.get(realm=realm)
+
+            user_data = {
+                    "username" : "cerberus_user",
+                    "password" :"cerberus@123",
+                    "client_id":client.client_id,
+                    "client_secret": client.secret,
+                    "grant_type" : "password",
+                }
+            url = f"{server}auth/realms/{realm}/protocol/openid-connect/token"
+            response = requests.post(
+                url=url,
+                data=user_data,
+            )
+
+            access_token=json.loads(response.text)['access_token']
+
+            addUserUrl=f"{server}auth/admin/realms/{realm}/users"
+
+            headers = {
+            'Authorization': 'Bearer '+access_token+'',
+            'Content-Type': 'application/json'
+            }
+
+            payload=email_payload(requested_email_id,requested_phone_No,password)
+
+            response = requests.request("POST", addUserUrl, headers=headers,data=json.dumps(payload))
+
+            print("Email :",response)
+
+        if requested_email_id ==None and requested_phone_No!=None:
+
+            payload=phoneNo_payload(requested_email_id,requested_phone_No,password)
+
+            print(payload)
+
+            response = requests.request("POST", addUserUrl, headers=headers,data=json.dumps(payload))    
+
+            print("Phone no :",response)
+
+        if response.status_code in [201,202,203,204,205]:
+
+            return render(request, "accounts/dashboard.html")
+
+        return render(request, "accounts/signup.html")
+
+
+
+class Login(View):
+
+    def get(self, request):
+        return render(request, "accounts/login.html")
+    
+    def post(self, request):
+        serialized_obj = ValidateOTPSerializer(data = request.POST)
+        try:
+            serialized_obj.is_valid(raise_exception = True)
+        except Exception as e:
+            return Response("ERROR_INVALID_DATA")
+
+        requested_phone_No=request.POST.get("phoneNo")
+        
+        requested_email_id=request.POST.get("email")
+        requested_password=request.POST.get("password")
+
+        if requested_phone_No==None and requested_email_id==None:
+            return Response("invalid input")
+        
+        id=None      
+
+        user_obj=get_user_obj(requested_email_id,requested_phone_No) 
+
+        if user_obj==None:
+            return Response(ERROR_USER_DOESNT_EXIST)
+
+        if user_obj.get('attributes').get('user_password')[0]!=requested_password:
+            return Response("Invalid password")
+        if requested_phone_No ==None and requested_email_id!=None:
+
+            if user_obj==None:
+                return Response("Invalid email id")
+            id=user_obj.get('id')
+        if requested_phone_No !=None and requested_email_id==None:
+            if user_obj==None:
+                return Response("Invalid phoneNo id")
+            id=user_obj.get('id')
+        print(id)  
+
+        token =set_redis_key(id=id,return_token=True)
+        data    =   {
+             'access_token'  :   token
+             }
+
+        return render(request, "accounts/login.html")
+
+
 
 class AuthFormView(viewsets.ViewSet):
     
@@ -41,8 +191,6 @@ class AuthFormView(viewsets.ViewSet):
         if requested_phone_No==None and requested_email_id==None:
         
             return Response("invalid input")
-        
-            # Response(response_generator(status_code=0,error_msg=ERROR_ACCOUNT_PRIVATE),status=status.HTTP_200_OK)
         
         email_exist,phoneNo_exist=is_user_exist(requested_email_id,requested_phone_No)
         
@@ -114,7 +262,7 @@ class AuthFormView(viewsets.ViewSet):
 
             return Response("user created successfully")
 
-        return Response("Something went wrong!!!")
+        return Response("Something went wrong!!!", template_name="account/signup.html")
        
     @action(methods=['POST'],detail=False)
     def validate_otp(self,request):
@@ -225,6 +373,47 @@ class AuthFormView(viewsets.ViewSet):
             pass
         
         return Response("done")
+
+    @action(methods=["POST"],detail=False)   
+    def login(self,request):
+        # if requested_mode=="LOGIN": 
+        serialized_obj = ValidateOTPSerializer(data = request.data)
+        try:
+            serialized_obj.is_valid(raise_exception = True)
+        except Exception as e:
+            return Response("ERROR_INVALID_DATA")
+
+        requested_phone_No=request.data.get("phoneNo")
+        
+        requested_email_id=request.data.get("email")
+        requested_password=request.data.get("password")
+        if requested_phone_No==None and requested_email_id==None:
+            return Response("invalid input")
+        id=None      
+
+        user_obj=get_user_obj(requested_email_id,requested_phone_No) 
+
+        if user_obj==None:
+            return Response(ERROR_USER_DOESNT_EXIST)
+
+        if user_obj.get('attributes').get('user_password')[0]!=requested_password:
+            return Response("Invalid password")
+        if requested_phone_No ==None and requested_email_id!=None:
+
+            if user_obj==None:
+                return Response("Invalid email id")
+            id=user_obj.get('id')
+        if requested_phone_No !=None and requested_email_id==None:
+            if user_obj==None:
+                return Response("Invalid phoneNo id")
+            id=user_obj.get('id')
+        print(id)    
+        token =set_redis_key(id=id,return_token=True)
+        data    =   {
+             'access_token'  :   token
+             }
+        return Response(data)
+
 
 
 class UserAccessAPI(View):
@@ -363,6 +552,7 @@ class BatteryCRUD(View):
         return HttpResponse("Battery Updated")
     
 
+
 def battery_diagnostics(request, battery_pack_sr_no):
     if request.method == "POST":
         url = "http://iot.igt-ev.com/battery/diagnostics/"
@@ -378,6 +568,7 @@ def battery_diagnostics(request, battery_pack_sr_no):
 
         return HttpResponse("Battery Diagnostics")
     
+
 
 def battery_live_data(request, chassis_no):
     if request.method == "POST":
@@ -464,6 +655,7 @@ def battery_moblization(request, battery_pack_sr_no):
 
         return HttpResponse("Battery moblization")
     
+
 
 def battery_immoblization(request, battery_pack_sr_no):
     if request.method == "POST":
