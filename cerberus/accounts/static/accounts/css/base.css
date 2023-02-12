@@ -152,3 +152,7 @@
     border-radius: 50%;   
     float: center;
 }
+
+.otp_box{
+    height: 80px;
+}

@@ -107,6 +107,11 @@ class SignUP(View):
         return render(request, "accounts/signup.html")
 
 
+class OTP(View):
+    def get(self, request):
+        return render(request, 'accounts/otp.html')
+    def post(self, request):
+        return render(request, 'accounts/otp.html')
 
 class Login(View):
 
