@@ -162,3 +162,8 @@
     height: 600px;
     overflow-y: scroll;
 }
+
+.battery_packs_box{
+    background-color: #f6f6f6;
+    border-radius: 5px;
+}

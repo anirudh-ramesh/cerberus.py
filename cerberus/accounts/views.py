@@ -55,13 +55,6 @@ class SignUP(View):
         
         
         addUserUrl=f"{server}auth/admin/realms/{realm}/users"
-
-        access_token = get_keycloak_access_token()
-        
-        headers = {
-            'Authorization': 'Bearer '+access_token+'',
-            'Content-Type': 'application/json'
-        }
         
         if requested_email_id !=None and requested_phone_No==None:
 
@@ -70,7 +63,7 @@ class SignUP(View):
 
             user_data = {
                     "username" : "cerberus_user",
-                    "password" :"cerberus@123",
+                    "password" :"Cerberus@123",
                     "client_id":client.client_id,
                     "client_secret": client.secret,
                     "grant_type" : "password",
@@ -264,7 +257,7 @@ class AuthFormView(viewsets.ViewSet):
 
             user_data = {
                     "username" : "cerberus_user",
-                    "password" :"cerberus@123",
+                    "password" :"Cerberus@123",
                     "client_id":client.client_id,
                     "client_secret": client.secret,
                     "grant_type" : "password",
@@ -441,7 +434,6 @@ class AuthFormView(viewsets.ViewSet):
         return Response(data)
 
 
-
 class UserAccessAPI(View):
     def get(self, request):
 
@@ -453,7 +445,7 @@ class UserAccessAPI(View):
 
         user_data = {
                 "username" : "cerberus_user",
-                "password" :"cerberus@123",
+                "password" :"Cerberus@123",
                 "client_id":client.client_id,
                 "client_secret": client.secret,
                 "grant_type" : "password",
@@ -702,3 +694,5 @@ def battery_immoblization(request, battery_pack_sr_no):
         )
 
         return HttpResponse("Battery Immoblization")
+
+

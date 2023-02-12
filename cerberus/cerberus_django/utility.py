@@ -66,7 +66,7 @@ def get_keycloak_access_token():
 
     payload={
                 "username" : "cerberus_user",
-                "password" :"cerberus@123",
+                "password" :"Cerberus@123",
                 "client_id":client.client_id,
                 "client_secret": client.secret,
                 "grant_type" : "client_credentials",
@@ -92,7 +92,7 @@ def get_users():
 
     user_data = {
             "username" : "cerberus_user",
-            "password" :"cerberus@123",
+            "password" :"Cerberus@123",
             "client_id":client.client_id,
             "client_secret": client.secret,
             "grant_type" : "password",
