@@ -64,8 +64,6 @@ def get_keycloak_access_token():
 
     accessTokenUrl =  f"{server}auth/realms/{realm}/protocol/openid-connect/token"
 
-    print(accessTokenUrl)
-
     payload={
                 "username" : "cerberus_user",
                 "password" :"cerberus@123",
@@ -116,11 +114,7 @@ def get_users():
             
     response = requests.request("GET", addUserUrl, headers=headers)  
 
-    print(response.__dict__) 
-
     user_data=json.loads(response.text)
-
-    print(user_data)
     
     return user_data
 
@@ -129,10 +123,8 @@ def is_user_exist(requested_email,requested_phoneNo):
     flag_email=flag_phoneNo=False
 
     for i in get_users():
-        if i.get('email')==requested_email.lower():
-            flag_email=True
-        if i.get('phoneNo')==requested_phoneNo:
-            flag_phoneNo=True
+        if i.get('username')==requested_phoneNo or i.get('username')==requested_email:
+            flag_phoneNo, flag_email=True, True
 
     if requested_phoneNo==None:
        flag_phoneNo=False
@@ -237,33 +229,41 @@ def valid_phone_no(phone_no):
     
 def get_obj_by_email(requested_email):
     flag=False
+    user = None
     for i in get_users():
+
         if flag:
+
             break
-        if  i.get('email')==requested_email.lower():
+        elif  i.get('username')==requested_email.lower():
+
+            user = i
             flag=True
-            return i
+
+    return user
 
 def get_obj_by_phoneNo(requested_phoneNo):
 
     flag=False
-    print(get_users())
+
     for i in get_users():
-        print(flag)
+
         if flag:
             break
-        # print(i)
-        print("##########",type(i.get('attributes').get('phoneNo')[0]),type(requested_phoneNo))
+
+
         if  int(i.get('attributes').get('phoneNo')[0])==int(requested_phoneNo):
             flag=True
-            print("##########",flag)
+
             return i
         else:
             pass
         
 def get_user_obj(requested_email,requested_phone_no):
     if requested_email !=None:
-        return get_obj_by_email(requested_email)
+
+        user = get_obj_by_email(requested_email)
+        return user
     if requested_phone_no !=None:
        
         return get_obj_by_phoneNo(requested_phone_no)
@@ -273,19 +273,9 @@ def get_user_obj(requested_email,requested_phone_no):
 def verify_otp(value):
     if(value != None):
         if value == 123456:
-            print('bypassing OTP')
+
             return True  #by pass otp
-    #     redis_otp = REDIS_CONNECTION.get(key.casefold())
-    #     if redis_otp != None:
-    #         redis_otp = redis_otp.decode('UTF-8')
-    #         if(int(redis_otp) == value):
-    #             return True  # for Valid OTP
-    #         else:
-    #             return False  # for Invalid OTP
-    #     else:
-    #         return False  # for Invalid OTP
-    # else:
-    #     False  # for Invalid OTP    
+     
 def valid_name(name):
     """
     To validate given string is a Name
@@ -298,8 +288,6 @@ def valid_name(name):
     return True
 
 def email_payload(requested_email_id,requested_phone_No,password,is_email_verify=False):  
-    # print(requested_email_id)
-    # payload="{\r\n    \"username\":\""+requested_email_id.lower()+"\",\r\n    \"firstName\":\""+""+"\",\r\n    \"lastName\":\""+""+"\",\r\n    \"enabled\":true,\r\n    \"emailVerified\":true,\r\n    \"email\":\""+requested_email_id.lower()+"\",    \"credentials\":[ {\r\n      \"type\": \"password\",\r\n      \"value\":\"password\"\r\n    }]\r\n}"   
     payload={
             "username":requested_email_id.lower(),
             "email":requested_email_id.lower(),
@@ -350,8 +338,6 @@ def phoneNo_payload(requested_email_id,requested_phone_No,password,is_phone_veri
             }}   
     return payload 
 
-
-
 def remove_redis_token(redis_key,token):
     data_byte=REDIS_CONNECTION.get(redis_key)
     if data_byte == None:
@@ -377,7 +363,6 @@ def check_session(request,return_Id=None):
 
     """
     token=request.META.get("HTTP_TOKEN")
-    print(token)
     if token == None:
         if return_Id==True:
             return False,None

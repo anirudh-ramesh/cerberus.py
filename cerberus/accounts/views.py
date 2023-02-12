@@ -33,8 +33,6 @@ class SignUP(View):
         requested_email_id=request.POST.get("email")
         
         password=request.POST.get("password")
-
-        print(requested_email_id, requested_phone_No, password)
         
         serilizer_obj=SignupSerilizer(data=request.POST)
         
@@ -54,11 +52,8 @@ class SignUP(View):
         
             return Response("PhoneNo already existing ")
         
-        print(requested_phone_No,requested_email_id)
         
         addUserUrl=f"{server}auth/admin/realms/{realm}/users"
-
-        print(get_keycloak_access_token())
 
         access_token = get_keycloak_access_token()
         
@@ -98,17 +93,12 @@ class SignUP(View):
 
             response = requests.request("POST", addUserUrl, headers=headers,data=json.dumps(payload))
 
-            print("Email :",response)
 
         if requested_email_id ==None and requested_phone_No!=None:
 
             payload=phoneNo_payload(requested_email_id,requested_phone_No,password)
 
-            print(payload)
-
             response = requests.request("POST", addUserUrl, headers=headers,data=json.dumps(payload))    
-
-            print("Phone no :",response)
 
         if response.status_code in [201,202,203,204,205]:
 
@@ -124,11 +114,6 @@ class Login(View):
         return render(request, "accounts/login.html")
     
     def post(self, request):
-        serialized_obj = ValidateOTPSerializer(data = request.POST)
-        try:
-            serialized_obj.is_valid(raise_exception = True)
-        except Exception as e:
-            return Response("ERROR_INVALID_DATA")
 
         requested_phone_No=request.POST.get("phoneNo")
         
@@ -138,8 +123,6 @@ class Login(View):
         if requested_phone_No==None and requested_email_id==None:
             return Response("invalid input")
         
-        id=None      
-
         user_obj=get_user_obj(requested_email_id,requested_phone_No) 
 
         if user_obj==None:
@@ -156,12 +139,6 @@ class Login(View):
             if user_obj==None:
                 return Response("Invalid phoneNo id")
             id=user_obj.get('id')
-        print(id)  
-
-        token =set_redis_key(id=id,return_token=True)
-        data    =   {
-             'access_token'  :   token
-             }
 
         return render(request, "accounts/login.html")
 
@@ -201,12 +178,8 @@ class AuthFormView(viewsets.ViewSet):
         if phoneNo_exist:
         
             return Response("PhoneNo already existing ")
-        
-        print(requested_phone_No,requested_email_id)
-        
+                
         addUserUrl=f"{server}auth/admin/realms/{realm}/users"
-
-        print(get_keycloak_access_token())
 
         access_token = get_keycloak_access_token()
         
@@ -246,17 +219,11 @@ class AuthFormView(viewsets.ViewSet):
 
             response = requests.request("POST", addUserUrl, headers=headers,data=json.dumps(payload))
 
-            print("Email :",response)
-
         if requested_email_id ==None and requested_phone_No!=None:
 
             payload=phoneNo_payload(requested_email_id,requested_phone_No,password)
 
-            print(payload)
-
             response = requests.request("POST", addUserUrl, headers=headers,data=json.dumps(payload))    
-
-            print("Phone no :",response)
 
         if response.status_code in [201,202,203,204,205]:
 
@@ -297,7 +264,6 @@ class AuthFormView(viewsets.ViewSet):
            if requested_phone_No!=None:
                if user_obj.get('attributes').get('is_phone_verified')[0]=="true":
                   return Response("Error invalid mode")  
-               print(request_phone_otp)
                if verify_otp(value = request_phone_otp):
                   payload_obj=phoneNo_payload(requested_email_id,requested_phone_No,user_obj.get('attributes').get('password')[0],is_phone_verify=True)
 
@@ -313,9 +279,7 @@ class AuthFormView(viewsets.ViewSet):
                                 'Authorization': 'Bearer '+get_keycloak_access_token()+'',
                                 'Content-Type': 'application/json'
                             }  
-           print("^^^^^^^^^^^^^^^^^^^^^^",payload_obj) 
            response=requests.request('PUT',addUserUrl,headers=headers,data=json.dumps(payload_obj))  
-           print("*********************",response)
            token =set_redis_key(id =id,return_token=True)
 
          
@@ -325,11 +289,8 @@ class AuthFormView(viewsets.ViewSet):
            return Response(data)
         if requested_mode=="LOGIN": 
            id=None      
-           print(requested_phone_No ,requested_email_id)
            if requested_phone_No ==None and requested_email_id!=None:
-               print("@@@@@@@@@@@@@@@@@@@@")
                user_obj=get_user_obj(requested_email_id,requested_phone_No) 
-               print(user_obj)
                if user_obj==None:
                    return Response("Invalid email id")
                id=user_obj.get('id')
@@ -355,11 +316,9 @@ class AuthFormView(viewsets.ViewSet):
         requested_email_id=request.data.get("email")
         if requested_email_id!=None and requested_phone_No==None:
             user_obj=get_user_obj(requested_email_id,requested_phone_No) 
-            print(user_obj)
             return Response("Send OTP in email id")
         if requested_email_id==None and requested_phone_No!=None:
             user_obj=get_user_obj(requested_email_id,requested_phone_No) 
-            print(user_obj)
             return Response("Send OTP in phone no")
         return Response("done")    
     
@@ -367,7 +326,6 @@ class AuthFormView(viewsets.ViewSet):
     def update_user(self,request):
 
         session_result,id =   check_session(request = request, return_Id = True)
-        print("@@@@@@@@@@@@@",session_result,id)
         if session_result:
             
             pass
@@ -407,7 +365,6 @@ class AuthFormView(viewsets.ViewSet):
             if user_obj==None:
                 return Response("Invalid phoneNo id")
             id=user_obj.get('id')
-        print(id)    
         token =set_redis_key(id=id,return_token=True)
         data    =   {
              'access_token'  :   token
@@ -472,7 +429,6 @@ class UserList(ListView):
     def get_queryset(self, *args, **kwargs):
         qs = super(UserList, self).get_queryset(*args, **kwargs)
         qs = qs.order_by("-id")
-        print("Queryset :", qs)
         return qs
 
 
@@ -486,7 +442,6 @@ class BatteryCRUD(View):
         response = requests.get(
             url = battery_data_get_url
         )
-        print(response)
         return HttpResponse("Battery Details")
         
 
@@ -524,7 +479,6 @@ class BatteryCRUD(View):
             url = url,
             data = battery_post_data,
         )
-        print(response)
         return HttpResponse("Battery Details posted")
     
     def delete(self, request, battery_pack_sr_no):
@@ -535,7 +489,6 @@ class BatteryCRUD(View):
         response = requests.delete(
             url=battery_delete_data_url,
         )
-        print(response)
         return HttpResponse("Battery Deleted")
 
     def update(self,request, battery_pack_sr_no):
@@ -548,7 +501,6 @@ class BatteryCRUD(View):
             url = battery_update_data_url
         )
 
-        print(response)
         return HttpResponse("Battery Updated")
     
 
@@ -564,7 +516,6 @@ def battery_diagnostics(request, battery_pack_sr_no):
             url= url,
             data = data,
         )
-        print(response)
 
         return HttpResponse("Battery Diagnostics")
     
@@ -581,7 +532,6 @@ def battery_live_data(request, chassis_no):
             url= url,
             data = data,
         )
-        print(response)
 
         return HttpResponse("Battery live data")
     
@@ -599,7 +549,6 @@ def battery_allocate_swapping_station(request, battery_pack_sr_no,assigned_asset
             url= url,
             data = data,
         )
-        print(response)
 
         return HttpResponse("Battery Swapping station")
     
@@ -617,7 +566,6 @@ def battery_allocate_vehicle(request, battery_pack_sr_no, assigned_asset_chassis
             url= url,
             data = data,
         )
-        print(response)
 
         return HttpResponse("Battery Allocate Vehicle")
     
@@ -634,7 +582,6 @@ def battery_deallocate(request, battery_pack_sr_no):
             url= url,
             data = data,
         )
-        print(response)
 
         return HttpResponse("Battery deallocate")
     
@@ -651,8 +598,6 @@ def battery_moblization(request, battery_pack_sr_no):
             url= url,
             data = data,
         )
-        print(response)
-
         return HttpResponse("Battery moblization")
     
 
@@ -668,6 +613,5 @@ def battery_immoblization(request, battery_pack_sr_no):
             url= url,
             data = data,
         )
-        print(response)
 
         return HttpResponse("Battery Immoblization")
