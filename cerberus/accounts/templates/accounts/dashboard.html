@@ -3,6 +3,7 @@
 
 {% block head %}
     <title>DASHBOARD | Cerberus</title>
+    <link rel="stylesheet" href="{% static 'accounts/css/base.css' %}">
 {% endblock head %}
 
 {% block menu %}
@@ -116,4 +117,10 @@
             </div<div class="dashboard-box"></div>
         </div>
     </div>
+
+    <script>
+        if(!localStorage.getItem("access_token")){
+            localStorage.setItem("access_token", "{{access_token}}")
+        }
+    </script>
 {% endblock menu %}

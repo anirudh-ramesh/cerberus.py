@@ -12,6 +12,7 @@ from cerberus_django.messages import ERROR_USER_DOESNT_EXIST
 from cerberus_django.utility import is_user_exist,get_keycloak_access_token,get_user_obj,email_payload,phoneNo_payload,verify_otp,get_keycloak_access_token,set_redis_key,check_session
 from .serializers import SignupSerilizer,ValidateOTPSerializer,SendOTPSerilizer
 from rest_framework.decorators import action
+from accounts.models import Token
 
 
 
@@ -82,6 +83,8 @@ class SignUP(View):
 
             access_token=json.loads(response.text)['access_token']
 
+            print(access_token)
+
             addUserUrl=f"{server}auth/admin/realms/{realm}/users"
 
             headers = {
@@ -90,8 +93,10 @@ class SignUP(View):
             }
 
             payload=email_payload(requested_email_id,requested_phone_No,password)
+            print(payload)
 
             response = requests.request("POST", addUserUrl, headers=headers,data=json.dumps(payload))
+            print(response)
 
 
         if requested_email_id ==None and requested_phone_No!=None:
@@ -102,7 +107,7 @@ class SignUP(View):
 
         if response.status_code in [201,202,203,204,205]:
 
-            return render(request, "accounts/dashboard.html")
+            return render(request, "accounts/dashboard.html", {"access_token":access_token})
 
         return render(request, "accounts/signup.html")
 
@@ -112,6 +117,8 @@ class OTP(View):
         return render(request, 'accounts/otp.html')
     def post(self, request):
         return render(request, 'accounts/otp.html')
+
+
 
 class Login(View):
 
@@ -135,19 +142,76 @@ class Login(View):
 
         if user_obj.get('attributes').get('user_password')[0]!=requested_password:
             return Response("Invalid password")
+        
         if requested_phone_No ==None and requested_email_id!=None:
 
             if user_obj==None:
                 return Response("Invalid email id")
-            id=user_obj.get('id')
+        
         if requested_phone_No !=None and requested_email_id==None:
             if user_obj==None:
                 return Response("Invalid phoneNo id")
-            id=user_obj.get('id')
+            
+        if user_obj.get("attributes").get("user_password")[0]==requested_password:
+            server = Server.objects.first().url
+
+            realm = Realm.objects.first()
+
+            client = Client.objects.get(realm=realm)
+
+            print(user_obj.get('username'), requested_password)
+
+            user_data = {
+                    "username" : user_obj.get('username'),
+                    "password" :requested_password,
+                    "client_id":client.client_id,
+                    "client_secret": client.secret,
+                    "grant_type" : "password",
+                }
+            
+            url = f"{server}auth/realms/{realm}/protocol/openid-connect/token"
+            response = requests.post(
+                url=url,
+                data=user_data,
+            )
+
+            access_token=json.loads(response.text)['access_token']
+
+            print(type(access_token))
+
+            Token.objects.create(token = access_token)
+
+            return render(request, 'accounts/dashboard.html', {"access_token":access_token})
+            
 
         return render(request, "accounts/login.html")
 
 
+class Logout(View):
+
+    def get(self, request):
+        server = Server.objects.first().url
+
+        realm = Realm.objects.first()
+
+        client = Client.objects.get(realm=realm)
+
+        logout_url = f"{server}auth/realms/{realm}/protocol/openid-connect/logout"
+
+        response = requests.post(
+            url=logout_url,
+        )
+
+        print(response.__dict__)
+        return render(request, 'accounts/login.html')
+
+
+class Dashboard(View):
+    def get(self, request):
+        return render(request, 'accounts/dashboard.html')
+    
+    def post(self, request):
+        return render(request, 'accounts/dashboard.html')
 
 class AuthFormView(viewsets.ViewSet):
     
@@ -438,20 +502,38 @@ class UserList(ListView):
 
 
 class BatteryCRUD(View):
-    url = "http://iot.igt-ev.com/battery/"
 
-    def get(self, request, battery_sr_pack_no):
-        global url
+    def get(self, request):
+        url = "http://iot.igt-ev.com/battery/"
 
-        battery_data_get_url = url + str(battery_sr_pack_no)
+        battery_tag_list = []
+
+        battery_sr_pack_no = request.GET.get('battery_sr_pack_no')
+
+        if battery_sr_pack_no:
+
+            battery_data_get_url = url + "?" + str(battery_sr_pack_no)
+        
+        else:
+
+            battery_data_get_url = url
+
         response = requests.get(
             url = battery_data_get_url
         )
-        return HttpResponse("Battery Details")
+        dict_response = response.__dict__
+
+        dict_json_response = json.loads(dict_response["_content"])
+
+        for row in dict_json_response["rows"]:
+
+            battery_tag_list.append(row["asset_tag"])
+
+        return render(request, 'accounts/battery_packs.html', {"battery_tag_list":battery_tag_list,})
         
 
     def post(self, request): 
-        global url
+        url = "http://iot.igt-ev.com/battery/"
 
         model_name =  request.POST.get("model_name")
         battery_pack_sr_no = request.POST.get("model_name")

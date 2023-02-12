@@ -4,6 +4,11 @@
 {% block head %}
     <link rel="stylesheet" href="{% static 'accounts/css/base.css' %}">
     <title>SIGN UP | Cerberus</title>
+    <script>
+        if(localStorage.getItem("access_token")){
+            window.location ="/dashboard/"
+        }
+    </script>
 {% endblock head %}
 
 {% block content %}

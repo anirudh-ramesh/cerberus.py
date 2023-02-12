@@ -293,7 +293,7 @@ def email_payload(requested_email_id,requested_phone_No,password,is_email_verify
             "email":requested_email_id.lower(),
             "firstName":"",
             "lastName":"",
-           
+            "enabled":True,
             "credentials":[
                          {
             "type":"password",
@@ -319,6 +319,7 @@ def phoneNo_payload(requested_email_id,requested_phone_No,password,is_phone_veri
             "email":"",
             "firstName":"",
             "lastName":"",
+            "enabled":True,
             "credentials":[
                          {
             "type":"password",

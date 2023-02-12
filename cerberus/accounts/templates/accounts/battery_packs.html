@@ -1,0 +1,35 @@
+{% extends 'menu.html' %}
+{% load static %}
+
+{% block head %}
+    <title>DASHBOARD | Cerberus</title>
+    <link rel="stylesheet" href="{% static 'accounts/css/base.css' %}">
+{% endblock head %}
+
+{% block menu %}
+    <div class="row px-5 mt-5">
+        <div class="col-md-12">
+            <label class="font-size-1">BATTERY PACKS</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            
+        </div>
+    </div>
+    
+    <div class="row px-5 mt-3 py-2">
+        <div class="col-md-3 scrollable_div bg-white">
+            {% if battery_tag_list %}
+                {% for tag in battery_tag_list %}
+                    <a href="#" class="btn btn-default w-100 font-size-5 px-3 py-3">{{ tag }}</a>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-md-9">
+        </div>
+    </div>
+    
+    
+{% endblock menu %}

@@ -157,3 +157,8 @@
     height: 80px;
     text-align: center;
 }
+
+.scrollable_div{
+    height: 600px;
+    overflow-y: scroll;
+}
