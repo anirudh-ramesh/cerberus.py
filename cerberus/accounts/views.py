@@ -112,7 +112,6 @@ class OTP(View):
         return render(request, 'accounts/otp.html')
 
 
-
 class Login(View):
 
     def get(self, request):
@@ -182,7 +181,20 @@ class Login(View):
 
 class Logout(View):
 
-    def get(self, request):
+    def post(self, request):
+
+        access_token = request.POST.get("access_token")
+
+        if access_token:
+            try:
+                token_obj = Token.objects.get(token=access_token)
+
+                if token_obj:
+                    
+                    token_obj.delete()
+
+            except Exception as e:
+                pass
         server = Server.objects.first().url
 
         realm = Realm.objects.first()
@@ -195,7 +207,6 @@ class Logout(View):
             url=logout_url,
         )
 
-        print(response.__dict__)
         return render(request, 'accounts/login.html')
 
 

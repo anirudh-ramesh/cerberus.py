@@ -4,6 +4,7 @@
 {% block head %}
     <title>DASHBOARD | Cerberus</title>
     <link rel="stylesheet" href="{% static 'accounts/css/base.css' %}">
+    <script type="text/javascript" href="{% static 'accounts/js/base.js' %}"></script>
     <script>
         if(!localStorage.getItem("access_token")){
             localStorage.setItem("access_token", "{{access_token}}")
@@ -14,8 +15,13 @@
 
 {% block menu %}
     <div class="row px-5 mt-5">
-        <div class="col-md-12">
+        <div class="col-md-10">
             <label class="font-size-1">DASHBOARD</label>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-danger text-alignment" id="logout_btn">
+                logout
+            </button>
         </div>
     </div>
     <div class="row px-5 mt-3">

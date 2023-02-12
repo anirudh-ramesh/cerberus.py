@@ -164,6 +164,8 @@
 }
 
 .battery_packs_box{
-    background-color: #f6f6f6;
-    border-radius: 5px;
+    background-color: #fafafa;
+    border-radius: 20px;
+    height: 250px;
+    padding: 20px;
 }
