@@ -10,8 +10,9 @@
     <div class="row px-5 mt-5">
         <div class="col-md-12">
             <label class="font-size-1">BATTERY {{ asset_tag }}</label>
-            <a href="#" class="button-1 btn btn-primary">Update Battery</a>
-            <a href="#" class="btn btn-danger">Delete Battery</a>
+            <button class="btn btn-danger text-alignment" data-bs-toggle="modal" data-bs-target="#delete_modal">Delete Battery</button>
+            <a href="#" class="button-1 btn btn-primary text-alignment mr-3">Update Battery</a>
+            
         </div>
     </div>
 
@@ -78,6 +79,27 @@
             </div>
         </div>
         
+    </div>
+
+    <div class="modal" tabindex="-1" id="delete_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Battery {{ model_name }} {{ battery_pack_sr_no }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are You sure to delete Battery {{model_name}} {{ battery_pack_sr_no }}.</p>
+                </div>
+                <div class="modal-footer">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" id = "delete_battery" data-model= {{ battery_pack_sr_no }}>Yes, Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="{% static 'accounts/js/base.js' %}"></script>
     
