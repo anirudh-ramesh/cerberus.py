@@ -1,5 +1,7 @@
 from django.urls import path, include
-from .views import OTP,Login, Logout, SignUP, AuthFormView, ServerList, UserList, UserAccessAPI, BatteryCRUD, battery_allocate_swapping_station, battery_allocate_vehicle, battery_deallocate, battery_diagnostics, battery_immoblization, battery_live_data, battery_moblization
+from .views import OTP,Login, Logout, SignUP, AuthFormView, ServerList, UserList, UserAccessAPI, BatteryCRUD, \
+    battery_allocate_swapping_station, battery_allocate_vehicle, battery_deallocate, battery_diagnostics, battery_immoblization, \
+    battery_live_data, battery_moblization, AddBattery
 from rest_framework.routers import DefaultRouter
 
 
@@ -18,6 +20,7 @@ urlpatterns = [
     path('user/', UserList.as_view(), name="user_list"),
     path("token/", UserAccessAPI.as_view(), name="user_access"),
     path("battery/", BatteryCRUD.as_view(), name="battery_crud"),
+    path("add_battery/", AddBattery.as_view(), name="add_battery"),
     path("battery_allocate_swapping_station/<int:battery_pack_sr_no>/<int:assigned_asset_imei>", battery_allocate_swapping_station, name="battery_allocate_swapping_station"),
     path("battery_allocate_vehicle/<int:battery_pack_sr_no>/<int:assigned_asset_chassis_no>", battery_allocate_vehicle, name="battery_allocate_vehicle"),
     path("battery_deallocate/<int:battery_pack_sr_no>", battery_deallocate, name="battery_deallocate"),

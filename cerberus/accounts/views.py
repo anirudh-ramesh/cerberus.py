@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 import requests
 from django.http import HttpResponse
 import json
-from django_keycloak.auth.backends import KeycloakAuthorizationBase as keycloak_auth
-from django.shortcuts import render
+
+from django.shortcuts import render, redirect
 from rest_framework import viewsets
 from rest_framework.response import Response
 from cerberus_django.messages import ERROR_USER_DOESNT_EXIST
@@ -594,6 +594,56 @@ class BatteryCRUD(View):
         return HttpResponse("Battery Updated")
     
 
+
+class AddBattery(View):
+    def get(self, request):
+        return render(request, 'accounts/add_battery.html')
+    
+    def post(self, request):
+
+        url = "http://iot.igt-ev.com/battery/"
+        
+        model_name = request.POST.get("model_name", None)
+        battery_pack_sr_no = request.POST.get("battery_pack_sr_no", None)
+        bms_type = request.POST.get("bms_type", None)
+        warrenty_start_date = request.POST.get("warranty_start_date", None)
+        warrenty_duration = request.POST.get("warranty_duration", None)
+        status = request.POST.get("status", None)
+        battery_cell_chemistry = request.POST.get("battery_cell_chemistry", None)
+        battery_pack_nominal_voltage = request.POST.get("battery_pack_nominal_voltage", None)
+        battery_pack_nominal_charge_capacity = request.POST.get("battery_pack_nominal_charge_capacity", None)
+        battery_pack_casing = request.POST.get("battery_pack_casing", None)
+        battery_cell_type = request.POST.get("battery_cell_type", None)
+
+        battery_data = {
+            
+            "model_name": model_name,
+            "battery_pack_sr_no": battery_pack_sr_no,
+            "bms_type": bms_type,
+            "warranty_start_date": warrenty_start_date,
+            "warranty_duration": warrenty_duration,
+            "status": status,
+            "battery_cell_chemistry": battery_cell_chemistry,
+            "battery_pack_nominal_voltage": battery_pack_nominal_voltage,
+            "battery_pack_nominal_charge_capacity": battery_pack_nominal_charge_capacity,
+            "battery_pack_casing": battery_pack_casing,
+            "battery_cell_type": battery_cell_type
+            
+        }
+
+        print("Battery_data------------", battery_data)
+
+        ressponse = requests.post(
+            url = url,
+            data= battery_data,
+        )
+
+        if ressponse.status_code in [201, 202, 203, 204, 205, 200]:
+            message = "Battery Added Successfully"
+            return redirect("batter_crud")
+
+        return redirect("battery_crud")
+    
 
 def battery_diagnostics(request, battery_pack_sr_no):
     if request.method == "POST":
