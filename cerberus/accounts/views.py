@@ -534,43 +534,6 @@ class BatteryCRUD(View):
 
         return render(request, 'accounts/battery_packs.html', {"battery_tag_list":battery_tag_list,})
         
-
-    def post(self, request): 
-        url = "http://iot.igt-ev.com/battery/"
-
-        model_name =  request.POST.get("model_name")
-        battery_pack_sr_no = request.POST.get("model_name")
-        bms_type = request.POST.get("model_name")
-        warranty_start_date = request.POST.get("model_name")
-        warranty_duration = request.POST.get("model_name")
-        status = request.POST.get("model_name")
-        battery_cell_chemistry = request.POST.get("model_name")
-        battery_pack_nominal_voltage = request.POST.get("model_name")
-        battery_pack_nominal_charge_capacity = request.POST.get("model_name")
-        battery_pack_casing = request.POST.get("model_name")
-        battery_cell_type = request.POST.get("model_name")
-
-        battery_post_data =     {
-            "model_name": model_name,
-            "battery_pack_sr_no": battery_pack_sr_no,
-            "bms_type": bms_type,
-            "warranty_start_date": warranty_start_date,
-            "warranty_duration": warranty_duration,
-            "status": status,
-            "battery_cell_chemistry": battery_cell_chemistry,
-            "battery_pack_nominal_voltage": battery_pack_nominal_voltage,
-            "battery_pack_nominal_charge_capacity": battery_pack_nominal_charge_capacity,
-            "battery_pack_casing": battery_pack_casing,
-            "battery_cell_type": battery_cell_type,
-            }
-        
-
-        response = requests.post(
-            url = url,
-            data = battery_post_data,
-        )
-        return HttpResponse("Battery Details posted")
-    
     def delete(self, request, battery_pack_sr_no):
         global url
     
@@ -593,7 +556,64 @@ class BatteryCRUD(View):
 
         return HttpResponse("Battery Updated")
     
+class GetBattery(View):
+    def get(self, request):
+        return render(request, 'accounts/get_battery.html')
 
+    def post(self, request):
+        url = "http://iot.igt-ev.com/battery/"
+        battery_pack_sr_no = request.POST.get("battery_pack_sr_no")
+    
+        response = requests.get(
+            url = url,
+            params={"battery_pack_sr_no":battery_pack_sr_no}
+        )
+
+        dict_response = response.__dict__
+
+        dict_json_response = json.loads(dict_response["_content"])
+
+        battery_dict = {}
+
+        battery_dict["battery_pack_sr_no"] = dict_json_response["asset_tag"]
+        
+        for key, value in dict_json_response["model"].items():
+            if key == "name":
+                battery_dict["model_name"] = value
+        
+        for key, value in dict_json_response["created_at"].items():
+            if key == "formatted":
+                battery_dict["warranty_start_date"] = value
+
+        battery_dict["warranty_duration"] = dict_json_response["warranty_months"]
+        
+        for key ,value in dict_json_response["status_label"].items():
+            if key == "name":
+
+                battery_dict["status"] = value
+        
+        for key, value in dict_json_response["custom_fields"].items():
+            
+            if key == "Battery Cell Chemistry":
+                battery_dict["battery_cell_chemistry"] = value["value"]
+                
+            elif key == "Battery Pack Nominal Voltage":
+                battery_dict["battery_pack_nominal_voltage"] = value["value"]
+
+            elif key == "Battery Pack Nominal Charge Capacity":
+                battery_dict["battery_pack_nominal_charge_capacity"] = value["value"]
+                
+            elif key == "BMS Type":
+                battery_dict["bms_type"] = value["value"]
+                
+            elif key == "Battery Cell Type":
+                battery_dict["battery_cell_type"] = value["value"]
+
+            elif key == "Battery Pack Casing":
+                battery_dict["battery_pack_casing"] = value["value"]
+
+        return render(request, 'accounts/battery_details.html', battery_dict)
+    
 
 class AddBattery(View):
     def get(self, request):
@@ -603,11 +623,12 @@ class AddBattery(View):
 
         url = "http://iot.igt-ev.com/battery/"
         
+        
         model_name = request.POST.get("model_name", None)
         battery_pack_sr_no = request.POST.get("battery_pack_sr_no", None)
         bms_type = request.POST.get("bms_type", None)
-        warrenty_start_date = request.POST.get("warranty_start_date", None)
-        warrenty_duration = request.POST.get("warranty_duration", None)
+        warranty_start_date = request.POST.get("warranty_start_date", None)
+        warranty_duration = request.POST.get("warranty_duration", None)
         status = request.POST.get("status", None)
         battery_cell_chemistry = request.POST.get("battery_cell_chemistry", None)
         battery_pack_nominal_voltage = request.POST.get("battery_pack_nominal_voltage", None)
@@ -617,32 +638,30 @@ class AddBattery(View):
 
         battery_data = {
             
-            "model_name": model_name,
-            "battery_pack_sr_no": battery_pack_sr_no,
-            "bms_type": bms_type,
-            "warranty_start_date": warrenty_start_date,
-            "warranty_duration": warrenty_duration,
-            "status": status,
-            "battery_cell_chemistry": battery_cell_chemistry,
-            "battery_pack_nominal_voltage": battery_pack_nominal_voltage,
-            "battery_pack_nominal_charge_capacity": battery_pack_nominal_charge_capacity,
-            "battery_pack_casing": battery_pack_casing,
-            "battery_cell_type": battery_cell_type
+            "model_name": str(model_name),
+            "battery_pack_sr_no": int(battery_pack_sr_no),
+            "bms_type": str(bms_type),
+            "warranty_start_date": warranty_start_date,
+            "warranty_duration": int(warranty_duration),
+            "status": str(status),
+            "battery_cell_chemistry": str(battery_cell_chemistry),
+            "battery_pack_nominal_voltage": int(battery_pack_nominal_voltage),
+            "battery_pack_nominal_charge_capacity": int(battery_pack_nominal_charge_capacity),
+            "battery_pack_casing": str(battery_pack_casing),
+            "battery_cell_type": str(battery_cell_type)
             
         }
 
-        print("Battery_data------------", battery_data)
-
-        ressponse = requests.post(
+        response = requests.post(
             url = url,
-            data= battery_data,
+            data= json.dumps(battery_data),
         )
 
-        if ressponse.status_code in [201, 202, 203, 204, 205, 200]:
+        if response.status_code in [201, 202, 203, 204, 205, 200]:
             message = "Battery Added Successfully"
             return redirect("batter_crud")
 
-        return redirect("battery_crud")
+        return render(request, 'accounts/add_battery.html')
     
 
 def battery_diagnostics(request, battery_pack_sr_no):
