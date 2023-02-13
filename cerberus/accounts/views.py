@@ -682,6 +682,28 @@ class DeleteBattery(View):
         return render(request, "accounts/battery_details.html")
     
 
+
+class UpdateBattery(View):
+
+    def get(self, request):
+        return render(request, 'accounts/update_battery.html')
+    
+    def post(self, request):
+        battery_pack_sr_no = request.POST.get("battery_pack_sr_no")
+        
+        url = "http://iot.igt-ev.com/battery/battery_pack_sr_no/:"+str(battery_pack_sr_no)
+        
+        response = requests.patch(
+            url = url
+        )
+
+        if response.status_code == 200:
+            return redirect('get_battery')
+
+        return render(request, 'accounts/update_battery.html')
+        
+    
+
 def battery_diagnostics(request, battery_pack_sr_no):
     if request.method == "POST":
         url = "http://iot.igt-ev.com/battery/diagnostics/"
