@@ -636,12 +636,14 @@ class AddBattery(View):
         battery_pack_casing = request.POST.get("battery_pack_casing", None)
         battery_cell_type = request.POST.get("battery_cell_type", None)
 
+        print(warranty_start_date)
+
         battery_data = {
             
             "model_name": str(model_name),
             "battery_pack_sr_no": int(battery_pack_sr_no),
             "bms_type": str(bms_type),
-            "warranty_start_date": warranty_start_date,
+            "warranty_start_date": str(warranty_start_date),
             "warranty_duration": int(warranty_duration),
             "status": str(status),
             "battery_cell_chemistry": str(battery_cell_chemistry),
@@ -652,14 +654,25 @@ class AddBattery(View):
             
         }
 
-        response = requests.post(
-            url = url,
-            data= json.dumps(battery_data),
-        )
+        print(battery_data)
+
+        headers = {"Content-Type": "application/json; charset=utf-8"}
+
+        response = requests.request("POST", url, headers=headers, data=json.dumps(battery_data), json=json.dumps(battery_data))
+
+        # response = requests.post(
+        #     url = url,
+        #     data = json.dumps(battery_data),
+        # )
+
+
+        print(response.status_code)
+
+        print(response.__dict__)
 
         if response.status_code in [201, 202, 203, 204, 205, 200]:
             message = "Battery Added Successfully"
-            return redirect("batter_crud")
+            return redirect("battery_crud")
 
         return render(request, 'accounts/add_battery.html')
     
