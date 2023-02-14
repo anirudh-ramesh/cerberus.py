@@ -1,17 +1,13 @@
 from django.urls import path, include
-from .views import OTP,Login, Logout, SignUP, AuthFormView, ServerList, UserList, UserAccessAPI, BatteryCRUD, \
+from .views import OTP,Login, Logout, SignUP, ServerList, UserList, UserAccessAPI, BatteryCRUD, \
     battery_allocate_swapping_station, battery_allocate_vehicle, battery_deallocate, battery_diagnostics, battery_immoblization, \
-    battery_live_data, battery_moblization, AddBattery, GetBattery, DeleteBattery
+    battery_live_data, battery_moblization, AddBattery, GetBattery, DeleteBattery, UpdateBattery
 from rest_framework.routers import DefaultRouter
-
 
 
 router=DefaultRouter()
 
-router.register("keycloak",AuthFormView,basename="auth-register")
-
 urlpatterns = [
-    # path('', include(router.urls)),
     path('', Login.as_view(), name="login"),
     path('logout/', Logout.as_view(), name="logout"),
     path('otp/', OTP.as_view(), name="otp"),
@@ -22,6 +18,8 @@ urlpatterns = [
     path("battery/", BatteryCRUD.as_view(), name="battery_crud"),
     path("add_battery/", AddBattery.as_view(), name="add_battery"),
     path("get_battery/", GetBattery.as_view(), name="get_battery"),
+    # post("batterydetails/", BatteryDetails.as_view(), name="battery_details"),
+    path("update_battery/", UpdateBattery.as_view(), name="update_battery"),
     path("deletebattery/", DeleteBattery.as_view(), name="deletebattery"),
     path("battery_allocate_swapping_station/<int:battery_pack_sr_no>/<int:assigned_asset_imei>", battery_allocate_swapping_station, name="battery_allocate_swapping_station"),
     path("battery_allocate_vehicle/<int:battery_pack_sr_no>/<int:assigned_asset_chassis_no>", battery_allocate_vehicle, name="battery_allocate_vehicle"),

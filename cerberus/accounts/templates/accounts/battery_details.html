@@ -9,9 +9,9 @@
 {% block menu %}
     <div class="row px-5 mt-5">
         <div class="col-md-12">
-            <label class="font-size-1">BATTERY {{ asset_tag }}</label>
+            <label class="font-size-1">BATTERY {{ battery_pack_sr_no }}</label>
             <button class="btn btn-danger text-alignment" data-bs-toggle="modal" data-bs-target="#delete_modal">Delete Battery</button>
-            <a href="#" class="button-1 btn btn-primary text-alignment mr-3">Update Battery</a>
+            <a href="{% url 'update_battery' %}" class="button-1 btn btn-primary text-alignment mr-3">Update Battery</a>
             
         </div>
     </div>
@@ -92,10 +92,10 @@
                     <p>Are You sure to delete Battery {{model_name}} {{ battery_pack_sr_no }}.</p>
                 </div>
                 <div class="modal-footer">
-                    <form>
+                    <form method="post">
                         {% csrf_token %}
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-danger" id = "delete_battery" data-model= {{ battery_pack_sr_no }}>Yes, Delete</button>
+                        <button type="submit" class="btn btn-danger" id = "delete_battery" data-model= {{ battery_pack_sr_no }}>Yes, Delete</button>
                     </form>
                 </div>
             </div>
