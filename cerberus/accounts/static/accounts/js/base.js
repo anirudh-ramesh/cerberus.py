@@ -14,19 +14,17 @@ function delete_battery(){
     console.log(csrftoken)
     $.ajax({
         type: "POST",
-        url: '/delete/',
+        url: '/deletebattery/',
+        headers:{'X-CSRFToken': csrftoken},
         data: {
-            'X-CSRFToken': csrftoken,
+            
             "battery_pack_sr_no":battery_pack_sr_no,
         },
         dataType: "json",
-        success: function (data) {
-            
+        success: function (data) {  
             alert("successfully Deleted")
         },
-        failure: function () {
-            alert("failure");
-        }
+        
     });
     
 }

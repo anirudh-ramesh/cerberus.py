@@ -640,7 +640,7 @@ class AddBattery(View):
 
         battery_data = {
             
-            "model_name": str(model_name),
+            "model_name": model_name,
             "battery_pack_sr_no": int(battery_pack_sr_no),
             "bms_type": str(bms_type),
             "warranty_start_date": str(warranty_start_date),
@@ -683,13 +683,23 @@ class DeleteBattery(View):
         return render(request, 'accounts/battery_details.html')
     
     def post(self, request):
+        
         battery_pack_sr_no = request.POST.get("battery_pack_sr_no")
-        url = "http://iot.igt-ev.com/battery/battery_pack_sr_no/:"+str(battery_pack_sr_no)
+
+        print(battery_pack_sr_no)
+        
+        params = {"battery_pack_sr_no":battery_pack_sr_no,}
+        
+        url = "http://iot.igt-ev.com/battery/battery_pack_sr_no/"+str(battery_pack_sr_no)
 
         response = requests.delete(
             url=url,
         )
-        if response.status_code == 200:
+
+        print("Deleter Request :------",response.status_code)
+
+        if response.status_code in [201, 202, 203, 204, 205, 200]:
+            print("page redirected")
             return redirect("battery_crud")
         
         return render(request, "accounts/battery_details.html")

@@ -92,7 +92,7 @@
                     <p>Are You sure to delete Battery {{model_name}} {{ battery_pack_sr_no }}.</p>
                 </div>
                 <div class="modal-footer">
-                    <form method="post">
+                    <form>
                         {% csrf_token %}
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-danger" id = "delete_battery" data-model= {{ battery_pack_sr_no }}>Yes, Delete</button>
