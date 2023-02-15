@@ -9,7 +9,7 @@ function logout(){
 }
 
 function delete_battery(){
-    var battery_pack_sr_no = $("#delete_battery").data("model")
+    var battery_pack_sr_no = $("#delete_battery").data("model");
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     console.log(csrftoken)
     $.ajax({
@@ -26,8 +26,8 @@ function delete_battery(){
         },
         
     });
-    
 }
+
 
 $(document).ready(function(){
 

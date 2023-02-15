@@ -14,11 +14,6 @@ from .serializers import SignupSerilizer,ValidateOTPSerializer,SendOTPSerilizer
 from rest_framework.decorators import action
 from accounts.models import Token
 
-import os
-
-from decouple import config
-
-
 
 class SignUP(View):
 
@@ -223,6 +218,7 @@ class Dashboard(View):
     
     def post(self, request):
         return render(request, 'accounts/dashboard.html')
+
 
 class AuthFormView(viewsets.ViewSet):
     
@@ -511,7 +507,7 @@ class UserList(ListView):
         return qs
 
 
-class BatteryCRUD(View):
+class BatteryList(View):
 
     def get(self, request):
         url = "http://iot.igt-ev.com/battery/"
@@ -539,96 +535,78 @@ class BatteryCRUD(View):
 
             battery_tag_list.append(row["asset_tag"])
 
-        return render(request, 'accounts/battery_packs.html', {"battery_tag_list":battery_tag_list,})
-        
-    def delete(self, request, battery_pack_sr_no):
-        global url
+        return render(request, 'accounts/battery_packs.html', {"battery_tag_list":battery_tag_list,}) 
     
-        battery_delete_data_url = url + "battery_pack_sr_no/:"+str(battery_pack_sr_no)
 
-        response = requests.delete(
-            url=battery_delete_data_url,
-        )
-        return HttpResponse("Battery Deleted")
-
-    def update(self,request, battery_pack_sr_no):
-
-        global url
-
-        battery_update_data_url = url+ "battery_pack_sr_no/:"+str(battery_pack_sr_no)
-        
-        response = requests.patch(
-            url = battery_update_data_url
-        )
-
-        return HttpResponse("Battery Updated")
-    
 class GetBattery(View):
     def get(self, request):
         return render(request, 'accounts/get_battery.html')
 
     def post(self, request):
+        print("Inside battery post")
         url = "http://iot.igt-ev.com/battery/"
         battery_pack_sr_no = request.POST.get("battery_pack_sr_no")
+
+        if battery_pack_sr_no:
     
-        response = requests.get(
-            url = url,
-            params={"battery_pack_sr_no":battery_pack_sr_no}
-        )
-        if response and response.status_code in [200, 201, 202, 203, 204]:
+            response = requests.get(
+                url = url,
+                params={"battery_pack_sr_no":battery_pack_sr_no}
+            )
 
-            print(response)
-            
-            dict_response = response.__dict__
-
-            if dict_response["_content"]:
-
-                dict_json_response = json.loads(dict_response["_content"])
-
-                battery_dict = {}
-
-                battery_dict["battery_pack_sr_no"] = dict_json_response["asset_tag"]
+            if response and response.status_code in [200, 201, 202, 203, 204]:
                 
-                for key, value in dict_json_response["model"].items():
-                    if key == "name":
-                        battery_dict["model_name"] = value
-                
-                for key, value in dict_json_response["created_at"].items():
-                    if key == "formatted":
-                        battery_dict["warranty_start_date"] = value
+                dict_response = response.__dict__
 
-                battery_dict["warranty_duration"] = dict_json_response["warranty_months"]
-                
-                for key ,value in dict_json_response["status_label"].items():
-                    if key == "name":
+                print("Content -----------------------", dict_response["_content"])
 
-                        battery_dict["status"] = value
-                
-                for key, value in dict_json_response["custom_fields"].items():
+                if dict_response["_content"]:
+
+                    dict_json_response = json.loads(dict_response["_content"])
+
+                    battery_dict = {}
+
+                    battery_dict["battery_pack_sr_no"] = dict_json_response["asset_tag"]
                     
-                    if key == "Battery Cell Chemistry":
-                        battery_dict["battery_cell_chemistry"] = value["value"]
-                        
-                    elif key == "Battery Pack Nominal Voltage":
-                        battery_dict["battery_pack_nominal_voltage"] = value["value"]
+                    for key, value in dict_json_response["model"].items():
+                        if key == "name":
+                            battery_dict["model_name"] = value
+                    
+                    for key, value in dict_json_response["created_at"].items():
+                        if key == "formatted":
+                            battery_dict["warranty_start_date"] = value
 
-                    elif key == "Battery Pack Nominal Charge Capacity":
-                        battery_dict["battery_pack_nominal_charge_capacity"] = value["value"]
-                        
-                    elif key == "BMS Type":
-                        battery_dict["bms_type"] = value["value"]
-                        
-                    elif key == "Battery Cell Type":
-                        battery_dict["battery_cell_type"] = value["value"]
+                    battery_dict["warranty_duration"] = dict_json_response["warranty_months"]
+                    
+                    for key ,value in dict_json_response["status_label"].items():
+                        if key == "name":
 
-                    elif key == "Battery Pack Casing":
-                        battery_dict["battery_pack_casing"] = value["value"]
+                            battery_dict["status"] = value
+                    
+                    for key, value in dict_json_response["custom_fields"].items():
+                        
+                        if key == "Battery Cell Chemistry":
+                            battery_dict["battery_cell_chemistry"] = value["value"]
+                            
+                        elif key == "Battery Pack Nominal Voltage":
+                            battery_dict["battery_pack_nominal_voltage"] = value["value"]
 
-                return render(request, 'accounts/battery_details.html', battery_dict)
+                        elif key == "Battery Pack Nominal Charge Capacity":
+                            battery_dict["battery_pack_nominal_charge_capacity"] = value["value"]
+                            
+                        elif key == "BMS Type":
+                            battery_dict["bms_type"] = value["value"]
+                            
+                        elif key == "Battery Cell Type":
+                            battery_dict["battery_cell_type"] = value["value"]
+
+                        elif key == "Battery Pack Casing":
+                            battery_dict["battery_pack_casing"] = value["value"]
+
+                    return render(request, 'accounts/battery_details.html', battery_dict)
         
         return render(request, 'accounts/get_battery.html')
     
-
 
 class AddBattery(View):
     def get(self, request):
@@ -678,7 +656,6 @@ class AddBattery(View):
         return render(request, 'accounts/add_battery.html')
     
 
-
 class DeleteBattery(View):
     
     def post(self, request):
@@ -698,10 +675,13 @@ class DeleteBattery(View):
         return render(request, "accounts/battery_details.html")
     
 
-
 class UpdateBattery(View):
 
     def get(self, request):
+
+        battery_pack_sr_no = request.POST.get("battery_pack_sr_no")
+
+        print("Battery Pack Sr No : ------------", battery_pack_sr_no)
 
         return render(request, 'accounts/update_battery.html')
     
@@ -745,118 +725,3 @@ class UpdateBattery(View):
             return redirect('get_battery')
 
         return render(request, 'accounts/update_battery.html')
-        
-    
-
-def battery_diagnostics(request, battery_pack_sr_no):
-    if request.method == "POST":
-        url = "http://iot.igt-ev.com/battery/diagnostics/"
-        data = {
-            "battery_pack_sr_no":battery_pack_sr_no,
-        }
-
-        response = requests.post(
-            url= url,
-            data = data,
-        )
-
-        return HttpResponse("Battery Diagnostics")
-    
-
-
-def battery_live_data(request, chassis_no):
-    if request.method == "POST":
-        url = "http://iot.igt-ev.com/battery/live_data/"
-        data = {
-            "chassis_no":chassis_no,
-        }
-
-        response = requests.post(
-            url= url,
-            data = data,
-        )
-
-        return HttpResponse("Battery live data")
-    
-
-
-def battery_allocate_swapping_station(request, battery_pack_sr_no,assigned_asset_imei):
-    if request.method == "POST":
-        url = "http://iot.igt-ev.com/battery/swapping_station/"
-        data = {
-            "battery_pack_sr_no":battery_pack_sr_no,
-            "assigned_asset_imei" : assigned_asset_imei,
-        }
-
-        response = requests.post(
-            url= url,
-            data = data,
-        )
-
-        return HttpResponse("Battery Swapping station")
-    
-
-
-def battery_allocate_vehicle(request, battery_pack_sr_no, assigned_asset_chassis_no):
-    if request.method == "POST":
-        url = "http://iot.igt-ev.com/battery/allocate/vehicle"
-        data = {
-            "battery_pack_sr_no":battery_pack_sr_no,
-            "assigned_asset_chassis_no":assigned_asset_chassis_no,
-        }
-
-        response = requests.post(
-            url= url,
-            data = data,
-        )
-
-        return HttpResponse("Battery Allocate Vehicle")
-    
-
-
-def battery_deallocate(request, battery_pack_sr_no):
-    if request.method == "POST":
-        url = "http://iot.igt-ev.com/battery/deallocate/"
-        data = {
-            "battery_pack_sr_no":battery_pack_sr_no,
-        }
-
-        response = requests.post(
-            url= url,
-            data = data,
-        )
-
-        return HttpResponse("Battery deallocate")
-    
-    
-
-def battery_moblization(request, battery_pack_sr_no):
-    if request.method == "POST":
-        url = "http://iot.igt-ev.com/battery/moblization/"
-        data = {
-            "battery_pack_sr_no":battery_pack_sr_no,
-        }
-
-        response = requests.post(
-            url= url,
-            data = data,
-        )
-        return HttpResponse("Battery moblization")
-    
-
-
-def battery_immoblization(request, battery_pack_sr_no):
-    if request.method == "POST":
-        url = "http://iot.igt-ev.com/battery/immoblization/"
-        data = {
-            "battery_pack_sr_no":battery_pack_sr_no,
-        }
-
-        response = requests.post(
-            url= url,
-            data = data,
-        )
-
-        return HttpResponse("Battery Immoblization")
-
-
