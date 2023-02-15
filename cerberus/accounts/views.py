@@ -703,8 +703,6 @@ class UpdateBattery(View):
 
     def get(self, request):
 
-        
-
         return render(request, 'accounts/update_battery.html')
     
     def post(self, request):
