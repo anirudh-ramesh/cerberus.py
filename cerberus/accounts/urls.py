@@ -17,7 +17,7 @@ urlpatterns = [
     path("battery/", BatteryList.as_view(), name="battery_crud"),
     path("add_battery/", AddBattery.as_view(), name="add_battery"),
     path("get_battery/", GetBattery.as_view(), name="get_battery"),
-    path("update_battery/", UpdateBattery.as_view(), name="update_battery"),
+    path("update_battery/<str:battery_pack_sr_no>/", UpdateBattery.as_view(), name="update_battery"),
     path("deletebattery/", DeleteBattery.as_view(), name="deletebattery"),
 
 ]

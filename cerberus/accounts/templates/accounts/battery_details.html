@@ -11,7 +11,7 @@
         <div class="col-md-12">
             <label class="font-size-1">BATTERY {{ battery_pack_sr_no }}</label>
             <button class="btn btn-danger text-alignment" data-bs-toggle="modal" data-bs-target="#delete_modal">Delete Battery</button>
-            <a href="{% url 'update_battery' %}" class="button-1 btn btn-primary text-alignment mr-3" id= "update_battery" data-model_name = "{{ model_name}}" data-battery_pack_sr_no="{{ battery_pack_sr_no }}">Update Battery</a>
+            <a href="{% url 'update_battery' battery_pack_sr_no %}" class="button-1 btn btn-primary text-alignment mr-3" id= "update_battery" data-model_name = "{{ model_name}}" data-battery_pack_sr_no="{{ battery_pack_sr_no }}">Update Battery</a>
             
         </div>
     </div>
