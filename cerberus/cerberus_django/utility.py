@@ -4,55 +4,55 @@ import requests
 import json
 from datetime import datetime,timedelta
 from rest_framework.response import Response
-from cerberus_django.settings import REDIS_CONNECTION,SECRET_KEY,DEFAULT_ALGORITHM
+from cerberus_django.settings import SECRET_KEY,DEFAULT_ALGORITHM
 from django_keycloak.models import Server, Realm, Client
 
 import jwt
 
 
-def check_redis_key(key):
-    if REDIS_CONNECTION.get(key) != None:
-        return True
-    else:
-        return False
+# def check_redis_key(key):
+#     if REDIS_CONNECTION.get(key) != None:
+#         return True
+#     else:
+#         return False
 
-def json_token_converter_dict(obj,):
-    tmpObj = json.loads(obj)
-    data=(tmpObj)
-    return data
+# def json_token_converter_dict(obj,):
+#     tmpObj = json.loads(obj)
+#     data=(tmpObj)
+#     return data
 
-def dict_converter_json(obj):
-    tempobj=json.dumps(obj)
-    return tempobj
+# def dict_converter_json(obj):
+#     tempobj=json.dumps(obj)
+#     return tempobj
 
-def create_redis_value(key,token):
+# def create_redis_value(key,token):
     
-    if check_redis_key(key) == True:
-        data=REDIS_CONNECTION.get(key)
-        tempobj=json_token_converter_dict(obj=data)
-        tempobj.update({len(tempobj.keys()):token})
-        data=dict_converter_json(obj=tempobj)
-        return data
+#     if check_redis_key(key) == True:
+#         data=REDIS_CONNECTION.get(key)
+#         tempobj=json_token_converter_dict(obj=data)
+#         tempobj.update({len(tempobj.keys()):token})
+#         data=dict_converter_json(obj=tempobj)
+#         return data
     
-    else:
-        data={0:token}
-        data=dict_converter_json(obj=data)
-        return data
+#     else:
+#         data={0:token}
+#         data=dict_converter_json(obj=data)
+#         return data
 
-def set_redis_key(id, return_token=None, return_if_set=None):
+# def set_redis_key(id, return_token=None, return_if_set=None):
     
-    token = jwt.encode({"ID":id,"DATETIME": datetime.now().isoformat()}, SECRET_KEY, algorithm=DEFAULT_ALGORITHM)
+#     token = jwt.encode({"ID":id,"DATETIME": datetime.now().isoformat()}, SECRET_KEY, algorithm=DEFAULT_ALGORITHM)
     
-    if_set = REDIS_CONNECTION.setex(str(id),144000,create_redis_value(key =id, token = token))
+#     if_set = REDIS_CONNECTION.setex(str(id),144000,create_redis_value(key =id, token = token))
 
-    if return_token == True:
-        return token
+#     if return_token == True:
+#         return token
 
-    elif return_if_set == True and return_token == True:
-        return token, if_set
+#     elif return_if_set == True and return_token == True:
+#         return token, if_set
 
-    else:
-        return if_set
+#     else:
+#         return if_set
 
 def get_keycloak_access_token():
 
@@ -339,62 +339,62 @@ def phoneNo_payload(requested_email_id,requested_phone_No,password,is_phone_veri
             }}   
     return payload 
 
-def remove_redis_token(redis_key,token):
-    data_byte=REDIS_CONNECTION.get(redis_key)
-    if data_byte == None:
-        return True
-    decoded_data= data_byte.decode('UTF-8')
-    decoded_data = json_token_converter_dict(obj=decoded_data)
-    rem_key=None
-    flag=False
-    for key in decoded_data:
-        if decoded_data[key] == token:
-            rem_key=key
-            flag=True
-    if flag == True:
-        decoded_data.pop(rem_key)
-        value=dict_converter_json(obj=decoded_data)
-        REDIS_CONNECTION.setex(redis_key,144000,value=value)
-    return flag
+# def remove_redis_token(redis_key,token):
+#     data_byte=REDIS_CONNECTION.get(redis_key)
+#     if data_byte == None:
+#         return True
+#     decoded_data= data_byte.decode('UTF-8')
+#     decoded_data = json_token_converter_dict(obj=decoded_data)
+#     rem_key=None
+#     flag=False
+#     for key in decoded_data:
+#         if decoded_data[key] == token:
+#             rem_key=key
+#             flag=True
+#     if flag == True:
+#         decoded_data.pop(rem_key)
+#         value=dict_converter_json(obj=decoded_data)
+#         REDIS_CONNECTION.setex(redis_key,144000,value=value)
+#     return flag
 
-def check_session(request,return_Id=None):
-    """
-    For check Session in Redis Connection and return True or False
-    return_id: if return_id is True  Return id inside the tooken
+# def check_session(request,return_Id=None):
+#     """
+#     For check Session in Redis Connection and return True or False
+#     return_id: if return_id is True  Return id inside the tooken
 
-    """
-    token=request.META.get("HTTP_TOKEN")
-    if token == None:
-        if return_Id==True:
-            return False,None
-        else:
-            return False
-    token_payload       =           jwt.decode(token,SECRET_KEY,algorithms=[DEFAULT_ALGORITHM])
-    current_id          =           token_payload.get("ID")
-    data_byte           =           REDIS_CONNECTION.get(current_id)
-    if data_byte == None:
-        if return_Id == True:
-            return False,current_id
-        else:
-            False
-    decoded_data= data_byte.decode('UTF-8')
-    decoded_data = json_token_converter_dict(obj=decoded_data)
-    flag=False    
-    for key,value in decoded_data.items():
-        if(value == token):
-            token_payload = jwt.decode(value,SECRET_KEY,algorithms = [DEFAULT_ALGORITHM])
-            data_time=datetime.fromisoformat(token_payload.get("DATETIME"))
-            present_time=datetime.now()
-            if (present_time-data_time) > timedelta(days=1):
-                remove_redis_token(redis_key=current_id,token=token)
-                flag == False 
-                break
-            else:
-                flag=True
-    if return_Id == True:
-        return flag,current_id
-    else:
-        return flag
+#     """
+#     token=request.META.get("HTTP_TOKEN")
+#     if token == None:
+#         if return_Id==True:
+#             return False,None
+#         else:
+#             return False
+#     token_payload       =           jwt.decode(token,SECRET_KEY,algorithms=[DEFAULT_ALGORITHM])
+#     current_id          =           token_payload.get("ID")
+#     data_byte           =           REDIS_CONNECTION.get(current_id)
+#     if data_byte == None:
+#         if return_Id == True:
+#             return False,current_id
+#         else:
+#             False
+#     decoded_data= data_byte.decode('UTF-8')
+#     decoded_data = json_token_converter_dict(obj=decoded_data)
+#     flag=False    
+#     for key,value in decoded_data.items():
+#         if(value == token):
+#             token_payload = jwt.decode(value,SECRET_KEY,algorithms = [DEFAULT_ALGORITHM])
+#             data_time=datetime.fromisoformat(token_payload.get("DATETIME"))
+#             present_time=datetime.now()
+#             if (present_time-data_time) > timedelta(days=1):
+#                 remove_redis_token(redis_key=current_id,token=token)
+#                 flag == False 
+#                 break
+#             else:
+#                 flag=True
+#     if return_Id == True:
+#         return flag,current_id
+#     else:
+#         return flag
 
 
 
