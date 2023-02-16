@@ -95,7 +95,10 @@
 }
 
 .box{
-    margin-top: 10%;
+    padding-top: 10%;
+    padding-left: 8%;
+    padding-right: 8%;
+    background-color: #FFFFFF;
 }
 
 .hr-lines{
@@ -168,4 +171,9 @@
     border-radius: 20px;
     height: 250px;
     padding: 20px;
+}
+
+.slide_show_col{
+    background: linear-gradient(90deg, #FFFFFF 50%, #052F4F 50%);
+    
 }

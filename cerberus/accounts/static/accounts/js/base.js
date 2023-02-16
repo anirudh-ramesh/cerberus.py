@@ -1,9 +1,19 @@
 function logout(){
     
     var access_token = localStorage.getItem("access_token")
-    post_data = {CSRF: getCSRFTokenValue(), "access_token":access_token}
-    $.post("/logout/", post_data, function(result){
-        alert("Logout successfully");
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+    $.ajax({
+        type: "POST",
+        url: '/logout/',
+        headers:{'X-CSRFToken': csrftoken},
+        data: {
+            "access_token":access_token,
+        },
+        dataType: "json",
+        success: function (data) {  
+            alert("successfully Logged out")
+        },
         
     });
 }

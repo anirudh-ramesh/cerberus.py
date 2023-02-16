@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from cerberus_django.messages import ERROR_USER_DOESNT_EXIST
 from cerberus_django.utility import is_user_exist,get_user_obj,email_payload,phoneNo_payload
 from accounts.models import Token
-
+from accounts.serializers import SignupSerilizer
 
 class SignUP(View):
 
@@ -151,8 +151,6 @@ class Login(View):
 
             client = Client.objects.get(realm=realm)
 
-            print(user_obj.get('username'), requested_password)
-
             user_data = {
                     "username" : user_obj.get('username'),
                     "password" :requested_password,
@@ -183,6 +181,8 @@ class Logout(View):
 
     def post(self, request):
 
+        print("In logout post func")
+
         access_token = request.POST.get("access_token")
 
         if access_token:
@@ -201,11 +201,21 @@ class Logout(View):
 
         client = Client.objects.get(realm=realm)
 
+        user_data = {
+                
+                "client_id":client.client_id,
+                "client_secret": client.secret,
+                "grant_type" : "password",
+            }
+
         logout_url = f"{server}auth/realms/{realm}/protocol/openid-connect/logout"
 
         response = requests.post(
             url=logout_url,
+            data=user_data,
         )
+
+        print(response.__dict__)
 
         return render(request, 'accounts/login.html')
 

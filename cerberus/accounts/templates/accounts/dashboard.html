@@ -7,6 +7,7 @@
     <script type="text/javascript" href="{% static 'accounts/js/base.js' %}"></script>
     <script>
         if(!localStorage.getItem("access_token")){
+            console.log(localStorage.getItem("access_token"))
             window.location = '/'
             localStorage.setItem("access_token", "{{access_token}}")
         }
@@ -20,9 +21,12 @@
             <label class="font-size-1">DASHBOARD</label>
         </div>
         <div class="col-md-1">
-            <button class="btn btn-danger" id="logout_btn">
-                logout
-            </button>
+            <form method="post">
+                {% csrf_token %}
+                <button class="btn btn-danger" id="logout_btn">
+                    logout
+                </button>
+            </form>
         </div>
     </div>
     <div class="row px-5 mt-3">
