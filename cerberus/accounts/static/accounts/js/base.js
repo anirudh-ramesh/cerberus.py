@@ -38,6 +38,20 @@ function delete_battery(){
     });
 }
 
+
+function password_hide(){
+    $("#password").prop("type", "password");
+    $("#hide_password").hide();
+    $("#show_password").show();
+}
+
+
+function password_show(){
+    $("#password").prop("type", "text");
+    $("#hide_password").show();
+    $("#show_password").hide();
+}
+
 function update_battery(){
     
     var battery_pack_sr_no = $(this).data("battery_pack_sr_no")
@@ -49,9 +63,12 @@ function update_battery(){
 
 
 $(document).ready(function(){
+    $("#hide_password").hide();
 
     $(document).on("click", "#logout_btn", logout);
     $(document).on("click", "#delete_battery", delete_battery);
     $(document).on("click", "#update_battery", update_battery);
+    $(document).on("click", "#show_password", password_show);
+    $(document).on("click", "#hide_password", password_hide);
     
 });
