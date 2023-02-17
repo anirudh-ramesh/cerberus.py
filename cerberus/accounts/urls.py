@@ -1,5 +1,5 @@
 from django.urls import path, include
-from accounts.views import OTP,Login, Logout, SignUP, ServerList, UserList, UserAccessAPI, BatteryList,\
+from accounts.views import OTP,Login, Logout, SignUP, ServerList, UserAccessAPI, BatteryList,\
      AddBattery, GetBattery, DeleteBattery, UpdateBattery
 from rest_framework.routers import DefaultRouter
 
@@ -12,7 +12,6 @@ urlpatterns = [
     path('otp/', OTP.as_view(), name="otp"),
     path('signup', SignUP.as_view(), name="signup"),
     path('dashboard/', ServerList.as_view(), name="dashboard"),
-    path('user/', UserList.as_view(), name="user_list"),
     path("token/", UserAccessAPI.as_view(), name="user_access"),
     path("battery/", BatteryList.as_view(), name="battery_crud"),
     path("add_battery/", AddBattery.as_view(), name="add_battery"),

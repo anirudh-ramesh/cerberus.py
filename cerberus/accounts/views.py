@@ -13,6 +13,7 @@ from cerberus_django.utility import is_user_exist,get_user_obj,email_payload,pho
 from accounts.models import Token
 from accounts.serializers import SignupSerilizer
 
+
 class SignUP(View):
 
     def get(self, request):
@@ -120,7 +121,6 @@ class Login(View):
     def post(self, request):
 
         requested_phone_No=request.POST.get("phoneNo")
-        
         requested_email_id=request.POST.get("email")
         requested_password=request.POST.get("password")
 
@@ -166,8 +166,6 @@ class Login(View):
             )
 
             access_token=json.loads(response.text)['access_token']
-
-            print(type(access_token))
 
             Token.objects.create(token = access_token)
 

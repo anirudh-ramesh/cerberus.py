@@ -63,6 +63,13 @@
 
 .button-1{
     background: linear-gradient(186.75deg, #0D0106 -353.09%, #052F4F 393.06%);
+    color:#FFFFFF;
+}
+
+.button-1:hover{
+    background: linear-gradient(186.75deg, #0D0106 -353.09%, #052F4F 393.06%);
+    color:#FFFFFF;
+
 }
 
 .button-2{
@@ -177,3 +184,29 @@
     background: linear-gradient(90deg, #FFFFFF 50%, #052F4F 50%);
     
 }
+
+.password_div {
+    width: 100%;
+    position: relative;
+}
+
+#password {
+    width: 100%;
+    outline: none;
+    
+    border-radius: 5px;
+}
+
+.clear_btn {
+    position: absolute;
+    top: 0;
+    border-radius: 5px;
+    right: 0px;
+    z-index: 2;
+    border: none;
+    top: 40%;
+    cursor: pointer;
+    transform: translateX(2px);
+}
+	
+
