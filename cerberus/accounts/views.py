@@ -457,7 +457,7 @@ class DeleteBattery(View):
 class UpdateBattery(View):
     
     def get(self, request, battery_pack_sr_no):
-
+        print("ssssssss3333333333333")
         url = "http://iot.igt-ev.com/battery/"
 
         if battery_pack_sr_no:
@@ -535,7 +535,7 @@ class UpdateBattery(View):
         if model_name:
             battery_data["model_name"]= model_name
         if battery_pack_sr_no:
-            battery_data["battery_pack_sr_no"] =  int(battery_pack_sr_no)
+            battery_data["battery_pack_sr_no"] =  str(battery_pack_sr_no)
         if bms_type:
             battery_data["bms_type"] = str(bms_type)
         if warranty_start_date:
@@ -560,7 +560,7 @@ class UpdateBattery(View):
         headers = {"Content-Type": "application/json; charset=utf-8"}
 
         url = "http://iot.igt-ev.com/battery/battery_pack_sr_no/"+str(battery_pack_sr_no)
-
+        print("nfghfgfgfffffffffffffffffffff",url)
         response = requests.request("PATCH", url, headers=headers, data=json.dumps(battery_data), json=json.dumps(battery_data))
 
         print("--->",response)
