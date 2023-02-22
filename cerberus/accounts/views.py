@@ -13,6 +13,8 @@ from cerberus_django.utility import is_user_exist,get_user_obj,email_payload,pho
 from accounts.models import Token
 from accounts.serializers import SignupSerilizer
 
+from django.contrib import messages
+
 
 class SignUP(View):
 
@@ -124,6 +126,7 @@ class Login(View):
         requested_email_id=request.POST.get("email")
         requested_password=request.POST.get("password")
 
+
         if requested_phone_No==None and requested_email_id==None:
             return Response("invalid input")
         
@@ -168,6 +171,8 @@ class Login(View):
             access_token=json.loads(response.text)['access_token']
 
             Token.objects.create(token = access_token)
+
+            print(access_token)
 
             return render(request, 'accounts/dashboard.html', {"access_token":access_token})
             
@@ -333,17 +338,16 @@ class GetBattery(View):
                 params={"battery_pack_sr_no":battery_pack_sr_no}
             )
 
-            if response and response.status_code in [200, 201, 202, 203, 204]:
-                
-                dict_response = response.__dict__
+            
+            dict_response = response.__dict__
 
-                print("Content -----------------------", dict_response["_content"])
+            if dict_response["_content"]:
 
-                if dict_response["_content"]:
+                dict_json_response = json.loads(dict_response["_content"])
 
-                    dict_json_response = json.loads(dict_response["_content"])
+                battery_dict = {}
 
-                    battery_dict = {}
+                if response.status_code in [200, 201, 202, 203, 204]:
 
                     battery_dict["battery_pack_sr_no"] = dict_json_response["asset_tag"]
                     
@@ -383,7 +387,13 @@ class GetBattery(View):
                             battery_dict["battery_pack_casing"] = value["value"]
 
                     return render(request, 'accounts/battery_details.html', battery_dict)
-        
+
+                elif response.status_code == 404:
+
+                    messages.error(request, f'" {battery_pack_sr_no} " {dict_json_response["messages"]} !! Please try with another battery pack serial no.')
+
+                return render(request, 'accounts/get_battery.html')
+             
         return render(request, 'accounts/get_battery.html')
     
 
@@ -457,7 +467,7 @@ class DeleteBattery(View):
 class UpdateBattery(View):
     
     def get(self, request, battery_pack_sr_no):
-        print("ssssssss3333333333333")
+        
         url = "http://iot.igt-ev.com/battery/"
 
         if battery_pack_sr_no:
@@ -474,6 +484,8 @@ class UpdateBattery(View):
                 dict_json_response = json.loads(dict_response["_content"])
 
                 battery_dict = {}
+
+                print("dict json response -----------------------------", dict_json_response)
 
                 battery_dict["battery_pack_sr_no"] = dict_json_response["asset_tag"]
                 
@@ -512,11 +524,11 @@ class UpdateBattery(View):
                     elif key == "Battery Pack Casing":
                         battery_dict["battery_pack_casing"] = value["value"]
 
-                print("22222222222222222222",battery_dict)
+                print("Battery Dict -------------------------------------",battery_dict)
             return render(request, 'accounts/update_battery.html', battery_dict)
     
     def post(self, request, battery_pack_sr_no):
-        # print("22223333311111",request.POST)
+        
         model_name = request.POST.get("model_name", None)
         battery_pack_sr_no = request.POST.get("battery_pack_sr_no", None)
         bms_type = request.POST.get("bms_type", None)
@@ -530,8 +542,7 @@ class UpdateBattery(View):
         battery_cell_type = request.POST.get("battery_cell_type", None)
 
         battery_data = {}
-        # print("<<<<   battery data   >>>>",battery_data,model_name,battery_pack_sr_no,bms_type,warranty_start_date,)
-        # print("<<<<   battery data   >>>>",model_name,battery_pack_sr_no,bms_type,warranty_start_date,status)
+        
         if model_name:
             battery_data["model_name"]= model_name
         if battery_pack_sr_no:
@@ -555,17 +566,14 @@ class UpdateBattery(View):
         if battery_cell_type:
             battery_data["battery_cell_type"] = str(battery_cell_type)
         
-
-        print(">>>>>>>>>>>>",battery_data)
         headers = {"Content-Type": "application/json; charset=utf-8"}
 
         url = "http://iot.igt-ev.com/battery/battery_pack_sr_no/"+str(battery_pack_sr_no)
-        print("nfghfgfgfffffffffffffffffffff",url)
+
         response = requests.request("PATCH", url, headers=headers, data=json.dumps(battery_data), json=json.dumps(battery_data))
 
-        print("--->",response)
-        
-        print('ssssssssssssssssssssssssssssss')
+        print(response.__dict__)
+
         if response.status_code in [201, 202, 203, 204, 205, 200]:
             return redirect('get_battery')
       
