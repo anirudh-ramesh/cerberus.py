@@ -11,17 +11,46 @@
 {% block menu %}
 <div class="col-md-10 ">
 <div class="row d-flex justify-content-around mt-5">
-   <div class="col-md-2 py-4 px-4 bg-dark" id="battery-status-box">
-       <label>total charge</label>
+   <div class="col-md-2 " id="battery-status-box">
+       <h6 class="battery-status-box-label">ACTIVE BATTERY</h6>
        <hr>
+       <h6 class="battery-status-box-label">4 </h6>
    </div>
-   <div class="col-md-2 py-4 px-4" style="background-color: blue; text-align: center; border-radius: 10px; height: 150px; border-color: black;border-style: solid; border: 1px solid black;">
-       <label class="mt-4" style="padding-top: 8px;">total charge</label>
+   <div class="col-md-2 " id="battery-status-box">
+      <h6 class="battery-status-box-label" >INAACTIVE BATTERY</h6>
+       <hr>
+       <h6 class="battery-status-box-label">0 </h6>
    </div>
-   <div class="col-md-2 py-4 px-4" style="background-color: blue; text-align: center; border-radius: 10px; height: 150px; border-color: black;border-style: solid; border: 1px solid black;">
-       <label class="mt-4" style="padding-top: 8px;">total charge</label>
+   <div class="col-md-2  " id="battery-status-box">
+      <h6 class="battery-status-box-label">DAMAGED BATTERY</h6>
+       <hr>
+       <h6 class="battery-status-box-label">0</h6>
    </div>
 </div>
+<hr class="battery-status-box-break">
+<div class="row ">
+   <div class="col-md-12 d-flex flex-row justify-content-between">
+      <div class="col-md-2">
+         <form method="post">
+            {% csrf_token %}
+            <button class="btn btn-primary" id="Add-Battery-Data">
+               Add-Battery-Data
+            </button>
+         </form>
+      </div>
+      <div class="col-md-4 input-group">
+         <form method="post" class="d-flex flex-row" id="view-battery-search-form">
+            {% csrf_token %}
+         <input type="search" class="form-control rounded" id="view-battery-search-bar" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+         <button type="button" class="btn btn-primary" id="view-battery-search-button">search</button>
+         <form>
+       </div>
+   </div>
+</div>   
+
+<h3 class="d-flex justify-content-center pt-4"> Battery Data</h3>
+
+
 <table  class="table_view_battery" style="border:1px solid black">
     <tr >
        <th>Battery Serial Number</th>
