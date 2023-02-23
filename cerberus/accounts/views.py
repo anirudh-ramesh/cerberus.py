@@ -568,11 +568,48 @@ class UpdateBattery(View):
         print('ssssssssssssssssssssssssssssss')
         if response.status_code in [201, 202, 203, 204, 205, 200]:
             return redirect('get_battery')
-      
+        
         return render(request, 'accounts/update_battery.html')
 
 
+class ViewAllBattery(View):
+    
+    def get(self,request):
+        url = "http://iot.igt-ev.com/battery/all"
+        response = requests.get(
+                url = url   
+                )
+        
+        dict_response = response.__dict__
 
+        dict_json_response = json.loads(dict_response["_content"])
+        list_of_battery=[]
+        for i in dict_json_response:
+            temp_dict={}
+            temp_dict['Battery_Serial_Number']=i.get('Battery Serial Number')
+            temp_dict['Model_Name']=i.get('Model Name')
+            temp_dict['Assigned_owner']=i.get('Assigned owner')
+            temp_dict['IOT_IMEI_No']=i.get('IOT IMEI No')
+            temp_dict['Battery_type']=i.get('Battery type')
+            temp_dict['BMS_type']=i.get('BMS type')
+            temp_dict['IOT_type']=i.get('IOT type')
+            temp_dict['Sim_Number']=i.get('Sim Number')
+            temp_dict['Warranty_Start_Date']=i.get('Warranty Start Date')
+            temp_dict['Warrenty_End_Date']=i.get('Warrenty End Date')
+            temp_dict['Status']=i.get('Status')
+            temp_dict['Battery_Cell_Chemistry']=i.get('Battery Cell Chemistry')
+            temp_dict['Battery_pack_Nominal_Voltage']=i.get('Battery pack Nominal Voltage')
+            temp_dict['Battery_Pack_Capacity']=i.get('Battery Pack Capacity')
+            temp_dict['Battery_Cell_Type']=i.get('Battery Cell Type')
+            
+            
+            
+            
+            list_of_battery.append(temp_dict)
+
+        print(list_of_battery)    
+        return render(request, 'accounts/view_all_battery.html',{"battery_data":list_of_battery})
+        
 # class UpdateBattery(View):
 
 #     def get(self, request, battery_pack_sr_no):

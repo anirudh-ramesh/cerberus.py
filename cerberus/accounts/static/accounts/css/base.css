@@ -208,5 +208,35 @@
     cursor: pointer;
     transform: translateX(2px);
 }
-	
 
+/* view_all_battery css    start */
+
+
+#battery-status-box{
+    background-color: rgb(0, 255, 204); 
+    text-align: center; 
+    border-radius: 10px; 
+    height: 150px; 
+    border-color: black;
+    border-style: solid; 
+    border: 1px solid black;
+}
+
+
+.table_view_battery{
+    border: 1px solid black;
+}
+table{
+    border-right:1px solid black ;
+}
+th{
+    border-right:1px solid black ;
+}
+tr{
+    border-right:1px solid black;
+}
+
+
+
+
+/* view_all_battery css    end */

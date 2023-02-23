@@ -1,0 +1,67 @@
+{% extends 'menu.html' %}
+{% load static %}
+{% block head %}
+    <title>DASHBOARD | View all battery</title>
+    <link rel="stylesheet" href="{% static 'accounts/css/base.css' %}">
+   
+
+{% endblock head %}
+
+
+{% block menu %}
+<div class="col-md-10 ">
+<div class="row d-flex justify-content-around mt-5">
+   <div class="col-md-2 py-4 px-4 bg-dark" id="battery-status-box">
+       <label>total charge</label>
+       <hr>
+   </div>
+   <div class="col-md-2 py-4 px-4" style="background-color: blue; text-align: center; border-radius: 10px; height: 150px; border-color: black;border-style: solid; border: 1px solid black;">
+       <label class="mt-4" style="padding-top: 8px;">total charge</label>
+   </div>
+   <div class="col-md-2 py-4 px-4" style="background-color: blue; text-align: center; border-radius: 10px; height: 150px; border-color: black;border-style: solid; border: 1px solid black;">
+       <label class="mt-4" style="padding-top: 8px;">total charge</label>
+   </div>
+</div>
+<table  class="table_view_battery" style="border:1px solid black">
+    <tr >
+       <th>Battery Serial Number</th>
+       <th>Model Name</th>
+       <th>Assigned owner</th>
+       <th>IOT IMEI No</th>
+       <th>Battery type</th>
+       <th>BMS type</th>
+       <th>IOT type</th>
+       <th>Sim Number</th>
+       <th>Warranty Start Date</th>
+       <th>Warrenty End Date</th>
+       <th>Status</th>
+       <th>Battery Cell Chemistry</th>
+       <th>Battery pack Nominal Voltage</th>
+       <th>Battery Pack Capacity</th>
+       <th>Battery Cell Type</th>
+       <th>Action</th>
+
+    {% for tag in battery_data %}
+    <tr>
+    <td>{{tag.Battery_Serial_Number}}</td>
+    <td>{{tag.Model_Name}}</td>
+    <td>{{tag.Assigned_owner}}</td>
+    <td>{{tag.IOT_IMEI_No}}</td>
+    <td>{{tag.Battery_type}}</td>
+    <td>{{tag.BMS_type}}</td>
+    <td>{{tag.IOT_type}}</td>
+    <td>{{tag.Sim_Number}}</td>
+    <td>{{tag.Warranty_Start_Date}}</td>
+    <td>{{tag.Status}}</td>
+    <td>{{tag.Battery_Cell_Chemistry}}</td>
+    <td>{{tag.Battery_pack_Nominal_Voltage}}</td>
+    <td>{{tag.Battery_Pack_Capacity}}</td>
+  
+    
+    <td>Action</td> 
+    </tr>
+    {% endfor %}
+    
+   </table>
+</div>
+{% endblock menu %}   
