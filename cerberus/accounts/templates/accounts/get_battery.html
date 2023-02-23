@@ -9,12 +9,24 @@
 
 {% block menu %}
     <div class="row px-5 py-5 mt-5">
-        <form method="post">
+        {% if messages %}
+
+            {% for message in messages %}
+                <label class="alert-danger px-5 py-3 rounded"> {{ message }}</label>
+            {% endfor %}
+        {% endif %}
+        <form method="post" class="bg-white p-5">
             {% csrf_token %}
             <div class="col-md-6">
                 <label>Battery Pack Sr No :</label>
-                <input type="text" class="form-control" placeholder="Enter battery pack sr no.." name="battery_pack_sr_no">
-                <button class="btn btn-default button-2">Get Details</button>
+                <div class="row">
+                    <div class="col-md-8">
+                        <input type="text" class="form-control button-2" placeholder="Enter battery pack sr no.." name="battery_pack_sr_no">
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-default button-2 w-100">Get Details</button>
+                    </div>
+                </div>
             </div>
         </form>
         <div class="col-md-6">
