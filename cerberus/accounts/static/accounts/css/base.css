@@ -223,13 +223,9 @@
     border: 1px solid rgb(63, 203, 175);
 }
 .battery-status-box-label{
-    font-size: 31px;
-    
-
+    font-size: 23px;
     color:#fafafa;
     font-weight: 700;
-
-
     display: flex;
     justify-content: center;
     margin: auto;
@@ -250,13 +246,17 @@
 
 }
 
-#Add-Battery-Data{
+/* #Add-Battery-Data{
 
-}
+} */
 
 #view-battery-search-button{
     border: 1px solid black;
     background-color: #c6c6c6;
+}
+#table-scrollable-div{
+width: 600px !important;
+height: 500px !important;
 }
 
 .table_view_battery{

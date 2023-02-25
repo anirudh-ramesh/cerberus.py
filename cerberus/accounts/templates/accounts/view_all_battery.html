@@ -50,9 +50,11 @@
 
 <h3 class="d-flex justify-content-center pt-4"> Battery Data</h3>
 
-
-<table  class="table_view_battery" style="border:1px solid black">
-    <tr >
+<div class="row">
+   <div class="col-md-9" id="table-scrollable-div"></div>
+<table  class="table table-bordered" style="border:1px solid black; overflow-x: scroll; width: 600px;">
+   <thead>
+   <tr >
        <th>Battery Serial Number</th>
        <th>Model Name</th>
        <th>Assigned owner</th>
@@ -69,8 +71,10 @@
        <th>Battery Pack Capacity</th>
        <th>Battery Cell Type</th>
        <th>Action</th>
-
+     </tr>
+   </thead> 
     {% for tag in battery_data %}
+    <tbody>
     <tr>
     <td>{{tag.Battery_Serial_Number}}</td>
     <td>{{tag.Model_Name}}</td>
@@ -85,12 +89,13 @@
     <td>{{tag.Battery_Cell_Chemistry}}</td>
     <td>{{tag.Battery_pack_Nominal_Voltage}}</td>
     <td>{{tag.Battery_Pack_Capacity}}</td>
-  
-    
     <td>Action</td> 
     </tr>
+   </tbody>
     {% endfor %}
     
    </table>
+   </div>
+   </div>
 </div>
 {% endblock menu %}   
