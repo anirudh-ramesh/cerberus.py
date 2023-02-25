@@ -36,9 +36,16 @@
                 <a class="nav-link" id="profile-tab" data-toggle="pill" href="#profile-tab" role="tab">
                     <img class="icon" src="{% static 'accounts/images/icons/02-Users.svg' %}">
                 </a>
-                <a class="nav-link" id="battery-tab"  data-toggle="pill" href="{% url 'battery_crud' %}" role="tab">
-                    <img class="icon" src="{% static 'accounts/images/icons/03-Battery.svg' %}">  
-                </a>
+                
+                <div class="btn-group dropend">
+                    <a class="nav-link btn btn-secondary dropdown-toggle" data-toggle="pill" aria-expanded="false" id="battery-tab" href="{% url 'battery_crud' %}" role="tab">
+                        <img class="icon" src="{% static 'accounts/images/icons/03-Battery.svg' %}">
+                    </a>
+                    <ul class="dropdown-menu px-3 py-5">
+                        <li><a type="button" class="btn btn-default font-size-3 color-2" href="{% url 'add_battery' %}">Add Battery</a></li>
+                        <li><a type="button" class="btn btn-default font-size-3 color-2" href="{% url 'viewallbattery' %}">View Batteries</a></li>
+                    </ul>
+                </div>
                 <a class="nav-link" id="swapping-station-tab" data-toggle="pill" href="#swapping-station-tab" role="tab">
                     <img class="icon" src="{% static 'accounts/images/icons/04-Swapping_station.svg' %}">
                 </a>
@@ -74,12 +81,7 @@
             {% endblock menu %}
         </div>
     </div>
-    <div class="battery_submenu h-100 bg-white">
-        <a href="#">Add Battery</a>
-        <a href="#">View Batteries</a>
-    </div>
 
-    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   </body>
 </html>

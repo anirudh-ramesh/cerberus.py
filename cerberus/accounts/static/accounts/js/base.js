@@ -79,6 +79,10 @@ function update_battery(){
     // });
 }
 
+function battery_hover(){
+
+}
+
 
 $(document).ready(function(){
     $("#hide_password").hide();

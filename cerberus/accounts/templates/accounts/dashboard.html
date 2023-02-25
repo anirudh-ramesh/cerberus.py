@@ -17,16 +17,8 @@
 
 {% block menu %}
     <div class="row px-5 mt-5">
-        <div class="col-md-11">
+        <div class="col-md-12">
             <label class="font-size-1">DASHBOARD</label>
-        </div>
-        <div class="col-md-1">
-            <form method="post">
-                {% csrf_token %}
-                <button class="btn btn-danger" id="logout_btn">
-                    logout
-                </button>
-            </form>
         </div>
     </div>
     <div class="row px-5 mt-3">

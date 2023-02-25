@@ -209,15 +209,6 @@
     transform: translateX(2px);
 }
 
-
-#battery-tab + .battery_submenu{
-    display: none;
-}
-
-#battery-tab:hover + .battery_submenu{
-    display: block;
-}
-
 /* view_all_battery css    start */
 
 
