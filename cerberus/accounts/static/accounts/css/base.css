@@ -209,6 +209,15 @@
     transform: translateX(2px);
 }
 
+
+#battery-tab + .battery_submenu{
+    display: none;
+}
+
+#battery-tab:hover + .battery_submenu{
+    display: block;
+}
+
 /* view_all_battery css    start */
 
 
@@ -245,10 +254,6 @@
     margin-right: 1% !important;
 
 }
-
-/* #Add-Battery-Data{
-
-} */
 
 #view-battery-search-button{
     border: 1px solid black;
