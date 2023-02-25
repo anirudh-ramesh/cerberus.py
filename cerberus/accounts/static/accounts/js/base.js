@@ -79,10 +79,6 @@ function update_battery(){
     // });
 }
 
-function battery_hover(){
-
-}
-
 
 $(document).ready(function(){
     $("#hide_password").hide();
@@ -92,5 +88,10 @@ $(document).ready(function(){
     $(document).on("click", "#update_battery", update_battery);
     $(document).on("click", "#show_password", password_show);
     $(document).on("click", "#hide_password", password_hide);
-    
+    $("#battery-tab").hover(function(){
+        $(".dropdown-menu").show();
+    },
+    function(){
+        $(".dropdown-menu").hide();
+    });
 });
