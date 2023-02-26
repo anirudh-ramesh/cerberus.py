@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import redis
 from pathlib import Path
 from decouple import config
 
@@ -172,3 +172,5 @@ DEFAULT_ALGORITHM="HS256"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REDIS_CONNECTION=redis.Redis(host='localhost', port=6379, db=0)

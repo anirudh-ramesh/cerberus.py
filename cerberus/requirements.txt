@@ -5,4 +5,5 @@ requests==2.28.1
 django-allauth==0.51.0
 python-jose==3.3.0
 python-decouple==3.7
+redis==4.3.4
 git+https://github.com/Peter-Slump/django-keycloak.git

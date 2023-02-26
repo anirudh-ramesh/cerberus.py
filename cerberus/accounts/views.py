@@ -6,7 +6,7 @@ import requests
 import json
 
 from django.shortcuts import render, redirect
-
+from cerberus_django.settings import REDIS_CONNECTION
 from rest_framework.response import Response
 from cerberus_django.messages import ERROR_USER_DOESNT_EXIST
 from cerberus_django.utility import is_user_exist,get_user_obj,email_payload,phoneNo_payload
@@ -609,15 +609,22 @@ class ViewAllBattery(View):
             temp_dict['Battery_pack_Nominal_Voltage']=i.get('Battery pack Nominal Voltage')
             temp_dict['Battery_Pack_Capacity']=i.get('Battery Pack Capacity')
             temp_dict['Battery_Cell_Type']=i.get('Battery Cell Type')
-            
-            
-            
-            
+            temp_dict['Immobilisation_Status']=i.get('Immobilisation Status')
+            temp_dict['SoC']=i.get('SoC')
             list_of_battery.append(temp_dict)
 
+            # REDIS_CONNECTION.set("view__battery_data1",json.dumps(temp_dict))
+          
         print(list_of_battery)    
+        print("store the value")
         return render(request, 'accounts/view_all_battery.html',{"battery_data":list_of_battery})
-        
+    def post(self,request):
+
+        print("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
+        print(request.__dict__)    
+        return render(request, 'accounts/view_all_battery.html')
+    
+
 # class UpdateBattery(View):
 
 #     def get(self, request, battery_pack_sr_no):

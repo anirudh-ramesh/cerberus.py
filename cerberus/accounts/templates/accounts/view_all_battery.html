@@ -10,40 +10,16 @@
 
 {% block menu %}
 <div class="col-md-10 ">
-<div class="row d-flex justify-content-around mt-5">
-   <div class="col-md-2 " id="battery-status-box">
-       <h6 class="battery-status-box-label">ACTIVE BATTERY</h6>
-       <hr>
-       <h6 class="battery-status-box-label">4 </h6>
-   </div>
-   <div class="col-md-2 " id="battery-status-box">
-      <h6 class="battery-status-box-label" >INAACTIVE BATTERY</h6>
-       <hr>
-       <h6 class="battery-status-box-label">0 </h6>
-   </div>
-   <div class="col-md-2  " id="battery-status-box">
-      <h6 class="battery-status-box-label">DAMAGED BATTERY</h6>
-       <hr>
-       <h6 class="battery-status-box-label">0</h6>
-   </div>
-</div>
-<hr class="battery-status-box-break">
-<div class="row ">
-   <div class="col-md-12 d-flex flex-row justify-content-between">
-      <div class="col-md-2">
-         <form method="post">
-            {% csrf_token %}
-            <button class="btn btn-primary" id="Add-Battery-Data">
-               Add-Battery-Data
-            </button>
-         </form>
-      </div>
+
+
+<div class="row py-5">
+   <div class="col-md-12 d-flex flex-row justify-content-between ">
       <div class="col-md-4 input-group">
          <form method="post" class="d-flex flex-row" id="view-battery-search-form">
             {% csrf_token %}
          <input type="search" class="form-control rounded" id="view-battery-search-bar" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-         <button type="button" class="btn btn-primary" id="view-battery-search-button">search</button>
-         <form>
+         <button type="submit" class="btn btn-primary" id="view-battery-search-button">search</button>
+         </form>
        </div>
    </div>
 </div>   
@@ -70,6 +46,8 @@
        <th>Battery pack Nominal Voltage</th>
        <th>Battery Pack Capacity</th>
        <th>Battery Cell Type</th>
+       <th>Immobilisation Status</th>
+       <th>SoC</th>
        <th>Action</th>
      </tr>
    </thead> 
@@ -89,6 +67,9 @@
     <td>{{tag.Battery_Cell_Chemistry}}</td>
     <td>{{tag.Battery_pack_Nominal_Voltage}}</td>
     <td>{{tag.Battery_Pack_Capacity}}</td>
+    <th>{{tag.Battery_Cell_Type}}</th>
+   <th>{{tag.Immobilisation_Statu}}s</th>
+   <th>{{tag.SoC}}</th>
     <td>Action</td> 
     </tr>
    </tbody>
