@@ -615,12 +615,10 @@ class ViewAllBattery(View):
 
             # REDIS_CONNECTION.set("view__battery_data1",json.dumps(temp_dict))
           
-        print(list_of_battery)    
-        print("store the value")
         return render(request, 'accounts/view_all_battery.html',{"battery_data":list_of_battery})
     def post(self,request):
 
-        print("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
+        
         print(request.__dict__)    
         return render(request, 'accounts/view_all_battery.html')
     
