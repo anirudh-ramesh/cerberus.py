@@ -575,7 +575,7 @@ class UpdateBattery(View):
         print(response.__dict__)
 
         if response.status_code in [201, 202, 203, 204, 205, 200]:
-            return redirect('get_battery')
+            return redirect('viewallbattery')
         
         return render(request, 'accounts/update_battery.html')
 

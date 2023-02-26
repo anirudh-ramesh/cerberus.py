@@ -79,6 +79,15 @@ function update_battery(){
     // });
 }
 
+function open_delete_modal(){
+    var battery_serial_no = $(this).data("battery_serial_number");
+    var model_name = $(this).data("model_name");
+    var model_battery_serial_no = model_name +" "+battery_serial_no;
+    $("#model_name").text(model_battery_serial_no);
+    $("#model_name_msg").text(model_battery_serial_no);
+    $("#delete_battery").data("model", battery_serial_no);
+    bootstrap.Modal.getOrCreateInstance(document.getElementById("delete_modal")).show();
+}
 
 $(document).ready(function(){
     $("#hide_password").hide();
@@ -88,6 +97,7 @@ $(document).ready(function(){
     $(document).on("click", "#update_battery", update_battery);
     $(document).on("click", "#show_password", password_show);
     $(document).on("click", "#hide_password", password_hide);
+    $(document).on("click", "#delete_btn", open_delete_modal);
     $("#battery-tab").hover(function(){
         $(".dropdown-menu").show();
     },
