@@ -162,6 +162,7 @@ services:
         depends_on:
             - timescaledb
             - keycloak
+            - redis
 
         profiles: ["all", "development/cerberus"]
 
@@ -243,3 +244,14 @@ services:
             - timescaledb
 
         profiles: ["all"]
+    redis:
+        image: redis
+        container_name: redis_container
+        ports: 
+         - '6380:6380'
+        env_file:
+         - ./.env
+        environment:
+         - REDIS_HOST=${REDIS_HOST}
+         - REDIS_PORT=${REDIS_PORT}
+        restart: always

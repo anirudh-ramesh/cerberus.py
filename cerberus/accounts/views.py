@@ -612,17 +612,17 @@ class ViewAllBattery(View):
             temp_dict['Immobilisation_Status']=i.get('Immobilisation Status')
             temp_dict['SoC']=i.get('SoC')
             list_of_battery.append(temp_dict)
-
-            # REDIS_CONNECTION.set("view__battery_data1",json.dumps(temp_dict))
-          
+  
+            # REDIS_CONNECTION.lpush("view__battery_data1",json.dumps(temp_dict))
+            # break
         print(list_of_battery)    
-        print("store the value")
+        # print("store the value")
         return render(request, 'accounts/view_all_battery.html',{"battery_data":list_of_battery})
-    def post(self,request):
+    # def post(self,request):
 
-        print("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
-        print(request.__dict__)    
-        return render(request, 'accounts/view_all_battery.html')
+    #     print("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
+    #     print(request.__dict__)    
+    #     return render(request, 'accounts/view_all_battery.html')
     
 
 # class UpdateBattery(View):
