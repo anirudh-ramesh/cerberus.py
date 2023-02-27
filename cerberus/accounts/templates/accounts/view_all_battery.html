@@ -1,7 +1,7 @@
 {% extends 'menu.html' %}
 {% load static %}
 {% block head %}
-    <title>DASHBOARD | View all battery</title>
+    <title>BATTERIES | Cerberus</title>
     <link rel="stylesheet" href="{% static 'accounts/css/base.css' %}">
 {% endblock head %}
 
@@ -158,10 +158,11 @@
                      {% endif %}
                   </th>
                   <th>
-                     {% if tag.Immobilisation_Status %}
-                        {{tag.Immobilisation_Status}}
+                     {% if tag.Immobilisation_Status and tag.Immobilisation_Status == "0" %}
+                        <input type="checkbox" name="moblisation_status" checked>
+                        {% comment %} {{tag.Immobilisation_Status}} {% endcomment %}
                      {% else %}
-                        -
+                        <input type="checkbox" name="moblisation_status">
                      {% endif %}
                   </th>
                   <th>

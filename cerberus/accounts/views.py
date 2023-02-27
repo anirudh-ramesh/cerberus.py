@@ -651,8 +651,6 @@ class ViewLogs(View):
             params=params,
         )
 
-        print(response.__dict__)
-
         if response.status_code in [200, 201, 202, 203, 204]:
             dict_response = response.__dict__
             content = dict_response["_content"]
