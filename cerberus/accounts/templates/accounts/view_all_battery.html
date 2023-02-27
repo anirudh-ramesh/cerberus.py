@@ -1,10 +1,8 @@
 {% extends 'menu.html' %}
 {% load static %}
 {% block head %}
-    <title>DASHBOARD | View all battery</title>
+    <title>BATTERIES | Cerberus</title>
     <link rel="stylesheet" href="{% static 'accounts/css/base.css' %}">
-   
-
 {% endblock head %}
 
 
@@ -160,11 +158,20 @@
                      {% endif %}
                   </th>
                   <th>
-                     {% if tag.Immobilisation_Status %}
-                        {{tag.Immobilisation_Status}}
-                     {% else %}
-                        -
-                     {% endif %}
+                     <div class="input-group">
+                        {% if tag.Immobilisation_Status and tag.Immobilisation_Status == "0" %}
+                           <div class="form-check form-switch">
+                              <input class="form-check-input" type="checkbox" id="moblisation_status" checked>
+                           </div>
+                        {% else %}
+                           <div class="form-check form-switch">
+                              <input class="form-check-input" type="checkbox" id="moblisation_status">
+                           </div>
+                        {% endif %}
+                        <button class="btn btn-default" type="reset">
+                           <img class="action_btn" src="{% static 'accounts/images/action_btns/redo.png' %}">
+                        </button>
+                     </div>
                   </th>
                   <th>
                      {% if tag.SoC %}
@@ -179,7 +186,7 @@
                         <a class="btn btn-light btn-sm" id = "delete_btn" data-model_name = "{{ tag.Model_Name }}" data-battery_serial_number = "{{ tag.Battery_Serial_Number }}"><img class="action_btn" src="{% static 'accounts/images/action_btns/delete.svg' %}" alt="delete.svg"></button>
                         <a href="{% url 'allocate_battery' tag.Battery_Serial_Number %}" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'accounts/images/action_btns/electric_vehicle.svg' %}" alt="edit.svg"></a>
                         <a href="#" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'accounts/images/action_btns/data-update.svg' %}" alt="data-update.svg"></a>
-                        <a href="#" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'accounts/images/action_btns/log12-removebg-preview.png' %}" alt="log12-removebg-preview.svg"></a>
+                        <a href="{% url 'logs' tag.Battery_Serial_Number %}" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'accounts/images/action_btns/log12-removebg-preview.png' %}" alt="log12-removebg-preview.svg"></a>
                      </div>
                   </td> 
                </tr>

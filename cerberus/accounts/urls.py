@@ -1,6 +1,6 @@
 from django.urls import path, include
 from accounts.views import OTP,Login, Logout, SignUP, ServerList, UserAccessAPI, BatteryList,\
-     AddBattery, GetBattery, DeleteBattery, UpdateBattery,ViewAllBattery,Allocate_battery
+     AddBattery, GetBattery, DeleteBattery, UpdateBattery,ViewAllBattery,Allocate_battery,ViewLogs
 from rest_framework.routers import DefaultRouter
 
 
@@ -19,6 +19,7 @@ urlpatterns = [
     path("update_battery/<str:battery_pack_sr_no>/", UpdateBattery.as_view(), name="update_battery"),
     path("deletebattery/", DeleteBattery.as_view(), name="deletebattery"),
     path("view_all_battery/",ViewAllBattery.as_view(),name="viewallbattery"),
-    path("allocate_battery/<str:battery_pack_sr_no>",Allocate_battery.as_view(),name="allocate_battery"),
+    path("logs/<str:battery_pack_sr_no>/", ViewLogs.as_view(), name="logs"),
+
 
 ]

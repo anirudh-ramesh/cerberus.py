@@ -128,8 +128,8 @@ $(document).ready(function(){
     $(document).on("click", "#delete_btn", open_delete_modal);
     $("#battery-tab").hover(function(){
         $(".dropdown-menu").show();
-    },
-    function(){
-        $(".dropdown-menu").hide();
-    });
+    }
+    // function(){
+    //     $(".dropdown-menu").hide();
+    );
 });
