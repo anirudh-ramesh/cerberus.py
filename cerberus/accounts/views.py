@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 import requests
 
 import json
-
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from cerberus_django.settings import REDIS_CONNECTION
 from rest_framework.response import Response
@@ -575,7 +575,7 @@ class UpdateBattery(View):
         print(response.__dict__)
 
         if response.status_code in [201, 202, 203, 204, 205, 200]:
-            return redirect('get_battery')
+            return redirect('viewallbattery')
         
         return render(request, 'accounts/update_battery.html')
 
@@ -624,7 +624,80 @@ class ViewAllBattery(View):
     #     print(request.__dict__)    
     #     return render(request, 'accounts/view_all_battery.html')
     
+class Allocate_battery(View):
+    def get(self,request,battery_pack_sr_no):
+          
+        url = "http://iot.igt-ev.com/battery/assigned"
+        assert_no=""
+        if battery_pack_sr_no:
+            temp_dict={}
+            response = requests.get(
+                    url = url,
+                    params={"battery_pack_sr_no":battery_pack_sr_no}
+                )
+            dict_response = response.__dict__
 
+            dict_json_response = json.loads(dict_response["_content"])
+            # print(dict_json_response.get("messages"))
+            if dict_json_response.get("messages")!=0:
+                print("eddd")
+                assert_no= dict_json_response.get("messages").get("asset_tag")
+                pass
+            
+            temp_dict['assert_no']=assert_no
+            url = "http://iot.igt-ev.com/battery/to_assign"
+                
+            response = requests.get(url = url   
+                )
+            
+            dict_response = response.__dict__
+    
+            dict_json_response = json.loads(dict_response["_content"])
+            temp_dict['battery_pack_sr_no']=battery_pack_sr_no
+            temp_dict["assign_list"] =dict_json_response.get('messages')
+            print("eeee",temp_dict)
+            return render(request, 'accounts/allocate_battery.html',{'data':temp_dict})
+        
+    def post(self,request,battery_pack_sr_no):
+        print("sssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
+        print(request.POST)
+        assert_battery_tag=request.POST.get("assert_tag_battery")
+        # if len(assert_battery_tag)!=0:
+        url="http://iot.igt-ev.com/battery/deallocate"
+        response = requests.post(
+                    url=url,
+                    data={"battery_pack_sr_no":battery_pack_sr_no},
+                    )
+            # print(response)
+        # if len(request.POST.get("model_name")):
+        #     return 
+        assert_tag=request.POST.get("model_name").split("+")
+        assert_tag_value=assert_tag[0]
+        assert_tag_type=assert_tag[1].strip()
+        print(assert_tag_value,assert_tag_type)
+        print(len(assert_tag_type))
+        if assert_tag_type=="Vehicle":
+            url="http://iot.igt-ev.com/battery/allocate/vehicle/"
+            response = requests.post(
+                        url=url,
+                        data={"battery_pack_sr_no":battery_pack_sr_no,
+                              "assigned_asset_chassis_no":assert_tag_value},
+                        )
+            if response.status_code in [200,201]:
+                print(response.status_code)
+                return HttpResponse(json.dumps({"messages":"Asset checked out successfully"}, sort_keys=True,default=str),content_type="application/json")
+        else:
+            url="http://iot.igt-ev.com/battery/allocate/swapping_station/"
+            response = requests.post(
+                        url=url,
+                        data={"battery_pack_sr_no":battery_pack_sr_no,
+                              "assigned_asset_imei":assert_tag_value},
+                             )
+            if response.status_code in [200,201]:
+
+                print(response.status_code)
+                return HttpResponse(json.dumps({"messages":"Asset checked out successfully"}, sort_keys=True,default=str),content_type="application/json")
+            return render(request, 'accounts/allocate_battery.html')
 # class UpdateBattery(View):
 
 #     def get(self, request, battery_pack_sr_no):
