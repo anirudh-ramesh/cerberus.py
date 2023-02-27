@@ -9,17 +9,23 @@
 
 
 {% block menu %}
-{% if messages %}
-<label> {{ messages}}</label>
+{% if message %}
+<div class="row ml-4 d-flex justify-content-between">
+<div class="col-md-4">
+<div class="alert alert-success" role="alert">
+    Success allocate
+  </div>
+</div>
+</div>
 {% endif %}
 <div class="row mt-5 p-5">
     <div class="col-md-12">
         <form method = "post">
             {% csrf_token %}
                 <div class="input-group">
-                <input type= "text" class="form-control button-2" name="assert_tag_battery"  id="updated_battery_pack_sr_no2"  value="{{ data.assert_no }}" readonly>
-                <select id="updated_model_name" class="btn btn-light button-2 " name="model_name">
-                <option value="disable" disabled selected>--- Assign ---</option>
+                <input type= "text" class="form-control button-2" name="assert_tag_battery"  id="updated_battery_pack_sr_no"  value="{{ data.assert_no }}" readonly>
+                <select id="updated_model_name" class="btn btn-light button-2  mx-1" name="model_name" required>
+                <option value="" disabled selected>--- Assign ---</option>
                 
                 {% for tag in data.assign_list %}
                 <option value="{{ tag.asset_tag}} + {{tag.type_ }}" >{{ tag.asset_tag}} </option>
@@ -27,7 +33,7 @@
                 {% endfor %}
             </select>
             <!-- {{ data.battery_pack_sr_no }} -->
-            <button type="button" class="btn btn-primary" id = "allocate_battery" >Allocate</button>  
+            <button type="submit" class="btn btn-primary" id = "allocate_battery" >Allocate</button>  
         </div>
             </form>
 </div>

@@ -39,33 +39,33 @@ function delete_battery(){
     });
 }
 
-function allocate_battery_fun(){
-    debugger;
-    // a=document.getElementById("allocate_battery_pack_sr_no1")
-    var battery_pack_sr_no = $("#updated_battery_pack_sr_no2").val();
-    // var model_name = $("#updated_model_name").data("model");
-    var model_name = $("#updated_model_name").val();
-    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    console.log("sssss",battery_pack_sr_no,model_name)
-    $.ajax({
-        type: "POST",
-        url: '/allocate_battery/'+battery_pack_sr_no,
-        headers:{'X-CSRFToken': csrftoken},
-        data: {
+// function allocate_battery_fun(){
+//     debugger;
+//     // a=document.getElementById("allocate_battery_pack_sr_no1")
+//     var battery_pack_sr_no = $("#updated_battery_pack_sr_no2").val();
+//     // var model_name = $("#updated_model_name").data("model");
+//     var model_name = $("#updated_model_name").val();
+//     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+//     console.log("sssss",battery_pack_sr_no,model_name)
+//     $.ajax({
+//         type: "POST",
+//         url: '/allocate_battery/'+battery_pack_sr_no,
+//         headers:{'X-CSRFToken': csrftoken},
+//         data: {
             
-            "battery_pack_sr_no":battery_pack_sr_no,
-            "model_name":model_name
-        },
-        dataType: "json",
-        success: function (data) {  
-            if (data.messages){
+//             "battery_pack_sr_no":battery_pack_sr_no,
+//             "model_name":model_name
+//         },
+//         dataType: "json",
+//         success: function (data) {  
+//             if (data.messages){
 
-                alert("successfully ");
-            }
-        },
+//                 alert("successfully ");
+//             }
+//         },
         
-    });
-}
+//     });
+// }
 
 
 function password_hide(){
@@ -119,7 +119,7 @@ function open_delete_modal(){
 
 $(document).ready(function(){
     $("#hide_password").hide();
-    $(document).on("click", "#allocate_battery", allocate_battery_fun);
+    // $(document).on("click", "#allocate_battery", allocate_battery_fun);
     $(document).on("click", "#logout_btn", logout);
     $(document).on("click", "#delete_battery", delete_battery);
     $(document).on("click", "#update_battery", update_battery);

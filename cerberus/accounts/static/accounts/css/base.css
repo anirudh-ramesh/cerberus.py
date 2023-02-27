@@ -213,3 +213,14 @@
     width: 40px;
     height: 40px;
 }
+
+
+.toast-message{
+  
+        font-size: 23px;
+        background-color: #89d122;
+        border-radius: 13px;
+        margin-bottom: -41px;
+        margin-top: 23px;
+    
+}

@@ -20,6 +20,7 @@ urlpatterns = [
     path("deletebattery/", DeleteBattery.as_view(), name="deletebattery"),
     path("view_all_battery/",ViewAllBattery.as_view(),name="viewallbattery"),
     path("logs/<str:battery_pack_sr_no>/", ViewLogs.as_view(), name="logs"),
+    path("allocate_battery/<str:battery_pack_sr_no>",Allocate_battery.as_view(),name="allocatebattery")
 
 
 ]

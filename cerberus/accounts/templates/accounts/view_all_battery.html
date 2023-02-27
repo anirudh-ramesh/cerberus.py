@@ -184,7 +184,7 @@
                      <div class="btn-group">
                         <a href="{% url 'update_battery' tag.Battery_Serial_Number %}" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'accounts/images/action_btns/edit.svg' %}" alt="edit.svg"></a>
                         <a class="btn btn-light btn-sm" id = "delete_btn" data-model_name = "{{ tag.Model_Name }}" data-battery_serial_number = "{{ tag.Battery_Serial_Number }}"><img class="action_btn" src="{% static 'accounts/images/action_btns/delete.svg' %}" alt="delete.svg"></button>
-                        <a href="{% url 'allocate_battery' tag.Battery_Serial_Number %}" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'accounts/images/action_btns/electric_vehicle.svg' %}" alt="edit.svg"></a>
+                        <a href="{% url 'allocatebattery' tag.Battery_Serial_Number %}" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'accounts/images/action_btns/electric_vehicle.svg' %}" alt="edit.svg"></a>
                         <a href="#" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'accounts/images/action_btns/data-update.svg' %}" alt="data-update.svg"></a>
                         <a href="{% url 'logs' tag.Battery_Serial_Number %}" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'accounts/images/action_btns/log12-removebg-preview.png' %}" alt="log12-removebg-preview.svg"></a>
                      </div>

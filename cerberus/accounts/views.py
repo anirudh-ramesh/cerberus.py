@@ -657,19 +657,22 @@ class Allocate_battery(View):
             dict_json_response = json.loads(dict_response["_content"])
             temp_dict['battery_pack_sr_no']=battery_pack_sr_no
             temp_dict["assign_list"] =dict_json_response.get('messages')
-            print("eeee",temp_dict)
+            # print("eeee",temp_dict)
             return render(request, 'accounts/allocate_battery.html',{'data':temp_dict})
         
     def post(self,request,battery_pack_sr_no):
         print("sssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
         print(request.POST)
         assert_battery_tag=request.POST.get("assert_tag_battery")
-        # if len(assert_battery_tag)!=0:
-        url="http://iot.igt-ev.com/battery/deallocate"
-        response = requests.post(
-                    url=url,
-                    data={"battery_pack_sr_no":battery_pack_sr_no},
-                    )
+
+        print("EEEEEEEEE",assert_battery_tag)
+        
+        if len(assert_battery_tag)!=0:
+            url="http://iot.igt-ev.com/battery/deallocate"
+            response = requests.post(
+                        url=url,
+                        data={"battery_pack_sr_no":battery_pack_sr_no},
+                        )
             # print(response)
         # if len(request.POST.get("model_name")):
         #     return 
@@ -687,7 +690,8 @@ class Allocate_battery(View):
                         )
             if response.status_code in [200,201]:
                 print(response.status_code)
-                return HttpResponse(json.dumps({"messages":"Asset checked out successfully"}, sort_keys=True,default=str),content_type="application/json")
+
+                return render(request, 'accounts/allocate_battery.html',{"message":"Allocate success"})
         else:
             url="http://iot.igt-ev.com/battery/allocate/swapping_station/"
             response = requests.post(
@@ -696,9 +700,8 @@ class Allocate_battery(View):
                               "assigned_asset_imei":assert_tag_value},
                              )
             if response.status_code in [200,201]:
-
                 print(response.status_code)
-                return HttpResponse(json.dumps({"messages":"Asset checked out successfully"}, sort_keys=True,default=str),content_type="application/json")
+                return render(request, 'accounts/allocate_battery.html',{"message":"Allocate success"})
             return render(request, 'accounts/allocate_battery.html')
 # class UpdateBattery(View):
 
