@@ -159,10 +159,13 @@
                   </th>
                   <th>
                      {% if tag.Immobilisation_Status and tag.Immobilisation_Status == "0" %}
-                        <input type="checkbox" name="moblisation_status" checked>
-                        {% comment %} {{tag.Immobilisation_Status}} {% endcomment %}
+                        <div class="form-check form-switch">
+                           <input class="form-check-input" type="checkbox" id="moblisation_status" checked>
+                        </div>
                      {% else %}
-                        <input type="checkbox" name="moblisation_status">
+                        <div class="form-check form-switch">
+                           <input class="form-check-input" type="checkbox" id="moblisation_status">
+                        </div>
                      {% endif %}
                   </th>
                   <th>
