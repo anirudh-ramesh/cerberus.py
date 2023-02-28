@@ -161,16 +161,17 @@
                   </th>
                   <th>
                      <div class="input-group">
-                        {% if tag.Immobilisation_Status and tag.Immobilisation_Status == "0" %}
-                           <div class="form-check form-switch">
-                              <input class="form-check-input" type="checkbox" id="moblisation_status" checked>
+
+                        {% if tag.Immobilisation_Status == None or tag.Immobilisation_Status == "0" %}
+                           <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="moblisation_status" data-battery_pack_sr_no = {{ tag.Battery_Serial_Number }} data-status = {{tag.Immobilisation_Status }} checked>
                            </div>
                         {% else %}
-                           <div class="form-check form-switch">
-                              <input class="form-check-input" type="checkbox" id="moblisation_status">
+                           <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="moblisation_status" data-battery_pack_sr_no = {{ tag.Battery_Serial_Number }} data-status = {{tag.Immobilisation_Status }}>
                            </div>
                         {% endif %}
-                        <button class="btn btn-default" type="reset">
+                        <button class="btn btn-default refresh_btn" type="reset" data-battery_pack_sr_no = {{tag.Battery_Serial_Number}}>
                            <img class="action_btn" src="{% static 'accounts/images/action_btns/redo.png' %}">
                         </button>
                      </div>
@@ -187,7 +188,7 @@
                         <a href="{% url 'update_battery' tag.Battery_Serial_Number %}" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'accounts/images/action_btns/edit.svg' %}" alt="edit.svg"></a>
                         <a class="btn btn-light btn-sm" id = "delete_btn" data-model_name = "{{ tag.Model_Name }}" data-battery_serial_number = "{{ tag.Battery_Serial_Number }}"><img class="action_btn" src="{% static 'accounts/images/action_btns/delete.svg' %}" alt="delete.svg"></button>
                         <a href="{% url 'allocatebattery' tag.Battery_Serial_Number %}" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'accounts/images/action_btns/electric_vehicle.svg' %}" alt="edit.svg"></a>
-                        <a href="#" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'accounts/images/action_btns/data-update.svg' %}" alt="data-update.svg"></a>
+                        <a href="http://2.irasus.com:9600/d/OGoAalwK/battery-measurements?from=now-30m&to=now&var-packName={{tag.Battery_Serial_Number}}&kiosk&orgId=15" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'accounts/images/action_btns/data-update.svg' %}" alt="data-update.svg"></a>
                         <a href="{% url 'logs' tag.Battery_Serial_Number %}" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'accounts/images/action_btns/log12-removebg-preview.png' %}" alt="log12-removebg-preview.svg"></a>
                      </div>
                   </td> 
@@ -213,12 +214,22 @@
                         </div>
                   </div>
                </div>
+
+               <div class="modal" tabindex="-1" id="moblisation_status_modal">
+                  <div class="modal_dialog">
+                     <div class="modal-content">
+                        <div class="modal-body">
+                           <span id="moblisation_status_text"></span>
+                        </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
                {% endfor %}
             </tbody>
          </table>
       </div>
    </div>
-
-   
-
 {% endblock menu %}   
