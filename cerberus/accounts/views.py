@@ -777,7 +777,6 @@ class MoblisationStatus(View):
         else:
             url = "http://iot.igt-ev.com/battery/immobilize/"
 
-        
         headers = {"Content-Type": "application/json; charset=utf-8"}
 
         response = requests.request("POST", url, headers=headers, data=json.dumps(battery_data), json=json.dumps(battery_data))
