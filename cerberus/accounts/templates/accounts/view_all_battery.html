@@ -159,7 +159,8 @@
                   </th>
                   <th>
                      <div class="input-group">
-                        {% if tag.Immobilisation_Status and tag.Immobilisation_Status == "0" %}
+
+                        {% if tag.Immobilisation_Status == None or tag.Immobilisation_Status == "0" %}
                            <div class="form-check">
                               <input class="form-check-input" type="checkbox" id="moblisation_status" data-battery_pack_sr_no = {{ tag.Battery_Serial_Number }} data-status = {{tag.Immobilisation_Status }} checked>
                            </div>
@@ -209,6 +210,19 @@
                               </form>
                            </div>
                         </div>
+                  </div>
+               </div>
+
+               <div class="modal" tabindex="-1" id="moblisation_status_modal">
+                  <div class="modal_dialog">
+                     <div class="modal-content">
+                        <div class="modal-body">
+                           <span id="moblisation_status_text"></span>
+                        </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                     </div>
                   </div>
                </div>
                {% endfor %}
