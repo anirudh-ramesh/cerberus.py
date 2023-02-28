@@ -173,4 +173,4 @@ DEFAULT_ALGORITHM="HS256"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-REDIS_CONNECTION=redis.Redis(host='localhost', port=6379, db=0)
+REDIS_CONNECTION=redis.Redis(host="redis", port=6379, db=0)

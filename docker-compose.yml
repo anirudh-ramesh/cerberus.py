@@ -244,14 +244,31 @@ services:
             - timescaledb
 
         profiles: ["all"]
+
     redis:
-        image: redis
-        container_name: redis_container
-        ports: 
-         - '6380:6380'
-        env_file:
-         - ./.env
-        environment:
-         - REDIS_HOST=${REDIS_HOST}
-         - REDIS_PORT=${REDIS_PORT}
-        restart: always
+
+        logging:
+
+            driver: local
+
+            options:
+                max-size: "20m"
+                max-file: "5"
+                compress: "true"
+
+        restart: on-failure
+
+        networks:
+            - khyber
+
+        container_name: redis
+
+        volumes:
+            - "./redis/redis.conf:/redis.conf"
+            # - "redis:/data"
+
+        image: redis:latest
+
+        command: [ "redis-server", "/redis.conf" ]
+
+        profiles: ["all"]

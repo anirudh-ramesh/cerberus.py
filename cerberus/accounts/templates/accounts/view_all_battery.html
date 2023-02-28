@@ -14,7 +14,7 @@
          <form method="post" id="view-battery-search-form">
             {% csrf_token %}
             <div class="input-group mb-3">
-               <input type="text" class="form-control" id="view-battery-search-bar" placeholder="Enter Battey pack serial no..." aria-label="Search" aria-describedby="search-addon" />
+               <input type="text" class="form-control" id="view-battery-search-bar" placeholder="Enter Battey pack serial no..." aria-label="Search" aria-describedby="search-addon" name="search_text"/>
                
                <button type="submit" class="btn btn-outline-secondary" id="view-battery-search-button">
                   search
@@ -50,7 +50,9 @@
                </tr>
             </thead>
             <tbody> 
-               {% for tag in battery_data %}
+
+               {% for tag in battery_data %} 
+               
                <tr>
                   <td>
                      {% if tag.Battery_Serial_Number %}

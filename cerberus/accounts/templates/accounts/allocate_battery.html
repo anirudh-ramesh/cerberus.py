@@ -13,7 +13,7 @@
 <div class="row ml-4 d-flex justify-content-between">
 <div class="col-md-4">
 <div class="alert alert-success" role="alert">
-    Success allocate
+    Allocate success 
   </div>
 </div>
 </div>
@@ -29,7 +29,6 @@
                 
                 {% for tag in data.assign_list %}
                 <option value="{{ tag.asset_tag}} + {{tag.type_ }}" >{{ tag.asset_tag}} </option>
-
                 {% endfor %}
             </select>
             <!-- {{ data.battery_pack_sr_no }} -->

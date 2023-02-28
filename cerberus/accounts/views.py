@@ -2,8 +2,9 @@ from django_keycloak.models import Server, Realm, Client
 from django.views.generic import ListView, View
 from django.contrib.auth.models import User
 import requests
-
+from ast import literal_eval
 import json
+from pprint import pprint
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from cerberus_django.settings import REDIS_CONNECTION
@@ -594,6 +595,7 @@ class ViewAllBattery(View):
 
         dict_json_response = json.loads(dict_response["_content"])
         list_of_battery=[]
+        view_battery_data_redis=[json.loads(i.decode('utf-8')) for i in REDIS_CONNECTION.lrange("view_battery_data2",0,-1)]
         for i in dict_json_response:
             temp_dict={}
             temp_dict['Battery_Serial_Number']=i.get('Battery Serial Number')
@@ -614,17 +616,51 @@ class ViewAllBattery(View):
             temp_dict['Immobilisation_Status']=i.get('Immobilisation Status')
             temp_dict['SoC']=i.get('SoC')
             list_of_battery.append(temp_dict)
-  
-            # REDIS_CONNECTION.lpush("view__battery_data1",json.dumps(temp_dict))
-            # break
-        print(list_of_battery)    
-        # print("store the value")
+            if i not in view_battery_data_redis:
+                REDIS_CONNECTION.lpush("view_battery_data2",json.dumps(i))
+            else:
+                pass
+    
+            
         return render(request, 'accounts/view_all_battery.html',{"battery_data":list_of_battery})
-    # def post(self,request):
+    def post(self,request):
+        search_key=request.POST.get("search_text")
+        list_of_battery1=[]
+        partial_value=[]    
+        view_battery_data_redis=REDIS_CONNECTION.lrange("view_battery_data2",0,-1)
+        for i in view_battery_data_redis:
+            l=json.loads(i.decode('utf-8')) 
+            if l.get('Battery Serial Number')==search_key:
+               print("1111222")
+               list_of_battery1.append(l)
+            elif search_key in l['Battery Serial Number']:
+                partial_value.append(l)   
+            else:
+               pass     
+        list_of_battery1.extend(partial_value)
+        list_of_battery=[]
+        for i in list_of_battery1:
+            temp_dict={}
+            temp_dict['Battery_Serial_Number']=i.get('Battery Serial Number')
+            temp_dict['Model_Name']=i.get('Model Name')
+            temp_dict['Assigned_owner']=i.get('Assigned owner')
+            temp_dict['IOT_IMEI_No']=i.get('IOT IMEI No')
+            temp_dict['Battery_type']=i.get('Battery type')
+            temp_dict['BMS_type']=i.get('BMS type')
+            temp_dict['IOT_type']=i.get('IOT type')
+            temp_dict['Sim_Number']=i.get('Sim Number')
+            temp_dict['Warranty_Start_Date']=i.get('Warranty Start Date')
+            temp_dict['Warrenty_End_Date']=i.get('Warrenty End Date')
+            temp_dict['Status']=i.get('Status')
+            temp_dict['Battery_Cell_Chemistry']=i.get('Battery Cell Chemistry')
+            temp_dict['Battery_pack_Nominal_Voltage']=i.get('Battery pack Nominal Voltage')
+            temp_dict['Battery_Pack_Capacity']=i.get('Battery Pack Capacity')
+            temp_dict['Battery_Cell_Type']=i.get('Battery Cell Type')
+            temp_dict['Immobilisation_Status']=i.get('Immobilisation Status')
+            temp_dict['SoC']=i.get('SoC')
+            list_of_battery.append(temp_dict)
 
-    #     print("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
-    #     print(request.__dict__)    
-    #     return render(request, 'accounts/view_all_battery.html')
+        return render(request, 'accounts/view_all_battery.html',{"battery_data":list_of_battery})
     
 class Allocate_battery(View):
     def get(self,request,battery_pack_sr_no):
@@ -640,7 +676,6 @@ class Allocate_battery(View):
             dict_response = response.__dict__
 
             dict_json_response = json.loads(dict_response["_content"])
-            # print(dict_json_response.get("messages"))
             if dict_json_response.get("messages")!=0:
                 print("eddd")
                 assert_no= dict_json_response.get("messages").get("asset_tag")
@@ -657,30 +692,19 @@ class Allocate_battery(View):
             dict_json_response = json.loads(dict_response["_content"])
             temp_dict['battery_pack_sr_no']=battery_pack_sr_no
             temp_dict["assign_list"] =dict_json_response.get('messages')
-            # print("eeee",temp_dict)
             return render(request, 'accounts/allocate_battery.html',{'data':temp_dict})
         
     def post(self,request,battery_pack_sr_no):
-        print("sssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
-        print(request.POST)
         assert_battery_tag=request.POST.get("assert_tag_battery")
-
-        print("EEEEEEEEE",assert_battery_tag)
-        
         if len(assert_battery_tag)!=0:
             url="http://iot.igt-ev.com/battery/deallocate"
             response = requests.post(
                         url=url,
                         data={"battery_pack_sr_no":battery_pack_sr_no},
                         )
-            # print(response)
-        # if len(request.POST.get("model_name")):
-        #     return 
         assert_tag=request.POST.get("model_name").split("+")
         assert_tag_value=assert_tag[0]
         assert_tag_type=assert_tag[1].strip()
-        print(assert_tag_value,assert_tag_type)
-        print(len(assert_tag_type))
         if assert_tag_type=="Vehicle":
             url="http://iot.igt-ev.com/battery/allocate/vehicle/"
             response = requests.post(
