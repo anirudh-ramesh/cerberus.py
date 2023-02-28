@@ -13,7 +13,6 @@ from cerberus_django.utility import is_user_exist,get_user_obj,email_payload,pho
 from accounts.models import Token
 from accounts.serializers import SignupSerilizer
 import datetime
-import time
 
 from django.contrib import messages
 
@@ -487,8 +486,6 @@ class UpdateBattery(View):
 
                 battery_dict = {}
 
-                print("dict json response -----------------------------", dict_json_response)
-
                 battery_dict["battery_pack_sr_no"] = dict_json_response["asset_tag"]
                 
                 for key, value in dict_json_response["model"].items():
@@ -526,7 +523,6 @@ class UpdateBattery(View):
                     elif key == "Battery Pack Casing":
                         battery_dict["battery_pack_casing"] = value["value"]
 
-                print("Battery Dict -------------------------------------",battery_dict)
             return render(request, 'accounts/update_battery.html', battery_dict)
     
     def post(self, request, battery_pack_sr_no):
@@ -574,8 +570,6 @@ class UpdateBattery(View):
 
         response = requests.request("PATCH", url, headers=headers, data=json.dumps(battery_data), json=json.dumps(battery_data))
 
-        print(response.__dict__)
-
         if response.status_code in [201, 202, 203, 204, 205, 200]:
             return redirect('viewallbattery')
         
@@ -615,17 +609,9 @@ class ViewAllBattery(View):
             temp_dict['SoC']=i.get('SoC')
             list_of_battery.append(temp_dict)
   
-            # REDIS_CONNECTION.lpush("view__battery_data1",json.dumps(temp_dict))
-            # break
-        print(list_of_battery)    
-        # print("store the value")
         return render(request, 'accounts/view_all_battery.html',{"battery_data":list_of_battery})
-    # def post(self,request):
-
-    #     print("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
-    #     print(request.__dict__)    
-    #     return render(request, 'accounts/view_all_battery.html')
     
+
 class Allocate_battery(View):
     def get(self,request,battery_pack_sr_no):
           
@@ -703,24 +689,8 @@ class Allocate_battery(View):
                 print(response.status_code)
                 return render(request, 'accounts/allocate_battery.html',{"message":"Allocate success"})
             return render(request, 'accounts/allocate_battery.html')
-# class UpdateBattery(View):
 
-#     def get(self, request, battery_pack_sr_no):
 
-#         url = "http://iot.igt-ev.com/battery/"
-
-#         if battery_pack_sr_no:
-    
-#             response = requests.get(
-#                 url = url,
-#                 params={"battery_pack_sr_no":battery_pack_sr_no}
-#             )
-
-#             if response and response.status_code in [200, 201, 202, 203, 204]:
-                
-#                 dict_response = response.__dict__
-
-#                 dict_json_response = json.loads(dict_response["_content"])
 class ViewLogs(View):
     def get(self, request, battery_pack_sr_no):
         return render(request, "accounts/logs.html")
@@ -758,4 +728,78 @@ class ViewLogs(View):
             return render(request, "accounts/logs.html",{"payload":payload})
             
         return render(request, "accounts/logs.html")
+
+
+class MoblisationStatus(View):
+    def post(self, request, battery_pack_sr_no):
+
+        battery_pack_sr_no = request.POST.get("battery_pack_sr_no")
+        checkbox_status = request.POST.get("checkbox_status")
+
+        battery_data = {"battery_pack_sr_no":battery_pack_sr_no,}
+
+        if checkbox_status == "true":
+            url = "http://iot.igt-ev.com/battery/mobilize/"
+
+        else:
+            url = "http://iot.igt-ev.com/battery/immobilize/"
+
         
+        headers = {"Content-Type": "application/json; charset=utf-8"}
+
+        response = requests.request("POST", url, headers=headers, data=json.dumps(battery_data), json=json.dumps(battery_data))
+
+        if response.status_code in [200, 201, 202, 203,204]:
+            dict_response = response.__dict__
+
+            content = dict_response["_content"]
+            load_content = json.loads(content)
+            message = load_content["messages"]
+        
+        else:
+            message = "Something went wrong!!!! Try again later"
+
+        return HttpResponse(
+            json.dumps({
+                "messages":message,
+                },
+                sort_keys=True,
+                default=str,
+            ),
+            content_type="application/json",
+        )
+    
+
+
+class RefreshStatus(View):
+    def post(self, request, battery_pack_sr_no):
+        url = "http://iot.igt-ev.com/battery/mobilize/status"
+        battery_data = {
+            "battery_pack_sr_no":battery_pack_sr_no,
+            }
+        
+        response = requests.get(
+            url = url,
+            params=battery_data,
+        )
+
+        if response.status_code in [200, 201, 202, 203, 204]:
+            dict_response = response.__dict__
+
+            content = dict_response["_content"]
+            load_content = json.loads(content)
+
+            message = load_content["battery_status"]
+
+        else:
+            message = "Something went wrong!!! Try again later.."
+
+        return HttpResponse(
+            json.dumps({
+                "messages":message,
+            },
+            sort_keys=True, 
+            default=str,
+            ),
+            content_type = "application/json",
+        )
