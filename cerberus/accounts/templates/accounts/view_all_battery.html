@@ -50,6 +50,7 @@
                </tr>
             </thead>
             <tbody> 
+              
 
                {% for tag in battery_data %} 
                
@@ -230,6 +231,9 @@
                {% endfor %}
             </tbody>
          </table>
+         {% if battery_data|length == 0 %}
+          <h4 class="text-center text-muted" >No data</h4>
+         {% endif %}
       </div>
    </div>
 {% endblock menu %}   

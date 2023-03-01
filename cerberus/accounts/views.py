@@ -618,14 +618,14 @@ class ViewAllBattery(View):
             
         return render(request, 'accounts/view_all_battery.html',{"battery_data":list_of_battery})
     def post(self,request):
-        search_key=request.POST.get("search_text")
+        search_key=request.POST.get("search_text").strip()
         list_of_battery1=[]
         partial_value=[]    
         view_battery_data_redis=REDIS_CONNECTION.lrange("view_battery_data2",0,-1)
         for i in view_battery_data_redis:
             l=json.loads(i.decode('utf-8')) 
             if l.get('Battery Serial Number')==search_key:
-               print("1111222")
+            #    print("1111222")
                list_of_battery1.append(l)
             elif search_key in l['Battery Serial Number']:
                 partial_value.append(l)   
@@ -836,3 +836,11 @@ class RefreshStatus(View):
             ),
             content_type = "application/json",
         )
+    
+class SwapStationList(View):
+    def get(self,request):
+        print("in swap station","%"*40)
+        return render(request, "accounts/swap_station.html")
+    def post(self,request):
+        return render(request, "accounts/swap_station.html")
+        
