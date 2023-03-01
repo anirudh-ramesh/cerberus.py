@@ -137,7 +137,9 @@ function moblisation(){
         
         success: function (data) {  
             if(data.messages){
-                alert(data.messages);
+
+                $("#moblisation_status_text").text(data.messages);
+                bootstrap.Modal.getOrCreateInstance(document.getElementById("moblisation_status_modal")).show();
             }
         },
         
