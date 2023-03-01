@@ -11,12 +11,30 @@
 {% block menu %}
 {% if message %}
 <div class="row ml-4 d-flex justify-content-between">
-<div class="col-md-4">
-<div class="alert alert-success" role="alert">
-    Allocate success 
-  </div>
+<div class="col-md-4" id="success-pop_message" >
+    <div class="alert alert-success alert-dismissible">
+        <div class="callout" data-closable>
+            <div class="d-flex justify-content-between align-items-center">
+                <p>Allocate success</p>
+
+                <button class="close-button" onclick="cancelButton_Click()" type="button">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+
+            </div>
+           
+            
+          </div>
+      </div>
 </div>
 </div>
+<script> 
+    let success_id=document.getElementById("success-pop_message");
+    function cancelButton_Click(){
+        console.log("hellobuttton is clecked",success_id)
+       success_id.style.visibility ="hidden";
+    }
+    </script>
 {% endif %}
 <div class="row mt-5 p-5">
     <div class="col-md-12">
