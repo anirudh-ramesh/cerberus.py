@@ -2,232 +2,195 @@ from django_keycloak.models import Server, Realm, Client
 from django.views.generic import ListView, View
 from django.contrib.auth.models import User
 import requests
-from ast import literal_eval
 import json
-from pprint import pprint
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from cerberus_django.settings import REDIS_CONNECTION
-from rest_framework.response import Response
-from cerberus_django.messages import ERROR_USER_DOESNT_EXIST
-from cerberus_django.utility import is_user_exist,get_user_obj,email_payload,phoneNo_payload
+# from rest_framework.response import Response
+# from cerberus_django.messages import ERROR_USER_DOESNT_EXIST
+# from cerberus_django.utility import is_user_exist,get_user_obj,email_payload,phoneNo_payload
 from accounts.models import Token
-from accounts.serializers import SignupSerilizer
+# from accounts.serializers import SignupSerilizer
 import datetime
 
 from django.contrib import messages
 
 
-class SignUP(View):
+# class SignUP(View):
 
-    def get(self, request):
-        return render(request, "accounts/signup.html")
+#     def get(self, request):
+#         return render(request, "accounts/signup.html")
     
-    def post(self, request):
+#     def post(self, request):
 
-        # print("Realm user :", config("realm_username"))
-        # print("Realm password :", config("realm_password"))
+#         # print("Realm user :", config("realm_username"))
+#         # print("Realm password :", config("realm_password"))
         
-        server = Server.objects.first().url
+#         server = Server.objects.first().url
 
-        realm = Realm.objects.first()
+#         realm = Realm.objects.first()
 
-        client = Client.objects.get(realm=realm)
+#         client = Client.objects.get(realm=realm)
        
-        requested_phone_No=request.POST.get("phoneNo")
+#         requested_phone_No=request.POST.get("phoneNo")
 
-        requested_email_id=request.POST.get("email")
+#         requested_email_id=request.POST.get("email")
         
-        password=request.POST.get("password")
+#         password=request.POST.get("password")
         
-        serilizer_obj=SignupSerilizer(data=request.POST)
+#         serilizer_obj=SignupSerilizer(data=request.POST)
         
-        serilizer_obj.is_valid(raise_exception = True)
+#         serilizer_obj.is_valid(raise_exception = True)
         
-        if requested_phone_No==None and requested_email_id==None:
+#         if requested_phone_No==None and requested_email_id==None:
         
-            return Response("invalid input")
+#             return Response("invalid input")
         
-        email_exist,phoneNo_exist=is_user_exist(requested_email_id,requested_phone_No)
+#         email_exist,phoneNo_exist=is_user_exist(requested_email_id,requested_phone_No)
         
-        if email_exist:
+#         if email_exist:
         
-            return Response("Email already existing ")
+#             return Response("Email already existing ")
         
-        if phoneNo_exist:
+#         if phoneNo_exist:
         
-            return Response("PhoneNo already existing ")
+#             return Response("PhoneNo already existing ")
         
         
-        addUserUrl=f"{server}auth/admin/realms/{realm}/users"
+#         addUserUrl=f"{server}auth/admin/realms/{realm}/users"
         
-        if requested_email_id !=None and requested_phone_No==None:
+#         if requested_email_id !=None and requested_phone_No==None:
 
 
-            client = Client.objects.get(realm=realm)
+#             client = Client.objects.get(realm=realm)
 
-            user_data = {
-                    "username" : "cerberus_user",
-                    "password" :"Cerberus@123",
-                    "client_id":client.client_id,
-                    "client_secret": client.secret,
-                    "grant_type" : "password",
-                }
-            url = f"{server}auth/realms/{realm}/protocol/openid-connect/token"
-            response = requests.post(
-                url=url,
-                data=user_data,
-            )
+#             user_data = {
+#                     "username" : "cerberus_user",
+#                     "password" :"Cerberus@123",
+#                     "client_id":client.client_id,
+#                     "client_secret": client.secret,
+#                     "grant_type" : "password",
+#                 }
+#             url = f"{server}auth/realms/{realm}/protocol/openid-connect/token"
+#             response = requests.post(
+#                 url=url,
+#                 data=user_data,
+#             )
 
-            access_token=json.loads(response.text)['access_token']
+#             access_token=json.loads(response.text)['access_token']
 
-            print(access_token)
+#             print(access_token)
 
-            addUserUrl=f"{server}auth/admin/realms/{realm}/users"
+#             addUserUrl=f"{server}auth/admin/realms/{realm}/users"
 
-            headers = {
-            'Authorization': 'Bearer '+access_token+'',
-            'Content-Type': 'application/json'
-            }
+#             headers = {
+#             'Authorization': 'Bearer '+access_token+'',
+#             'Content-Type': 'application/json'
+#             }
 
-            payload=email_payload(requested_email_id,requested_phone_No,password)
-            print(payload)
+#             payload=email_payload(requested_email_id,requested_phone_No,password)
+#             print(payload)
 
-            response = requests.request("POST", addUserUrl, headers=headers,data=json.dumps(payload))
-            print(response)
-
-
-        if requested_email_id ==None and requested_phone_No!=None:
-
-            payload=phoneNo_payload(requested_email_id,requested_phone_No,password)
-
-            response = requests.request("POST", addUserUrl, headers=headers,data=json.dumps(payload))    
-
-        if response.status_code in [201,202,203,204,205]:
-
-            return render(request, "accounts/dashboard.html", {"access_token":access_token})
-
-        return render(request, "accounts/signup.html")
+#             response = requests.request("POST", addUserUrl, headers=headers,data=json.dumps(payload))
+#             print(response)
 
 
-class OTP(View):
-    def get(self, request):
-        return render(request, 'accounts/otp.html')
-    def post(self, request):
-        return render(request, 'accounts/otp.html')
+#         if requested_email_id ==None and requested_phone_No!=None:
+
+#             payload=phoneNo_payload(requested_email_id,requested_phone_No,password)
+
+#             response = requests.request("POST", addUserUrl, headers=headers,data=json.dumps(payload))    
+
+#         if response.status_code in [201,202,203,204,205]:
+
+#             return render(request, "accounts/dashboard.html", {"access_token":access_token})
+
+#         return render(request, "accounts/signup.html")
 
 
-class Login(View):
+# class OTP(View):
+#     def get(self, request):
+#         return render(request, 'accounts/otp.html')
+#     def post(self, request):
+#         return render(request, 'accounts/otp.html')
 
-    def get(self, request):
-        return render(request, "accounts/login.html")
+
+# class Login(View):
+
+#     def get(self, request):
+#         return render(request, "accounts/login.html")
     
-    def post(self, request):
+#     def post(self, request):
 
-        requested_phone_No=request.POST.get("phoneNo")
-        requested_email_id=request.POST.get("email")
-        requested_password=request.POST.get("password")
+#         requested_phone_No=request.POST.get("phoneNo")
+#         requested_email_id=request.POST.get("email")
+#         requested_password=request.POST.get("password")
 
 
-        if requested_phone_No==None and requested_email_id==None:
-            return Response("invalid input")
+#         if requested_phone_No==None and requested_email_id==None:
+#             return Response("invalid input")
         
-        user_obj=get_user_obj(requested_email_id,requested_phone_No) 
+#         user_obj=get_user_obj(requested_email_id,requested_phone_No) 
 
-        if user_obj==None:
-            return Response(ERROR_USER_DOESNT_EXIST)
+#         if user_obj==None:
+#             return Response(ERROR_USER_DOESNT_EXIST)
 
-        if user_obj.get('attributes').get('user_password')[0]!=requested_password:
-            return Response("Invalid password")
+#         if user_obj.get('attributes').get('user_password')[0]!=requested_password:
+#             return Response("Invalid password")
         
-        if requested_phone_No ==None and requested_email_id!=None:
+#         if requested_phone_No ==None and requested_email_id!=None:
 
-            if user_obj==None:
-                return Response("Invalid email id")
+#             if user_obj==None:
+#                 return Response("Invalid email id")
         
-        if requested_phone_No !=None and requested_email_id==None:
-            if user_obj==None:
-                return Response("Invalid phoneNo id")
+#         if requested_phone_No !=None and requested_email_id==None:
+#             if user_obj==None:
+#                 return Response("Invalid phoneNo id")
             
-        if user_obj.get("attributes").get("user_password")[0]==requested_password:
-            server = Server.objects.first().url
+#         if user_obj.get("attributes").get("user_password")[0]==requested_password:
+#             server = Server.objects.first().url
 
-            realm = Realm.objects.first()
+#             realm = Realm.objects.first()
 
-            client = Client.objects.get(realm=realm)
+#             client = Client.objects.get(realm=realm)
 
-            user_data = {
-                    "username" : user_obj.get('username'),
-                    "password" :requested_password,
-                    "client_id":client.client_id,
-                    "client_secret": client.secret,
-                    "grant_type" : "password",
-                }
+#             user_data = {
+#                     "username" : user_obj.get('username'),
+#                     "password" :requested_password,
+#                     "client_id":client.client_id,
+#                     "client_secret": client.secret,
+#                     "grant_type" : "password",
+#                 }
             
-            url = f"{server}auth/realms/{realm}/protocol/openid-connect/token"
-            response = requests.post(
-                url=url,
-                data=user_data,
-            )
+#             url = f"{server}auth/realms/{realm}/protocol/openid-connect/token"
+#             response = requests.post(
+#                 url=url,
+#                 data=user_data,
+#             )
 
-            access_token=json.loads(response.text)['access_token']
+#             access_token=json.loads(response.text)['access_token']
 
-            Token.objects.create(token = access_token)
+#             Token.objects.create(token = access_token)
 
-            print(access_token)
+#             print(access_token)
 
-            return render(request, 'accounts/dashboard.html', {"access_token":access_token})
+#             return render(request, 'accounts/dashboard.html', {"access_token":access_token})
             
 
-        return render(request, "accounts/login.html")
-
-
-class Logout(View):
-
-    def post(self, request):
-
-        print("In logout post func")
-
-        access_token = request.POST.get("access_token")
-
-        if access_token:
-            try:
-                token_obj = Token.objects.get(token=access_token)
-
-                if token_obj:
-                    
-                    token_obj.delete()
-
-            except Exception as e:
-                pass
-        server = Server.objects.first().url
-
-        realm = Realm.objects.first()
-
-        client = Client.objects.get(realm=realm)
-
-        user_data = {
-                
-                "client_id":client.client_id,
-                "client_secret": client.secret,
-                "grant_type" : "password",
-            }
-
-        logout_url = f"{server}auth/realms/{realm}/protocol/openid-connect/logout"
-
-        response = requests.post(
-            url=logout_url,
-            data=user_data,
-        )
-
-        print(response.__dict__)
-
-        return render(request, 'accounts/login.html')
+#         return render(request, "accounts/login.html")
 
 
 class Dashboard(View):
     def get(self, request):
-        return render(request, 'accounts/dashboard.html')
+        server = Server.objects.first().url
+
+        realm = Realm.objects.first()
+
+        client = Client.objects.get(realm=realm)
+
+        url = f"{server}/auth/realms/{realm}/login-actions/authenticate"
+
+        return render(request, 'accounts/dashboard.html', {"url":url,})
     
     def post(self, request):
         return render(request, 'accounts/dashboard.html')
@@ -258,7 +221,6 @@ class UserAccessAPI(View):
         access_token=json.loads(response.text)['access_token']
 
         addUserUrl=f"{server}auth/admin/realms/{realm}/users"
-        # payload="{\r\n    \"username\":\""+"snehlata@123"+"\",\r\n    \"firstName\":\""+"mayur"+"\",\r\n    \"lastName\":\""+"chaurasiya"+"\",\r\n    \"enabled\":true,\r\n    \"emailVerified\":true,\r\n    \"email\":\""+"mayur@gmail.com"+"\",    \"credentials\":[ {\r\n      \"type\": \"password\",\r\n      \"value\":\"password\"\r\n    }]\r\n}"
         headers = {
             'Authorization': 'Bearer '+access_token+'',
             'Content-Type': 'application/json'
@@ -800,7 +762,6 @@ class MoblisationStatus(View):
             ),
             content_type="application/json",
         )
-    
 
 
 class RefreshStatus(View):
@@ -835,6 +796,7 @@ class RefreshStatus(View):
             ),
             content_type = "application/json",
         )
+
     
 class SwapStationList(View):
     def get(self,request):

@@ -5,14 +5,16 @@
     <title>DASHBOARD | Cerberus</title>
     <link rel="stylesheet" href="{% static 'accounts/css/base.css' %}">
     <script type="text/javascript" href="{% static 'accounts/js/base.js' %}"></script>
+
     <script>
+        
         if(!localStorage.getItem("access_token")){
             console.log(localStorage.getItem("access_token"))
-            window.location = '/'
+            window.location = '{{url}}'
             localStorage.setItem("access_token", "{{access_token}}")
         }
-        
-    </script>
+    </script> 
+    
 {% endblock head %}
 
 {% block menu %}

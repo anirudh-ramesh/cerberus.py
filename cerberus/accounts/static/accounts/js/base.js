@@ -1,23 +1,3 @@
-function logout(){
-    
-    var access_token = localStorage.getItem("access_token")
-    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    
-    $.ajax({
-        type: "POST",
-        url: '/logout/',
-        headers:{'X-CSRFToken': csrftoken},
-        data: {
-            "access_token":access_token,
-        },
-        dataType: "json",
-        success: function (data) {  
-            alert("successfully Logged out")
-        },
-        
-    });
-}
-
 function delete_battery(){
     
     var battery_pack_sr_no = $("#delete_battery").data("model");
@@ -170,10 +150,14 @@ function refresh_status(){
 
 }
 
+function change_icon(){
+    debugger;
+    $("#battery-tab").addClass("active-menu-icon-bg");
+}
+
 $(document).ready(function(){
     $("#hide_password").hide();
     // $(document).on("click", "#allocate_battery", allocate_battery_fun);
-    $(document).on("click", "#logout_btn", logout);
     $(document).on("click", "#delete_battery", delete_battery);
     $(document).on("click", "#update_battery", update_battery);
     $(document).on("click", "#show_password", password_show);
@@ -181,6 +165,7 @@ $(document).ready(function(){
     $(document).on("click", "#delete_btn", open_delete_modal);
     $(document).on("click", "#moblisation_status", moblisation);
     $(document).on("click", ".refresh_btn", refresh_status);
+    $(document).on("click", "#battery-tab", change_icon);
     $("#battery-tab").hover(function(){
         $(".dropdown-menu").show();
     }

@@ -81,6 +81,10 @@
     color: #0D0106;
 }
 
+.active-menu-icon-bg{
+    background-color: #0D0106;
+}
+
 .inactive-menu-icon{
     color:#c6c6c6;
 }
