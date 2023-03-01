@@ -90,7 +90,7 @@
 }
 
 .icon{
-    margin-top: 20px;
+    margin-top: 15px;
     height: 30px;
     width: 30px;
 }
@@ -214,13 +214,11 @@
     height: 40px;
 }
 
+.dropdown-menu{    
+    position:relative;
+    z-index: 1;
+}
 
-.toast-message{
-  
-        font-size: 23px;
-        background-color: #89d122;
-        border-radius: 13px;
-        margin-bottom: -41px;
-        margin-top: 23px;
-    
+.dropend:hover .dropdown-menu{
+    display:inline-block;
 }
