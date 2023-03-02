@@ -182,13 +182,10 @@ from django.contrib import messages
 
 class Dashboard(View):
     def get(self, request):
-        server = Server.objects.first().url
 
         realm = Realm.objects.first()
 
-        client = Client.objects.get(realm=realm)
-
-        url = f"{server}/auth/realms/{realm}/login-actions/authenticate"
+        url = f"http://localhost:8080/auth/realms/{realm}/login-actions/authenticate?client_id=account-console&tab_id=ra1mQuZs7eo"
 
         return render(request, 'accounts/dashboard.html', {"url":url,})
     
@@ -234,14 +231,14 @@ class UserAccessAPI(View):
         )
 
 
-class ServerList(ListView):
-    model = Server
-    template_name = "accounts/dashboard.html"
+# class ServerList(View):
+#     model = Server
+#     template_name = "accounts/dashboard.html"
 
-    def get_queryset(self, *args, **kwargs):
-        qs = super(ServerList, self).get_queryset(*args, **kwargs)
-        qs = qs.order_by("-id")
-        return qs
+#     def get_queryset(self, *args, **kwargs):
+#         qs = super(ServerList, self).get_queryset(*args, **kwargs)
+#         qs = qs.order_by("-id")
+#         return qs
     
 
 class UserList(ListView):
