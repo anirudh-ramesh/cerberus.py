@@ -30,14 +30,14 @@
             </div>
             <nav class="nav flex-column px-5">
                 <a class="nav-link" id="dashboad-tab" data-toggle="pill" href="{% url 'dashboard' %}" role="tab">
-                    <img class="icon" src="{% static 'accounts/images/icons/home.svg' %}">
+                    <img class="icon w-100" src="{% static 'accounts/images/icons/home.svg' %}">
                 </a>
-                <a class="nav-link" id="profile-tab" data-toggle="pill" href="#profile-tab" role="tab">
-                    <img class="icon" src="{% static 'accounts/images/icons/Users.svg' %}">
+                <a class="nav-link mt-2" id="profile-tab" data-toggle="pill" href="#profile-tab" role="tab">
+                    <img class="icon w-100" src="{% static 'accounts/images/icons/Users.svg' %}">
                 </a>
-                <div class="btn-group dropend">
+                <div class="btn-group dropend mt-2">
                     <a class="nav-link dropdown-toggle" data-toggle="pill" aria-expanded="false" id="battery-tab" href="{% url 'viewallbattery' %}" role="tab">
-                        <img class="icon" src="{% static 'accounts/images/icons/Battery.svg' %}">
+                        <img class="icon w-100" src="{% static 'accounts/images/icons/Battery.svg' %}">
                     </a>
                     <ul class="dropdown-menu px-3 py-5">
                         <li><a type="button" class="btn btn-default inactive-menu-icon-bg font-size-3 color-2 mt-5 w-100" href="{% url 'add_battery' %}">Add Battery</a></li>

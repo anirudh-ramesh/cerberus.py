@@ -155,7 +155,6 @@ function change_icon(){
 }
 
 $("#battery-tab").on("click", function() {
-    debugger;
     $(this).css("background", "red");
 })
 
