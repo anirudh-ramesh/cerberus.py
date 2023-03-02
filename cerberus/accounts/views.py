@@ -181,6 +181,7 @@ from django.contrib import messages
 
 
 class Dashboard(View):
+
     def get(self, request):
 
         realm = Realm.objects.first()
@@ -191,6 +192,10 @@ class Dashboard(View):
     
     def post(self, request):
         return render(request, 'accounts/dashboard.html')
+    
+
+
+
 
 
 class UserAccessAPI(View):
@@ -229,17 +234,7 @@ class UserAccessAPI(View):
             request,
             "accounts/login.html",
         )
-
-
-# class ServerList(View):
-#     model = Server
-#     template_name = "accounts/dashboard.html"
-
-#     def get_queryset(self, *args, **kwargs):
-#         qs = super(ServerList, self).get_queryset(*args, **kwargs)
-#         qs = qs.order_by("-id")
-#         return qs
-    
+ 
 
 class UserList(ListView):
     model = User
