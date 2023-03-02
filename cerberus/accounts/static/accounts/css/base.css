@@ -82,7 +82,8 @@
 }
 
 .active-menu-icon-bg{
-    background-color: #0D0106;
+    background-color: #FFFFFF;
+    box-shadow: 0px 2px 4px 4px rgba(0, 0, 0, 0.05);
 }
 
 .inactive-menu-icon{
@@ -213,6 +214,10 @@
     transform: translateX(2px);
 }
 
+.dropend{
+    height: 70px;
+}
+
 .action_btn{
     width: 40px;
     height: 40px;
@@ -221,6 +226,13 @@
 .dropdown-menu{    
     position:relative;
     z-index: 1;
+    height: 900px;
+    width: 250px;
+    top:0;
+    margin-top: -100%;
+    box-shadow: 4px 0 8px 10px rgba(0, 0, 0, 0.04);
+    border: 0;
+    left: 20px;
 }
 
 .dropend:hover .dropdown-menu{
