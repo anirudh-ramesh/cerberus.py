@@ -5,14 +5,17 @@
     <title>DASHBOARD | Cerberus</title>
     <link rel="stylesheet" href="{% static 'accounts/css/base.css' %}">
     <script type="text/javascript" href="{% static 'accounts/js/base.js' %}"></script>
+
     <script>
+        
         if(!localStorage.getItem("access_token")){
             console.log(localStorage.getItem("access_token"))
             window.location = 'http://localhost:8080/auth/realms/cerberus-realm/protocol/openid-connect/auth?client_id=account-console&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fauth%2Frealms%2Fcerberus-realm%2Faccount%2F%23%2F&state=1d9798a4-89d7-4158-8d96-17dd8dd73b32&response_mode=fragment&response_type=code&scope=openid&nonce=779b421c-0e69-464c-81c5-df5d625f961e&code_challenge=FrJT1u0R3x8cxOzSQdpQi-JFMo0Ymi_N4V4CcW-fc7k&code_challenge_method=S256'
+           
             localStorage.setItem("access_token", "{{access_token}}")
         }
-        
-    </script>
+    </script> 
+    
 {% endblock head %}
 
 {% block menu %}
