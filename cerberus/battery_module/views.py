@@ -9,8 +9,8 @@ from cerberus_django.settings import REDIS_CONNECTION
 # from rest_framework.response import Response
 # from cerberus_django.messages import ERROR_USER_DOESNT_EXIST
 # from cerberus_django.utility import is_user_exist,get_user_obj,email_payload,phoneNo_payload
-from accounts.models import Token
-# from accounts.serializers import SignupSerilizer
+from battery_module.models import Token
+# from battery_module.serializers import SignupSerilizer
 import datetime
 
 from django.contrib import messages
@@ -19,7 +19,7 @@ from django.contrib import messages
 # class SignUP(View):
 
 #     def get(self, request):
-#         return render(request, "accounts/signup.html")
+#         return render(request, "battery_module/signup.html")
     
 #     def post(self, request):
 
@@ -103,22 +103,22 @@ from django.contrib import messages
 
 #         if response.status_code in [201,202,203,204,205]:
 
-#             return render(request, "accounts/dashboard.html", {"access_token":access_token})
+#             return render(request, "battery_module/dashboard.html", {"access_token":access_token})
 
-#         return render(request, "accounts/signup.html")
+#         return render(request, "battery_module/signup.html")
 
 
 # class OTP(View):
 #     def get(self, request):
-#         return render(request, 'accounts/otp.html')
+#         return render(request, 'battery_module/otp.html')
 #     def post(self, request):
-#         return render(request, 'accounts/otp.html')
+#         return render(request, 'battery_module/otp.html')
 
 
 # class Login(View):
 
 #     def get(self, request):
-#         return render(request, "accounts/login.html")
+#         return render(request, "battery_module/login.html")
     
 #     def post(self, request):
 
@@ -174,10 +174,10 @@ from django.contrib import messages
 
 #             print(access_token)
 
-#             return render(request, 'accounts/dashboard.html', {"access_token":access_token})
+#             return render(request, 'battery_module/dashboard.html', {"access_token":access_token})
             
 
-#         return render(request, "accounts/login.html")
+#         return render(request, "battery_module/login.html")
 
 
 class Dashboard(View):
@@ -188,10 +188,10 @@ class Dashboard(View):
 
         url = f"http://localhost:8080/auth/realms/{realm}/login-actions/authenticate?client_id=account-console&tab_id=ra1mQuZs7eo"
 
-        return render(request, 'accounts/dashboard.html', {"url":url,})
+        return render(request, 'battery_module/dashboard.html', {"url":url,})
     
     def post(self, request):
-        return render(request, 'accounts/dashboard.html')
+        return render(request, 'battery_module/dashboard.html')
     
 
 
@@ -232,13 +232,13 @@ class UserAccessAPI(View):
 
         return render(
             request,
-            "accounts/login.html",
+            "battery_module/login.html",
         )
  
 
 class UserList(ListView):
     model = User
-    template_name = "accounts/signup.html"
+    template_name = "battery_module/signup.html"
 
     def get_queryset(self, *args, **kwargs):
         qs = super(UserList, self).get_queryset(*args, **kwargs)
@@ -274,12 +274,12 @@ class BatteryList(View):
 
             battery_tag_list.append(row["asset_tag"])
 
-        return render(request, 'accounts/battery_packs.html', {"battery_tag_list":battery_tag_list,}) 
+        return render(request, 'battery_module/battery_packs.html', {"battery_tag_list":battery_tag_list,}) 
     
 
 class GetBattery(View):
     def get(self, request):
-        return render(request, 'accounts/get_battery.html')
+        return render(request, 'battery_module/get_battery.html')
 
     def post(self, request):
         
@@ -342,20 +342,20 @@ class GetBattery(View):
                         elif key == "Battery Pack Casing":
                             battery_dict["battery_pack_casing"] = value["value"]
 
-                    return render(request, 'accounts/battery_details.html', battery_dict)
+                    return render(request, 'battery_module/battery_details.html', battery_dict)
 
                 elif response.status_code == 404:
 
                     messages.error(request, f'" {battery_pack_sr_no} " {dict_json_response["messages"]} !! Please try with another battery pack serial no.')
 
-                return render(request, 'accounts/get_battery.html')
+                return render(request, 'battery_module/get_battery.html')
              
-        return render(request, 'accounts/get_battery.html')
+        return render(request, 'battery_module/get_battery.html')
     
 
 class AddBattery(View):
     def get(self, request):
-        return render(request, 'accounts/add_battery.html')
+        return render(request, 'battery_module/add_battery.html')
     
     def post(self, request):
 
@@ -398,7 +398,7 @@ class AddBattery(View):
             message = "Battery Added Successfully"
             return redirect("battery_crud")
 
-        return render(request, 'accounts/add_battery.html')
+        return render(request, 'battery_module/add_battery.html')
     
 
 class DeleteBattery(View):
@@ -415,9 +415,9 @@ class DeleteBattery(View):
 
         if response.status_code in [201, 202, 203, 204, 205, 200]:
             
-            return render(request, "accounts/view_all_battery.html")
+            return render(request, "battery_module/view_all_battery.html")
         
-        return render(request, "accounts/view_all_battery.html")
+        return render(request, "battery_module/view_all_battery.html")
     
 
 class UpdateBattery(View):
@@ -478,7 +478,7 @@ class UpdateBattery(View):
                     elif key == "Battery Pack Casing":
                         battery_dict["battery_pack_casing"] = value["value"]
 
-            return render(request, 'accounts/update_battery.html', battery_dict)
+            return render(request, 'battery_module/update_battery.html', battery_dict)
     
     def post(self, request, battery_pack_sr_no):
         
@@ -528,7 +528,7 @@ class UpdateBattery(View):
         if response.status_code in [201, 202, 203, 204, 205, 200]:
             return redirect('viewallbattery')
         
-        return render(request, 'accounts/update_battery.html')
+        return render(request, 'battery_module/update_battery.html')
 
 
 class ViewAllBattery(View):
@@ -570,7 +570,7 @@ class ViewAllBattery(View):
                 pass
     
             
-        return render(request, 'accounts/view_all_battery.html',{"battery_data":list_of_battery})
+        return render(request, 'battery_module/view_all_battery.html',{"battery_data":list_of_battery})
     def post(self,request):
         search_key=request.POST.get("search_text").strip()
         list_of_battery1=[]
@@ -608,7 +608,7 @@ class ViewAllBattery(View):
             temp_dict['SoC']=i.get('SoC')
             list_of_battery.append(temp_dict)
 
-        return render(request, 'accounts/view_all_battery.html',{"battery_data":list_of_battery})
+        return render(request, 'battery_module/view_all_battery.html',{"battery_data":list_of_battery})
     
 
 class Allocate_battery(View):
@@ -641,7 +641,7 @@ class Allocate_battery(View):
             dict_json_response = json.loads(dict_response["_content"])
             temp_dict['battery_pack_sr_no']=battery_pack_sr_no
             temp_dict["assign_list"] =dict_json_response.get('messages')
-            return render(request, 'accounts/allocate_battery.html',{'data':temp_dict})
+            return render(request, 'battery_module/allocate_battery.html',{'data':temp_dict})
         
     def post(self,request,battery_pack_sr_no):
         assert_battery_tag=request.POST.get("assert_tag_battery")
@@ -664,7 +664,7 @@ class Allocate_battery(View):
             if response.status_code in [200,201]:
                 print(response.status_code)
 
-                return render(request, 'accounts/allocate_battery.html',{"message":"Allocate success"})
+                return render(request, 'battery_module/allocate_battery.html',{"message":"Allocate success"})
         else:
             url="http://iot.igt-ev.com/battery/allocate/swapping_station/"
             response = requests.post(
@@ -674,13 +674,13 @@ class Allocate_battery(View):
                              )
             if response.status_code in [200,201]:
                 print(response.status_code)
-                return render(request, 'accounts/allocate_battery.html',{"message":"Allocate success"})
-            return render(request, 'accounts/allocate_battery.html')
+                return render(request, 'battery_module/allocate_battery.html',{"message":"Allocate success"})
+            return render(request, 'battery_module/allocate_battery.html')
 
 
 class ViewLogs(View):
     def get(self, request, battery_pack_sr_no):
-        return render(request, "accounts/logs.html")
+        return render(request, "battery_module/logs.html")
 
     def post(self, request, battery_pack_sr_no):
         start_date = request.POST.get("start_date")
@@ -712,9 +712,9 @@ class ViewLogs(View):
 
             payload = dict_data["payload"]
 
-            return render(request, "accounts/logs.html",{"payload":payload})
+            return render(request, "battery_module/logs.html",{"payload":payload})
             
-        return render(request, "accounts/logs.html")
+        return render(request, "battery_module/logs.html")
 
 
 class MoblisationStatus(View):
@@ -793,7 +793,7 @@ class RefreshStatus(View):
 class SwapStationList(View):
     def get(self,request):
         print("in swap station","%"*40)
-        return render(request, "accounts/swap_station.html")
+        return render(request, "battery_module/swap_station.html")
     def post(self,request):
-        return render(request, "accounts/swap_station.html")
+        return render(request, "battery_module/swap_station.html")
         

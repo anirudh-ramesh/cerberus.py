@@ -1,5 +1,5 @@
 from django.contrib import admin
-from accounts.models import Token
+from battery_module.models import Token
 
 
 admin.site.register(Token)

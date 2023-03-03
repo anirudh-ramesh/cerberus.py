@@ -1,5 +1,5 @@
 from django.urls import path
-from accounts.views import UserAccessAPI, BatteryList, AddBattery, GetBattery, DeleteBattery, UpdateBattery,ViewAllBattery,\
+from battery_module.views import UserAccessAPI, BatteryList, AddBattery, GetBattery, DeleteBattery, UpdateBattery,ViewAllBattery,\
     Allocate_battery,ViewLogs, MoblisationStatus, RefreshStatus,SwapStationList, Dashboard
 from rest_framework.routers import DefaultRouter
 
