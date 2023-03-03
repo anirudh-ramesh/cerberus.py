@@ -8,10 +8,10 @@
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'accounts/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'battery_module/css/base.css' %}">
     <script src="https://kit.fontawesome.com/a6c479c4d6.js" crossorigin="anonymous"></script>
 
-    <script type="text/javascript" src="{% static 'accounts/js/base.js' %}"></script>
+    <script type="text/javascript" src="{% static 'battery_module/js/base.js' %}"></script>
     
     {% block head %}
         <title>Menu | Cerberus</title>
@@ -24,20 +24,20 @@
             <div class="row py-5">
                 <div class="col-md-12 text-center d-flex align-items-center justify-content-center">
                     <div class="profile_pic px-3 py-3">
-                        <img src="{% static 'accounts/images/icons/Users.svg' %}">
+                        <img src="{% static 'battery_module/images/icons/Users.svg' %}">
                     </div>
                 </div>
             </div>
             <nav class="nav flex-column px-5">
                 <a class="nav-link" id="dashboad-tab" data-toggle="pill" href="{% url 'dashboard' %}" role="tab">
-                    <img class="icon w-100" src="{% static 'accounts/images/icons/home.svg' %}">
+                    <img class="icon w-100" src="{% static 'battery_module/images/icons/home.svg' %}">
                 </a>
                 <a class="nav-link mt-2" id="profile-tab" data-toggle="pill" href="#profile-tab" role="tab">
-                    <img class="icon w-100" src="{% static 'accounts/images/icons/Users.svg' %}">
+                    <img class="icon w-100" src="{% static 'battery_module/images/icons/Users.svg' %}">
                 </a>
                 <div class="btn-group dropend mt-2">
                     <a class="nav-link dropdown-toggle" data-toggle="pill" aria-expanded="false" id="battery-tab" href="{% url 'viewallbattery' %}" role="tab">
-                        <img class="icon w-100" src="{% static 'accounts/images/icons/Battery.svg' %}">
+                        <img class="icon w-100" src="{% static 'battery_module/images/icons/Battery.svg' %}">
                     </a>
                     <ul class="dropdown-menu px-3 py-5">
                         <li><a type="button" class="btn btn-default inactive-menu-icon-bg font-size-3 color-2 mt-5 w-100" href="{% url 'add_battery' %}">Add Battery</a></li>
@@ -45,28 +45,28 @@
                     </ul>
                 </div>
                 <a class="nav-link" id="swapping-station-tab" data-toggle="pill" href="#swapping-station-tab" role="tab">
-                    <img class="icon" src="{% static 'accounts/images/icons/Swapping_Station.svg' %}">
+                    <img class="icon" src="{% static 'battery_module/images/icons/Swapping_Station.svg' %}">
                 </a>
                 <a class="nav-link" id="geography-tab" data-toggle="pill" href="#geography-tab" role="tab">
-                    <img class="icon" src="{% static 'accounts/images/icons/Geography.svg' %}">
+                    <img class="icon" src="{% static 'battery_module/images/icons/Geography.svg' %}">
                 </a>
                 <a class="nav-link" id="vehicles-tab" data-toggle="pill" href="#vehicles-tab" role="tab">
-                    <img class="icon" src="{% static 'accounts/images/icons/Vehicles.svg' %}">
+                    <img class="icon" src="{% static 'battery_module/images/icons/Vehicles.svg' %}">
                 </a>
                 <a class="nav-link" id="vcu-tab" data-toggle="pill" href="#vcu-tab" role="tab">
-                    <img class="icon" src="{% static 'accounts/images/icons/VCU.svg' %}">
+                    <img class="icon" src="{% static 'battery_module/images/icons/VCU.svg' %}">
                 </a>
                 <a class="nav-link" id="iot-tab" data-toggle="pill" href="#iot-tab" role="tab">
-                    <img class="icon" src="{% static 'accounts/images/icons/IOT.svg' %}">
+                    <img class="icon" src="{% static 'battery_module/images/icons/IOT.svg' %}">
                 </a>
                 <a class="nav-link" id="reports-tab" data-toggle="pill" href="#reports-tab" role="tab">
-                    <img class="icon" src="{% static 'accounts/images/icons/reports.svg' %}">
+                    <img class="icon" src="{% static 'battery_module/images/icons/reports.svg' %}">
                 </a>
                 <a class="nav-link" id="settings-tab" data-toggle="pill" href="#settings-tab" role="tab">
-                    <img class="icon" src="{% static 'accounts/images/icons/settings.svg' %}">
+                    <img class="icon" src="{% static 'battery_module/images/icons/settings.svg' %}">
                 </a>
                 <a class="nav-link" id="complaint-tab" data-toggle="pill" href="#complaint-tab" role="tab">
-                    <img class="icon" src="{% static 'accounts/images/icons/complaint.svg' %}">
+                    <img class="icon" src="{% static 'battery_module/images/icons/complaint.svg' %}">
                 </a>
             </nav>
             
