@@ -696,8 +696,6 @@ class ViewLogs(View):
                 "from":int(start_date_timestamp),
                 "to":int(end_date_timestamp),
             }
-        
-        print(params)
 
         response = requests.get(
             url = url,
