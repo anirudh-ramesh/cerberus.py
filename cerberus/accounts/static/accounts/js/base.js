@@ -151,9 +151,12 @@ function refresh_status(){
 }
 
 function change_icon(){
-    debugger;
-    $("#battery-tab").addClass("active-menu-icon-bg");
+    $("#dashboad-tab").addClass("active-menu-icon-bg");
 }
+
+$("#battery-tab").on("click", function() {
+    $(this).css("background", "red");
+})
 
 $(document).ready(function(){
     $("#hide_password").hide();
@@ -165,7 +168,8 @@ $(document).ready(function(){
     $(document).on("click", "#delete_btn", open_delete_modal);
     $(document).on("click", "#moblisation_status", moblisation);
     $(document).on("click", ".refresh_btn", refresh_status);
-    $(document).on("click", "#battery-tab", change_icon);
+    // $(document).on("click", "#battery-tab", change_icon);
+    // $(document).on("click", "#dashboad-tab", change_icon);
     $("#battery-tab").hover(function(){
         $(".dropdown-menu").show();
     }

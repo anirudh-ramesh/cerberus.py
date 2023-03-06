@@ -16,6 +16,10 @@ import datetime
 from django.contrib import messages
 
 
+class keycloak(View):
+    def get(self,request):
+        return redirect("aml")
+
 # class SignUP(View):
 
 #     def get(self, request):
@@ -182,14 +186,11 @@ from django.contrib import messages
 
 class Dashboard(View):
     def get(self, request):
-        server = Server.objects.first().url
 
         realm = Realm.objects.first()
 
-        client = Client.objects.get(realm=realm)
+        url = f"http://localhost:8080/auth/realms/{realm}/login-actions/authenticate?client_id=account-console&tab_id=ra1mQuZs7eo"
 
-        url = f"{server}/auth/realms/{realm}/login-actions/authenticate"
-        print("ddddddddddddddddd",url)
         return render(request, 'accounts/dashboard.html', {"url":url,})
     
     def post(self, request):
@@ -234,14 +235,14 @@ class UserAccessAPI(View):
         )
 
 
-class ServerList(ListView):
-    model = Server
-    template_name = "accounts/dashboard.html"
+# class ServerList(View):
+#     model = Server
+#     template_name = "accounts/dashboard.html"
 
-    def get_queryset(self, *args, **kwargs):
-        qs = super(ServerList, self).get_queryset(*args, **kwargs)
-        qs = qs.order_by("-id")
-        return qs
+#     def get_queryset(self, *args, **kwargs):
+#         qs = super(ServerList, self).get_queryset(*args, **kwargs)
+#         qs = qs.order_by("-id")
+#         return qs
     
 
 class UserList(ListView):
