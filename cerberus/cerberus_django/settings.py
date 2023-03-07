@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_keycloak.apps.KeycloakAppConfig',
     'battery_module.apps.BatteryModuleConfig',
+    'vcu.apps.VcuConfig',
     'base.apps.BaseConfig',
     'rest_framework',
     

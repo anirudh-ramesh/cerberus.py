@@ -1,7 +1,7 @@
 {% extends 'menu.html' %}
 {% load static %}
 {% block head %}
-    <title>BATTERIES | Cerberus</title>
+    <title>VCU | Cerberus</title>
     <link rel="stylesheet" href="{% static 'battery_module/css/base.css' %}">
 {% endblock head %}
 
@@ -11,7 +11,7 @@
       <div class="col-md-6">
       </div>
       <div class="col-md-6">
-         <form method="post" id="view-battery-search-form">
+         {% comment %} <form method="post" id="view-battery-search-form">
             {% csrf_token %}
             <div class="input-group mb-3">
                <input type="text" class="form-control" id="view-battery-search-bar" placeholder="Enter Battey pack serial no..." aria-label="Search" aria-describedby="search-addon" name="search_text"/>
@@ -20,177 +20,95 @@
                   search
                </button> 
             </div>
-         </form>
+         </form> {% endcomment %}
       </div>
    </div>
    <div class="row px-5 bg-white">
       <div class="col-md-12">
-         <h3>Batteries Data</h3>
+         <h3>VCU Data</h3>
          <table  class="mt-3 table caption-top table-responsive table-height">
             <thead>
                <tr>
-                  <th scope="col">Battery_Serial_Number</th>
-                  <th scope="col">Model_Name</th>
-                  <th scope="col">Assigned_owner</th>
-                  <th scope="col">IOT_IMEI_No</th>
-                  <th scope="col">Battery_type</th>
-                  <th scope="col">BMS_type</th>
-                  <th scope="col">IOT_type</th>
-                  <th scope="col">Sim_Number</th>
-                  <th scope="col">Warranty_Start_Date</th>
-                  <th scope="col">Warrenty_End_Date</th>
+                  <th scope="col">Asset_Tag</th>
+                  <th scope="col">Snipeit_IMEI</th>
+                  <th scope="col">Purchase_Date</th>
+                  <th scope="col">Purchase_Date_+_Interval_+_Warranty_Months</th>
+                  <th scope="col">Snipeit_Vehicle_Type_45</th>
+                  <th scope="col">Snipeit_Vehicle_Configuration_46</th>
                   <th scope="col">Status</th>
-                  <th scope="col">Battery_Cell_Chemistry</th>
-                  <th scope="col">Battery_pack_Nominal_Voltage</th>
-                  <th scope="col">Battery_Pack_Capacity</th>
-                  <th scope="col">Battery_Cell_Type</th>
-                  <th scope="col">Immobilisation_Status</th>
-                  <th scope="col">SOC</th>
+                  <th scope="col">Owner</th>
                   <th scope="col">Action</th>
                </tr>
             </thead>
             <tbody> 
               
 
-               {% for tag in battery_data %} 
+               {% for tag in vcu_data %} 
                
                <tr>
                   <td>
-                     {% if tag.Battery_Serial_Number %}
-                        {{ tag.Battery_Serial_Number}}
+                     {% if tag.asset_tag %}
+                        {{ tag.asset_tag }}
                      {% else %}
                         -
                      {% endif %}
                   </td>
                   <td>
-                     {% if tag.Model_Name %}
-                        {{tag.Model_Name}}
+                     {% if tag.snipeit_imei %}
+                        {{ tag.snipeit_imei }}
                      {% else %}
                         -
                      {% endif %}
                   </td>
                   <td>
-                     {% if tag.Assigned_owner %}
-                        {{tag.Assigned_owner}}
+                     {% if tag.purchase_date %}
+                        {{ tag.purchase_date }}
                      {% else %}
                         -
                      {% endif %}
                   </td>
                   <td>
-                     {% if tag.IOT_IMEI_No %}
-                        {{tag.IOT_IMEI_No}}
+                     {% if tag.purchase_date_interval_warranty_months %}
+                        {{tag.purchase_date_interval_warranty_months}}
                      {% else %}
                         -
                      {% endif %}
                   </td>
                   <td>
-                     {% if tag.Battery_type %}
-                        {{tag.Battery_type}}
+                     {% if tag.snipeit_vechicle_type_45 %}
+                        {{tag.snipeit_vechicle_type_45}}
                      {% else %}
                         -
                      {% endif %}
                   </td>
                   <td>
-                     {% if tag.BMS_type %}
-                        {{tag.BMS_type}}
+                     {% if tag.snipeit_vechicle_configuration_46 %}
+                        {{tag.snipeit_vechicle_configuration_46}}
                      {% else %}
                         -
                      {% endif %}
                   </td>
                   <td>
-                     {% if tag.IOT_type %}
-                        {{tag.IOT_type}}
+                     {% if tag.status %}
+                        {{tag.status}}
                      {% else %}
                         -
                      {% endif %}
                   </td>
                   <td>
-                     {% if tag.Sim_Number %}
-                        {{tag.Sim_Number}}
+                     {% if tag.owner %}
+                        {{tag.owner}}
                      {% else %}
                         -
                      {% endif %}
                   </td>
-                  <td>
-                     {% if tag.Warranty_Start_Date %}
-                        {{tag.Warranty_Start_Date}}
-                     {% else %}
-                        -
-                     {% endif %}
-                  </td>
-                  <td>
-                     {% if tag.Warranty_End_Date %}
-                        {{tag.Warranty_End_Date}}
-                     {% else %}
-                        -
-                     {% endif %}
-                  </td>
-                  <td>
-                     {% if tag.Status %}
-                        {{tag.Status}}
-                     {% else %}
-                        -
-                     {% endif %}
-                  </td>
-                  <td>
-                     {% if tag.Battery_Cell_Chemistry %}
-                        {{tag.Battery_Cell_Chemistry}}
-                     {% else %}
-                        -
-                     {% endif %}
-                  </td>
-                  <td>
-                     {% if tag.Battery_pack_Nominal_Voltage %}
-                        {{tag.Battery_pack_Nominal_Voltage}}
-                     {% else %}
-                        -
-                     {% endif %}
-                  </td>
-                  <td>
-                     {% if tag.Battery_Pack_Capacity %}
-                        {{tag.Battery_Pack_Capacity}}
-                     {% else %}
-                        -
-                     {% endif %}
-                  </td>
-                  <th>
-                     {% if tag.Battery_Cell_Type %}
-                        {{tag.Battery_Cell_Type}}
-                     {% else %}
-                        -
-                     {% endif %}
-                  </th>
-                  <th>
-                     <div class="input-group">
-
-                        {% if tag.Immobilisation_Status == None or tag.Immobilisation_Status == "0" %}
-                           <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="moblisation_status" data-battery_pack_sr_no = {{ tag.Battery_Serial_Number }} data-status = {{tag.Immobilisation_Status }} checked>
-                           </div>
-                        {% else %}
-                           <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="moblisation_status" data-battery_pack_sr_no = {{ tag.Battery_Serial_Number }} data-status = {{tag.Immobilisation_Status }}>
-                           </div>
-                        {% endif %}
-                        <button class="btn btn-default refresh_btn" type="reset" data-battery_pack_sr_no = {{tag.Battery_Serial_Number}}>
-                           <img class="action_btn" src="{% static 'battery_module/images/action_btns/redo.png' %}">
-                        </button>
-                     </div>
-                  </th>
-                  <th>
-                     {% if tag.SoC %}
-                        {{ tag.SoC }}
-                     {% else %}
-                        -
-                     {% endif %}
-                  </th>
                   <td>
                      <div class="btn-group">
-                        <a href="{% url 'update_battery' tag.Battery_Serial_Number %}" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'battery_module/images/action_btns/edit.svg' %}" alt="edit.svg"></a>
+                        <a href="#" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'battery_module/images/action_btns/edit.svg' %}" alt="edit.svg"></a>
                         <a class="btn btn-light btn-sm" id = "delete_btn" data-model_name = "{{ tag.Model_Name }}" data-battery_serial_number = "{{ tag.Battery_Serial_Number }}"><img class="action_btn" src="{% static 'battery_module/images/action_btns/delete.svg' %}" alt="delete.svg"></button>
-                        <a href="{% url 'allocatebattery' tag.Battery_Serial_Number %}" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'battery_module/images/action_btns/electric_vehicle.svg' %}" alt="edit.svg"></a>
+                        <a href="#" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'battery_module/images/action_btns/electric_vehicle.svg' %}" alt="edit.svg"></a>
                         <a href="http://2.irasus.com:9600/d/OGoAalwK/battery-measurements?from=now-30m&to=now&var-packName={{tag.Battery_Serial_Number}}&kiosk&orgId=15" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'battery_module/images/action_btns/data-update.svg' %}" alt="data-update.svg"></a>
-                        <a href="{% url 'logs' tag.Battery_Serial_Number %}" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'battery_module/images/action_btns/log12-removebg-preview.png' %}" alt="log12-removebg-preview.svg"></a>
+                        <a href="#" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'battery_module/images/action_btns/log12-removebg-preview.png' %}" alt="log12-removebg-preview.svg"></a>
                      </div>
                   </td> 
                </tr>
@@ -243,7 +161,7 @@
 
    <script src="{% static 'battery_module/js/base.js' %}"></script>
    <script>
-      $("#battery-tab").addClass("active-menu-icon-bg");
+      $("#vcu-tab").addClass("active-menu-icon-bg");
    </script>
 
 {% endblock menu %}   
