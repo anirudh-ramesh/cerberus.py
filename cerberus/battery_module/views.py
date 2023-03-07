@@ -538,13 +538,14 @@ class UpdateBattery(View):
 class ViewAllBattery(View):
     
     def get(self,request):
+        print("dffffffffffffffff")
         url = "http://iot.igt-ev.com/battery/all"
         response = requests.get(
                 url = url   
                 )
         
         dict_response = response.__dict__
-
+        REDIS_CONNECTION.delete("view_battery_data2")
         dict_json_response = json.loads(dict_response["_content"])
         list_of_battery=[]
         view_battery_data_redis=[json.loads(i.decode('utf-8')) for i in REDIS_CONNECTION.lrange("view_battery_data2",0,-1)]
@@ -567,15 +568,17 @@ class ViewAllBattery(View):
             temp_dict['Battery_Cell_Type']=i.get('Battery Cell Type')
             temp_dict['Immobilisation_Status']=i.get('Immobilisation Status')
             temp_dict['SoC']=i.get('SoC')
-            list_of_battery.append(temp_dict)
+            
             if i not in view_battery_data_redis:
+                list_of_battery.append(temp_dict)
                 REDIS_CONNECTION.lpush("view_battery_data2",json.dumps(i))
             else:
                 pass
     
-            
+        print(list_of_battery)    
         return render(request, 'battery_module/view_all_battery.html',{"battery_data":list_of_battery})
     def post(self,request):
+        # if request.POST.get('form_type')==""
         search_key=request.POST.get("search_text").strip()
         list_of_battery1=[]
         partial_value=[]    
@@ -589,6 +592,7 @@ class ViewAllBattery(View):
                 partial_value.append(l)   
             else:
                pass     
+            
         list_of_battery1.extend(partial_value)
         list_of_battery=[]
         for i in list_of_battery1:
