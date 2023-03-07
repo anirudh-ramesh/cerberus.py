@@ -1,0 +1,100 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'battery_module/css/base.css' %}">
+    <script src="https://kit.fontawesome.com/a6c479c4d6.js" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="{% static 'battery_module/js/base.js' %}"></script>
+    
+    {% block head %}
+        <title>Menu | Cerberus</title>
+    {% endblock head %}
+  </head>
+  <body>
+
+    <div class="row inactive-menu-icon-bg">
+        <div class="col-md-1">
+            <div class="row py-5">
+                <div class="col-md-12 text-center d-flex align-items-center justify-content-center">
+                    <div class="profile_pic px-3 py-3">
+                        <img src="{% static 'battery_module/images/icons/Users.svg' %}">
+                    </div>
+                </div>
+            </div>
+            <nav class="nav flex-column px-5">
+                
+                <a class="nav-link" id="dashboad-tab" data-toggle="pill" href="{% url 'dashboard' %}" role="tab">
+                    <img class="icon" src="{% static 'battery_module/images/icons/home.svg' %}">
+                </a>
+            
+                <a class="nav-link mt-2" id="profile-tab" data-toggle="pill" href="#profile-tab" role="tab">
+                    <img class="icon" src="{% static 'battery_module/images/icons/Users.svg' %}">
+                </a>
+            
+                <div class="btn-group dropend mt-2">
+                    <a class="nav-link dropdown-toggle" data-toggle="pill" aria-expanded="false" id="battery-tab" href="{% url 'viewallbattery' %}" role="tab">
+                        <img class="icon w-100" src="{% static 'battery_module/images/icons/Battery.svg' %}">
+                    </a>
+                    <ul class="dropdown-menu px-3 py-5">
+                        <li><a type="button" class="btn btn-default inactive-menu-icon-bg font-size-3 color-2 mt-5 w-100" href="{% url 'add_battery' %}">Add Battery</a></li>
+                        <li><a type="button" class="btn btn-default inactive-menu-icon-bg font-size-3 color-2 mt-3 w-100" href="{% url 'viewallbattery' %}">View Batteries</a></li>
+                    </ul>
+                </div>
+                <a class="nav-link" id="swapping-station-tab" data-toggle="pill" href="#swapping-station-tab" role="tab">
+                    <img class="icon" src="{% static 'battery_module/images/icons/Swapping_Station.svg' %}">
+                </a>
+                <a class="nav-link" id="geography-tab" data-toggle="pill" href="#geography-tab" role="tab">
+                    <img class="icon" src="{% static 'battery_module/images/icons/Geography.svg' %}">
+                </a>
+                <a class="nav-link" id="vehicles-tab" data-toggle="pill" href="#vehicles-tab" role="tab">
+                    <img class="icon" src="{% static 'battery_module/images/icons/Vehicles.svg' %}">
+                </a>
+
+                <div class="btn-group dropend mt-2">
+                    
+                    <a class="nav-link dropdown-toggle" aria-expanded="false" id="vcu-tab" data-toggle="pill" href="#vcu-tab" role="tab">
+                        <img class="icon" src="{% static 'battery_module/images/icons/VCU.svg' %}">
+                    </a>
+                    <ul class="dropdown-menu px-3 py-5">
+                        <li><a type="button" class="btn btn-default inactive-menu-icon-bg font-size-3 color-2 mt-5 w-100" href="{% url 'add_battery' %}">Add VCU</a></li>
+                        <li><a type="button" class="btn btn-default inactive-menu-icon-bg font-size-3 color-2 mt-3 w-100" href="{% url 'viewallbattery' %}">View All VCU</a></li>
+                    </ul>
+                </div>
+
+                
+                <a class="nav-link" id="iot-tab" data-toggle="pill" href="#iot-tab" role="tab">
+                    <img class="icon" src="{% static 'battery_module/images/icons/IOT.svg' %}">
+                </a>
+                <a class="nav-link" id="reports-tab" data-toggle="pill" href="#reports-tab" role="tab">
+                    <img class="icon" src="{% static 'battery_module/images/icons/reports.svg' %}">
+                </a>
+                <a class="nav-link" id="settings-tab" data-toggle="pill" href="#settings-tab" role="tab">
+                    <img class="icon" src="{% static 'battery_module/images/icons/settings.svg' %}">
+                </a>
+                <a class="nav-link" id="complaint-tab" data-toggle="pill" href="#complaint-tab" role="tab">
+                    <img class="icon" src="{% static 'battery_module/images/icons/complaint.svg' %}">
+                </a>
+            </nav>
+            
+            
+        </div>
+        <div class="col-md-11 border-start">
+            {% block menu %}
+                <div class="container">
+                    
+                </div>
+                
+            {% endblock menu %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+</html>

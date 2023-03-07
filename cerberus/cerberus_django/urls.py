@@ -20,7 +20,7 @@ from django.urls import path, include
 
 
 urlpatterns = [
-    path("", include("accounts.urls")),
+    path("", include("battery_module.urls")),
     path('admin/', admin.site.urls),
     path('keycloak', include('django_keycloak.urls')),
 ]

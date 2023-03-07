@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'battery_module/css/base.css' %}">
+    <title>SIGN UP | Cerberus</title>
+    <script>
+        if(localStorage.getItem("access_token")){
+            window.location ="/dashboard/"
+        }
+    </script>
+{% endblock head %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 box">
+                <label class="font-size-1">Sign Up</label>
+                <div class="row mt-5">
+                    <div class="col-md-6">
+                        <button class="btn w-100 button-2 font-size-2" type="submit">
+                            <img class="logo" src="{% static 'battery_module/images/logo/Google.svg' %}"> Sign Up with Google
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn w-100 button-2 font-size-2" type="submit">
+                            <img class="logo" src="{% static 'battery_module/images/logo/Microsoft.svg' %}"> Sign Up with Microsoft
+                        </button>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-md-12">
+                        <h5 class="hr-lines font-size-3 color-3">or</h5>
+                    </div>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row mt-5">
+                        <div class="col-md-12">
+                            <input type="text" class="form-control font-size-2 button-2" placeholder="Enter Phone or Email" name="email">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="password_div">
+                                <input type="password" class="form-control font-size-2 button-2" placeholder="Password" name="password" id="password">
+                                <img id = "show_password" class= "clear_btn" src="{% static 'battery_module/images/logo/Pasword_Visible.svg' %}" width=25>
+                                <img id = "hide_password" class= "clear_btn" src="{% static 'battery_module/images/logo/Pasword_Hide.svg' %}" width=22>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <input type="password" class="form-control font-size-2 button-2" placeholder="Re-enter Password" name="confirm_password">
+                        </div>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-default w-100 button-1 color-4 font-size-4">Sign Up</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <label class="font-size-3"> Already a member? <a class="color-2" href="{% url 'login' %}">Login</a></label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'battery_module/js/base.js' %}"></script>
+{% endblock content %}

@@ -1,0 +1,35 @@
+{% extends 'menu.html' %}
+{% load static %}
+
+{% block head %}
+    <title>GET BATTERY | Cerberus</title>
+    <link rel="stylesheet" href="{% static 'battery_module/css/base.css' %}">
+    <script src="{% static 'battery_module/js/base.js' %}"></script>
+{% endblock head %}
+
+{% block menu %}
+    <div class="row px-5 py-5 mt-5">
+        {% if messages %}
+
+            {% for message in messages %}
+                <label class="alert-danger px-5 py-3 rounded"> {{ message }}</label>
+            {% endfor %}
+        {% endif %}
+        <form method="post" class="bg-white p-5">
+            {% csrf_token %}
+            <div class="col-md-6">
+                <label>Battery Pack Sr No :</label>
+                <div class="row">
+                    <div class="col-md-8">
+                        <input type="text" class="form-control button-2" placeholder="Enter battery pack sr no.." name="battery_pack_sr_no">
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-default button-2 w-100">Get Details</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="col-md-6">
+        </div>
+    </div>
+{% endblock menu %}

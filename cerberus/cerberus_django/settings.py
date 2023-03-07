@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_keycloak.apps.KeycloakAppConfig',
-    'accounts.apps.AccountsConfig',
+    'battery_module.apps.BatteryModuleConfig',
     'base.apps.BaseConfig',
     'rest_framework',
     

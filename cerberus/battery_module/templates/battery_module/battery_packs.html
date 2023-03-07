@@ -1,0 +1,79 @@
+{% extends 'menu.html' %}
+{% load static %}
+
+{% block head %}
+    <title>DASHBOARD | Cerberus</title>
+    <link rel="stylesheet" href="{% static 'battery_module/css/base.css' %}">
+{% endblock head %}
+
+{% block menu %}
+    <div class="row px-5 mt-5">
+        <div class="col-md-12">
+            <label class="font-size-1">BATTERY PACKS</label>
+        </div>
+    </div>
+
+    <div class="row px-5 mt-3">
+        <div class="col-md-2">
+            <a href="{% url 'add_battery' %}" class="button-1 btn btn-default w-100">Add Battery</a> 
+        </div>
+        <div class="col-md-2">
+            <a href="{% url 'get_battery' %}" class="button-1 btn btn-default w-100">Get Battery Detail</a>
+        </div>
+        <div class="col-md-2">
+           <button class="button-2 btn btn-default">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg> Add filter
+           </button> 
+        </div>
+    </div>
+    
+    <div class="row px-5 mt-5 py-2">
+        <div class="col-md-3 scrollable_div bg-white">
+            {% if battery_tag_list %}
+                {% for tag in battery_tag_list %}
+                    <a href="#" class="btn btn-default w-100 font-size-5 mt-3 p-2">{{ tag }}</a>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-md-8 bg-white ml-3 p-5">
+            <div class="row">
+                <div class="col-md-4 p-2">
+                    <div class="battery_packs_box">
+                        <label class="font-size-4">State Of Charge</label>
+                    </div>
+                </div>
+                <div class="col-md-4 p-2">
+                    <div class="battery_packs_box">
+                        <label class="font-size-4">Terminal Voltage</label>
+                    </div>
+                </div>
+                <div class="col-md-4 p-2">
+                    <div class="battery_packs_box">
+                        <label class="font-size-4">Energy Capacity</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 p-2">
+                    <div class="battery_packs_box">
+                        <label class="font-size-4">Charge Capacity</label>
+                    </div>
+                </div>
+                <div class="col-md-4 p-2">
+                    <div class="battery_packs_box">
+                        <label class="font-size-4">Cell Temprature</label>
+                    </div>
+                </div>
+                <div class="col-md-4 p-2">
+                    <div class="battery_packs_box">
+                        <label class="font-size-4">Location</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+{% endblock menu %}
