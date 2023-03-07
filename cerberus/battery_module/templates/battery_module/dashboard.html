@@ -24,7 +24,7 @@
         // new Keycloak('http://cerberus.localhost/keycloak.json');
         console.log("hii am there")    
         keycloak.init({onLoad: 'login-required'}).then(function() {
-
+        console.log("am loging")
         }).catch(function() {
             alert('failed to initialize');
         });

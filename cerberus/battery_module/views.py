@@ -196,8 +196,6 @@ class Dashboard(View):
     
     def post(self, request):
         return render(request, 'battery_module/dashboard.html')
-    
-
 
 
 

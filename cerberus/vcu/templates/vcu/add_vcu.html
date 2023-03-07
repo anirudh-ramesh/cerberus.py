@@ -1,0 +1,83 @@
+{% extends 'menu.html' %}
+{% load static %}
+
+{% block head %}
+    <title>ADD BATTERY | Cerberus</title>
+    <link rel="stylesheet" href="{% static 'battery_module/css/base.css' %}">
+{% endblock head %}
+
+{% block menu %}
+    
+
+    <div class="row px-5 mt-5">
+        <form class = "bg-white p-5 rounded" method = "post">
+            {% csrf_token %}
+            <div class="row border-bottom py-5">
+                <div class="col-md-12 bg-white">
+                    <label class="font-size-1">Add VCU</label><br>
+                    <small class="text-muted">Fill VCU details here....</small> 
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type= "text" class="form-control button-2" placeholder = "Enter VCU name" name="vcu_name" id="vcu_name">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type= "text" class="form-control button-2" placeholder = "Enter IMEI" name="imei" id="imei">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <input type= "date" class="form-control button-2" placeholder = "Enter Warrenty Start Date" name="warranty_start_date" id="warranty_start_date">
+                </div>
+                <div class="col-md-4">
+                    <input type= "number" class="form-control button-2" placeholder = "Enter Warranty Duration" name="warranty_duration" id="warranty_duration">
+                </div>
+                <div class="col-md-4">
+                    <input type= "text" class="form-control button-2" placeholder = "Enter Status" name="status" id="status">
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="date" class="form-control button-2" placeholder = "Enter Vehicle Type" name="vehicle_type" id="vehicle_type">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <input type="text" class="form-control button-2" placeholder = "Enter Vehicle Configuration" name="vehicle_configuration" id="vehicle_configuration">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <input type= "text" class="form-control button-2" placeholder = "Enter Owner" name="owner" id="owner">
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row mt-5 mb-3">
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-6">
+                    <button class="button-2 w-50 btn btn-default button-1 font-size-3 text-alignment">Add VCU</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="{% static 'battery_module/js/base.js' %}"></script>
+    <script>
+      $("#vcu-tab").addClass("active-menu-icon-bg");
+   </script>
+    
+    
+{% endblock menu %}
