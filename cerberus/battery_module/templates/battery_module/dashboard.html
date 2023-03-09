@@ -9,28 +9,26 @@
     <!-- <script src="{% static 'accounts/js/initKeycloak.js' %}"></script> -->
     <script>
         
-     
-   </script>
+        
+    </script>
 
 {% endblock head %}
 
 {% block menu %}
 <div>
     <script>
-
     var keycloak=new Keycloak('./battery_module/templates/battery_module/keycloak.json');
-    // console.log("ssssssdddd",keycloak)
     function initKeycloak() {
-        // new Keycloak('http://cerberus.localhost/keycloak.json');
-        console.log("hii am there")    
         keycloak.init({onLoad: 'login-required'}).then(function() {
-        console.log("am loging")
+
+        if(!localStorage.getItem("access_token")){
+            localStorage.setItem("access_token", keycloak.token)
+        }
         }).catch(function() {
             alert('failed to initialize');
         });
          }
         initKeycloak();
-        console.log("Print my name !!") 
        </script>
     <div class="row px-5 mt-5">
         <div class="col-md-12">
