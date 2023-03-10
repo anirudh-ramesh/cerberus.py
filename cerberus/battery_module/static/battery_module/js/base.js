@@ -19,6 +19,26 @@ function delete_battery(){
     });
 }
 
+function delete_vcu(){
+    
+    var battery_pack_sr_no = $(this).data("vcu_name");
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    console.log(csrftoken, 'aksdhvkjasvdkjasd')
+    $.ajax({
+        type: "POST",
+        url: '/deletevcu/',
+        headers:{'X-CSRFToken': csrftoken},
+        data: {
+            
+            "vcu_name":vcu_name,
+        },
+        dataType: "json",
+        success: function (data) {  
+            alert("successfully Deleted")
+        },
+        
+    });
+}
 
 function password_hide(){
     $("#password").prop("type", "password");
@@ -64,6 +84,14 @@ function open_delete_modal(){
     $("#model_name").text(model_battery_serial_no);
     $("#model_name_msg").text(model_battery_serial_no);
     $("#delete_battery").data("model", battery_serial_no);
+    bootstrap.Modal.getOrCreateInstance(document.getElementById("delete_modal")).show();
+}
+
+function open_delete_vcu_modal(){
+    var vcu_name = $(this).data("vcu_name");
+
+    $("#vcu_name_msg").text(vcu_name);
+    $("#delete_vcu").data("vcu_name", vcu_name);
     bootstrap.Modal.getOrCreateInstance(document.getElementById("delete_modal")).show();
 }
 
@@ -144,6 +172,8 @@ $(document).ready(function(){
     $(document).on("click", "#delete_btn", open_delete_modal);
     $(document).on("click", ".moblisation_status", moblisation);
     $(document).on("click", ".refresh_btn", refresh_status);
+    $(document).on("click", "#vcu_delete_btn", open_delete_vcu_modal);
+    $(document).on("click", "#delete_vcu", delete_vcu)
     // $(document).on("click", "#battery-tab", change_icon);
     // $(document).on("click", "#dashboad-tab", change_icon); 
 });

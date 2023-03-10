@@ -105,7 +105,7 @@
                   <td>
                      <div class="btn-group">
                         <a href="{% url 'update_vcu' tag.asset_tag %}" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'battery_module/images/action_btns/edit.svg' %}" alt="edit.svg"></a>
-                        <a class="btn btn-light btn-sm" id = "delete_btn" data-vcu_name = "{{ tag.asset_tag }}"><img class="action_btn" src="{% static 'battery_module/images/action_btns/delete.svg' %}" alt="delete.svg"></button>
+                        <a class="btn btn-light btn-sm" id = "vcu_delete_btn" data-vcu_name = "{{ tag.asset_tag }}"><img class="action_btn" src="{% static 'battery_module/images/action_btns/delete.svg' %}" alt="delete.svg"></button>
                         <a href="{% url 'vcu_grafana' tag.asset_tag %}" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'battery_module/images/action_btns/data-update.svg' %}" alt="data-update.svg"></a>
                      </div>
                   </td> 
@@ -115,39 +115,24 @@
                   <div class="modal-dialog">
                         <div class="modal-content">
                            <div class="modal-header">
-                              <h5 class="modal-title">Delete Battery <span id="model_name"></span></h5>
+                              <h5 class="modal-title">Delete VCU <span id="vcu_name"></span></h5>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                            </div>
                            <div class="modal-body">
-                              <p>Are You sure to delete Battery <span id="model_name_msg"></span></p>
+                              <p>Are You sure to delete VCU <span id="vcu_name_msg"></span></p>
                            </div>
                            <div class="modal-footer">
                               <form method="post">
                                     {% csrf_token %}
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-danger" id = "delete_battery">Yes, Delete</button>
+                                    <button type="submit" class="btn btn-danger" id = "delete_vcu">Yes, Delete</button>
                               </form>
                            </div>
                         </div>
                   </div>
                </div>
 
-               <div class="modal" tabindex="-1" id="moblisation_status_modal">
-                  <div class="modal-dialog">
-                     <div class="modal-content">
-                        <div class="modal-header">
-                        </div>
-                        <div class="modal-body">
-                           <span id="moblisation_status_text"></span>
-                           <br>
-                           <button type="button" class="btn btn-secondary text-alignment" data-bs-dismiss="modal">Close</button>
-                        </div>
-                        <div class="modal-footer">
-                           
-                        </div>
-                     </div>
-                  </div>
-               </div>
+               
                {% endfor %}
             </tbody>
          </table>

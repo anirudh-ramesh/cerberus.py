@@ -837,7 +837,6 @@ class RefreshStatus(View):
         )
 
 
-
 class BatteryGrafana(View):
     def get(self, request, battery_pack_sr_no):
         return render(request, "battery_module/battery_grafana_dashboard.html", {"battery_pack_sr_no":battery_pack_sr_no})
