@@ -784,11 +784,8 @@ class RefreshStatus(View):
             content_type = "application/json",
         )
 
-    
-class SwapStationList(View):
-    def get(self,request):
-        print("in swap station","%"*40)
-        return render(request, "battery_module/swap_station.html")
-    def post(self,request):
-        return render(request, "battery_module/swap_station.html")
-        
+
+
+class BatteryGrafana(View):
+    def get(self, request, battery_pack_sr_no):
+        return render(request, "battery_module/battery_grafana_dashboard.html", {"battery_pack_sr_no":battery_pack_sr_no})

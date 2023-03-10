@@ -106,7 +106,7 @@
                      <div class="btn-group">
                         <a href="{% url 'update_vcu' tag.asset_tag %}" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'battery_module/images/action_btns/edit.svg' %}" alt="edit.svg"></a>
                         <a class="btn btn-light btn-sm" id = "delete_btn" data-vcu_name = "{{ tag.asset_tag }}"><img class="action_btn" src="{% static 'battery_module/images/action_btns/delete.svg' %}" alt="delete.svg"></button>
-                        <a href="http://2.irasus.com:9600/d/OGoAalwK/battery-measurements?from=now-30m&to=now&var-packName={{tag.Battery_Serial_Number}}&kiosk&orgId=15" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'battery_module/images/action_btns/data-update.svg' %}" alt="data-update.svg"></a>
+                        <a href="{% url 'vcu_grafana' tag.asset_tag %}" class="btn btn-light btn-sm"><img class="action_btn" src="{% static 'battery_module/images/action_btns/data-update.svg' %}" alt="data-update.svg"></a>
                      </div>
                   </td> 
                </tr>

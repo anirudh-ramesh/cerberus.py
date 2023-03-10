@@ -1,0 +1,22 @@
+{% extends 'menu.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Battery {{battery_pack_sr_no}} | Cerberus</title>
+    <link rel="stylesheet" href="{% static 'battery_module/css/base.css' %}">
+{% endblock head %}
+
+{% block menu %}
+<div class="container-fluid p-5 bg-white">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Battery Pack {{ battery_pack_sr_no }}</h3>
+        </div>
+    </div>
+    <div class="row mt-5 w-100">
+        <div class="col-md-12">
+            <iframe src="http://2.irasus.com:9600/d/OGoAalwK/battery-measurements?from=now-30m&to=now&var-packName={{battery_pack_rs_no}}&kiosk&orgId=15" frameborder=1 allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+{% endblock menu %}

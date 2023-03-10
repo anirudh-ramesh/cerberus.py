@@ -172,3 +172,8 @@ class UpdateVCU(View):
         
         return render(request, 'vcu/update_vcu.html')
 
+
+
+class VCUGrafana(View):
+    def get(self, request, vcu_name):
+        return render(request, "vcu/vcu_grafana_dashboard.html", {"vcu_name":vcu_name})

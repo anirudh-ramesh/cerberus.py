@@ -1,0 +1,23 @@
+{% extends 'menu.html' %}
+{% load static %}
+
+{% block head %}
+    <title>VCU {{vcu_name}} | Cerberus</title>
+    <link rel="stylesheet" href="{% static 'battery_module/css/base.css' %}">
+{% endblock head %}
+
+{% block menu %}
+<div class="container-fluid p-5 bg-white">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>VCU {{ vcu_name }}</h3>
+        </div>
+    </div>
+    <div class="row mt-5 w-100">
+        <div class="col-md-12">
+            <iframe src=" http://dashboards.igt-ev.com/grafana/d/OGoAalwK/battery-measurements?orgId=2&var-pk_no={{vcu_name}}" frameborder=1 allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+{% endblock menu %}
+

@@ -1,16 +1,13 @@
 from django.urls import path
 from battery_module.views import UserAccessAPI, BatteryList, AddBattery, GetBattery, DeleteBattery, UpdateBattery,ViewAllBattery,\
-    Allocate_battery,ViewLogs, MoblisationStatus, RefreshStatus,SwapStationList, Dashboard
+    Allocate_battery,ViewLogs, MoblisationStatus, RefreshStatus, Dashboard, BatteryGrafana
 from rest_framework.routers import DefaultRouter
 
 
 router=DefaultRouter()
 
 urlpatterns = [
-    # path('', Login.as_view(), name="login"),
-    # path('logout/', Logout.as_view(), name="logout"),
-    # path('otp/', OTP.as_view(), name="otp"),
-    # path('signup', SignUP.as_view(), name="signup"),
+    
     path('', Dashboard.as_view(), name="dashboard"),
     path("token/", UserAccessAPI.as_view(), name="user_access"),
     path("battery/", BatteryList.as_view(), name="battery_crud"),
@@ -23,5 +20,5 @@ urlpatterns = [
     path("allocate_battery/<str:battery_pack_sr_no>",Allocate_battery.as_view(),name="allocatebattery"),
     path("moblisation_status/<str:battery_pack_sr_no>/", MoblisationStatus.as_view(), name="moblisation_status"),
     path("refresh_status/<str:battery_pack_sr_no>/", RefreshStatus.as_view(), name="refresh_status"),
-    path("listswapstation/",SwapStationList.as_view(),name="get_swap_station_details"),
+    path("battery/<str:battery_pack_sr_no>/", BatteryGrafana.as_view(), name="battery_grafana"),
 ]
