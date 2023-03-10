@@ -1,13 +1,14 @@
-var keycloak=new Keycloak('http://localhost:5500/keycloak.json');
-    function initKeycloak() {
-        // new Keycloak('http://cerberus.localhost/keycloak.json');
-        console.log("hii am there")    
-        keycloak.init({onLoad: 'login-required'}).then(function() {
-            // constructTableRows(keycloak.idTokenParsed);
-            // pasteToken(keycloak.token);
-        }).catch(function() {
-            alert('failed to initialize');
-        });
-         }
-        initKeycloak();
-        console.log("Print my name !!") 
+console.log("hi from init file")
+var keycloak=new Keycloak('./battery_module/templates/battery_module/keycloak.json');
+function initKeycloak() {
+    keycloak.init({onLoad: 'login-required'}).then(function() {
+    consol.log("hii am there")
+    if(!localStorage.getItem("access_token")){
+        localStorage.setItem("access_token", keycloak.token)
+        console.log(keycloak.token)
+    }
+    }).catch(function() {
+        alert('failed to initialize');
+    });
+        }
+    initKeycloak();

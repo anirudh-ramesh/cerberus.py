@@ -3,11 +3,10 @@
 {{ value|json_script:"keycloak" }}
 {% block head %}
     <title>DASHBOARD | Cerberus</title>
-    <link rel="stylesheet" href="{% static 'accounts/css/base.css' %}">
-    <script type="text/javascript" href="{% static 'accounts/js/base.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'battery_module/css/base.css' %}">
+    <script type="text/javascript" href="{% static 'battery_module/js/base.js' %}"></script>
     <script src="http://localhost:8080/auth/js/keycloak.js"></script>
-   
-
+    <!-- <script type="text/javascript" href="{% static 'battery_module/js/initKeycloak.js' %}"></script> -->
 {% endblock head %}
 
 {% block menu %}
