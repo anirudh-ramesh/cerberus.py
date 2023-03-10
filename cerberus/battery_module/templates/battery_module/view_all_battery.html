@@ -163,11 +163,11 @@
 
                         {% if tag.Immobilisation_Status == None or tag.Immobilisation_Status == "0" %}
                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="moblisation_status" data-battery_pack_sr_no = {{ tag.Battery_Serial_Number }} data-status = {{tag.Immobilisation_Status }} checked>
+                              <input class="form-check-input moblisation_status" type="checkbox" id="moblisation_status{{tag.Battery_Serial_Number}}" data-battery_pack_sr_no = {{ tag.Battery_Serial_Number }} data-status = {{tag.Immobilisation_Status }} checked>
                            </div>
                         {% else %}
                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="moblisation_status" data-battery_pack_sr_no = {{ tag.Battery_Serial_Number }} data-status = {{tag.Immobilisation_Status }}>
+                              <input class="form-check-input moblisation_status" type="checkbox" id="moblisation_status{{tag.Battery_Serial_Number}}" data-battery_pack_sr_no = {{ tag.Battery_Serial_Number }} data-status = {{tag.Immobilisation_Status }}>
                            </div>
                         {% endif %}
                         <button class="btn btn-default refresh_btn" type="reset" data-battery_pack_sr_no = {{tag.Battery_Serial_Number}}>

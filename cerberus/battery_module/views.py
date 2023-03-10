@@ -378,17 +378,17 @@ class AddBattery(View):
 
         battery_data = {
             
-            "model_name": model_name,
-            "battery_pack_sr_no": str(battery_pack_sr_no),
-            "bms_type": str(bms_type),
-            "warranty_start_date": str(warranty_start_date),
-            "warranty_duration": int(warranty_duration),
-            "status": str(status),
-            "battery_cell_chemistry": str(battery_cell_chemistry),
-            "battery_pack_nominal_voltage": int(battery_pack_nominal_voltage),
-            "battery_pack_nominal_charge_capacity": int(battery_pack_nominal_charge_capacity),
-            "battery_pack_casing": str(battery_pack_casing),
-            "battery_cell_type": str(battery_cell_type)
+            "model_name": model_name if model_name else None,
+            "battery_pack_sr_no": str(battery_pack_sr_no) if battery_pack_sr_no else None,
+            "bms_type": str(bms_type) if bms_type else None,
+            "warranty_start_date": str(warranty_start_date) if warranty_start_date else None,
+            "warranty_duration": int(warranty_duration) if warranty_duration else None,
+            "status": str(status) if status else None,
+            "battery_cell_chemistry": str(battery_cell_chemistry) if battery_cell_chemistry else None,
+            "battery_pack_nominal_voltage": int(battery_pack_nominal_voltage) if battery_pack_nominal_voltage else None,
+            "battery_pack_nominal_charge_capacity": int(battery_pack_nominal_charge_capacity) if battery_pack_nominal_charge_capacity else None,
+            "battery_pack_casing": str(battery_pack_casing) if battery_pack_casing else None,
+            "battery_cell_type": str(battery_cell_type) if battery_cell_type else None
             
         }
 
@@ -398,7 +398,7 @@ class AddBattery(View):
 
         if response.status_code in [201, 202, 203, 204, 205, 200]:
             message = "Battery Added Successfully"
-            return redirect("battery_crud")
+            return redirect("viewallbattery")
 
         return render(request, 'battery_module/add_battery.html')
     
@@ -416,8 +416,52 @@ class DeleteBattery(View):
         )
 
         if response.status_code in [201, 202, 203, 204, 205, 200]:
+
+            print(response.__dict__)
+
+            url = "http://iot.igt-ev.com/battery/all"
+
+            response = requests.get(
+                    url = url   
+                    )
             
-            return render(request, "battery_module/view_all_battery.html")
+            print(response.__dict__)
+            
+            dict_response = response.__dict__
+            
+            dict_json_response = json.loads(dict_response["_content"])
+            
+            list_of_battery=[]
+            
+            for i in dict_json_response:
+            
+                temp_dict={}
+            
+                temp_dict['Battery_Serial_Number']=i.get('Battery Serial Number')
+            
+                temp_dict['Model_Name']=i.get('Model Name')
+            
+                temp_dict['Assigned_owner']=i.get('Assigned owner')
+                temp_dict['IOT_IMEI_No']=i.get('IOT IMEI No')
+                temp_dict['Battery_type']=i.get('Battery type')
+                temp_dict['BMS_type']=i.get('BMS type')
+                temp_dict['IOT_type']=i.get('IOT type')
+                temp_dict['Sim_Number']=i.get('Sim Number')
+                temp_dict['Warranty_Start_Date']=i.get('Warranty Start Date')
+                temp_dict['Warrenty_End_Date']=i.get('Warrenty End Date')
+                temp_dict['Status']=i.get('Status')
+                temp_dict['Battery_Cell_Chemistry']=i.get('Battery Cell Chemistry')
+                temp_dict['Battery_pack_Nominal_Voltage']=i.get('Battery pack Nominal Voltage')
+                temp_dict['Battery_Pack_Capacity']=i.get('Battery Pack Capacity')
+                temp_dict['Battery_Cell_Type']=i.get('Battery Cell Type')
+                temp_dict['Immobilisation_Status']=i.get('Immobilisation Status')
+                temp_dict['SoC']=i.get('SoC')
+                
+                list_of_battery.append(temp_dict)
+            
+            print("List of Battery :", list_of_battery)
+                
+            return render(request, "battery_module/view_all_battery.html", {"battery_data":list_of_battery})
         
         return render(request, "battery_module/view_all_battery.html")
     
@@ -536,19 +580,29 @@ class UpdateBattery(View):
 class ViewAllBattery(View):
     def get(self,request):
         url = "http://iot.igt-ev.com/battery/all"
+
         response = requests.get(
                 url = url   
                 )
         
         dict_response = response.__dict__
+
         REDIS_CONNECTION.delete("view_battery_data2")
+        
         dict_json_response = json.loads(dict_response["_content"])
+        
         list_of_battery=[]
+        
         view_battery_data_redis=[json.loads(i.decode('utf-8')) for i in REDIS_CONNECTION.lrange("view_battery_data2",0,-1)]
+        
         for i in dict_json_response:
+        
             temp_dict={}
+        
             temp_dict['Battery_Serial_Number']=i.get('Battery Serial Number')
+        
             temp_dict['Model_Name']=i.get('Model Name')
+        
             temp_dict['Assigned_owner']=i.get('Assigned owner')
             temp_dict['IOT_IMEI_No']=i.get('IOT IMEI No')
             temp_dict['Battery_type']=i.get('Battery type')
@@ -568,8 +622,6 @@ class ViewAllBattery(View):
                 list_of_battery.append(temp_dict)
                 REDIS_CONNECTION.lpush("view_battery_data2",json.dumps(i))
         
-    
-        # print(list_of_battery)    
         return render(request, 'battery_module/view_all_battery.html',{"battery_data":list_of_battery})
     def post(self,request):
         search_key=request.POST.get("search_text").strip()

@@ -19,34 +19,6 @@ function delete_battery(){
     });
 }
 
-// function allocate_battery_fun(){
-//     debugger;
-//     // a=document.getElementById("allocate_battery_pack_sr_no1")
-//     var battery_pack_sr_no = $("#updated_battery_pack_sr_no2").val();
-//     // var model_name = $("#updated_model_name").data("model");
-//     var model_name = $("#updated_model_name").val();
-//     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-//     console.log("sssss",battery_pack_sr_no,model_name)
-//     $.ajax({
-//         type: "POST",
-//         url: '/allocate_battery/'+battery_pack_sr_no,
-//         headers:{'X-CSRFToken': csrftoken},
-//         data: {
-            
-//             "battery_pack_sr_no":battery_pack_sr_no,
-//             "model_name":model_name
-//         },
-//         dataType: "json",
-//         success: function (data) {  
-//             if (data.messages){
-
-//                 alert("successfully ");
-//             }
-//         },
-        
-//     });
-// }
-
 
 function password_hide(){
     $("#password").prop("type", "password");
@@ -62,8 +34,6 @@ function password_show(){
 }
 
 function update_battery(){
-    
-    // var battery_pack_sr_no = $(this).data("battery_pack_sr_no")
     battery_pack_sr_no = $("#updated_battery_pack_sr_no").data("model");
     var model_name = $(this).data("model_name")
     
@@ -79,7 +49,7 @@ function update_battery(){
             
             "battery_pack_sr_no":battery_pack_sr_no,
         },
-        // dataType: "json",
+        
         success: function (data) {  
             alert("successfully Deleted")
         },
@@ -142,7 +112,13 @@ function refresh_status(){
         
         success: function (data) {  
             if(data.messages){
-                alert(data.messages);
+                if(data.messages == "Mobilized"){
+                    $("#moblisation_status{battery_pack_sr_no}").prop("checked", "true");
+                }
+                else{
+                    $("#moblisation_status{battery_pack_sr_no}").prop("checked", "false");
+                }
+                
             }
         },
         
@@ -166,7 +142,7 @@ $(document).ready(function(){
     $(document).on("click", "#show_password", password_show);
     $(document).on("click", "#hide_password", password_hide);
     $(document).on("click", "#delete_btn", open_delete_modal);
-    $(document).on("click", "#moblisation_status", moblisation);
+    $(document).on("click", ".moblisation_status", moblisation);
     $(document).on("click", ".refresh_btn", refresh_status);
     // $(document).on("click", "#battery-tab", change_icon);
     // $(document).on("click", "#dashboad-tab", change_icon); 
