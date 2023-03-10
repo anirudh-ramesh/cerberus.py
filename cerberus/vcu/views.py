@@ -77,6 +77,7 @@ class AddVCU(View):
         headers = {"Content-Type": "application/json; charset=utf-8"}
 
         response = requests.request("POST", url, headers=headers, data=json.dumps(vcu_data), json=json.dumps(vcu_data))
+        print(response.__dict__)
 
         if response.status_code in [201, 202, 203, 204, 205, 200]:
             message = "VCU Added Successfully"

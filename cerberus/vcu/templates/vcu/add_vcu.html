@@ -42,7 +42,16 @@
                     <input type= "number" class="form-control button-2" placeholder = "Enter Warranty Duration" name="warranty_duration" id="warranty_duration">
                 </div>
                 <div class="col-md-4">
-                    <input type= "text" class="form-control button-2" placeholder = "Enter Status" name="status" id="status">
+                     <div id="dropdown">
+                        <select id="updated_status" class="btn btn-light button-2 w-100" name="status">
+                            <option value="disable" disabled selected>--- Status ---</option>
+                            <option value="In Swap Station">In Swap Station</option>
+                            <option value="In Vehicle">In Vehicle</option>
+                            <option value="Idle">Idle</option>
+                            <option value="Damaged">Damaged</option>
+                        </select>
+                    </div>
+                    
                 </div>
             </div>
             <div class="row mt-5">
