@@ -4,4 +4,5 @@ from vcu.views import ViewAllVCU, AddVCU
 
 urlpatterns = [
     path("vcu_list/", ViewAllVCU.as_view(),name="vcu_list"),
+    path("add_vcu/", AddVCU.as_view(), name="add_vcu"),
 ]

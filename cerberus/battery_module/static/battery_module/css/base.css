@@ -229,7 +229,7 @@
     margin-top: -100%;
     box-shadow: 4px 0 8px 10px rgba(0, 0, 0, 0.04);
     border: 0;
-    left: 40px;
+    left: 20px;
 }
 
 .dropend:hover .dropdown-menu{

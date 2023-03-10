@@ -44,7 +44,6 @@ class ViewAllVCU(View):
         return render(request, 'vcu/vcu_details.html',{"vcu_data":list_of_battery})
 
 
-
 class AddVCU(View):
     def get(self, request):
         return render(request, 'vcu/add_vcu.html')

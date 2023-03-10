@@ -59,12 +59,12 @@
 
                 <div class="btn-group dropend mt-2">
                     
-                    <a class="nav-link dropdown-toggle" aria-expanded="false" id="vcu-tab" data-toggle="pill" href="#vcu-tab" role="tab">
+                    <a class="nav-link dropdown-toggle" aria-expanded="false" id="vcu-tab" data-toggle="pill" href="{% url 'vcu_list' %}" role="tab">
                         <img class="icon" src="{% static 'battery_module/images/icons/VCU.svg' %}">
                     </a>
                     <ul class="dropdown-menu px-3 py-5">
-                        <li><a type="button" class="btn btn-default inactive-menu-icon-bg font-size-3 color-2 mt-5 w-100" href="{% url 'add_battery' %}">Add VCU</a></li>
-                        <li><a type="button" class="btn btn-default inactive-menu-icon-bg font-size-3 color-2 mt-3 w-100" href="{% url 'viewallbattery' %}">View All VCU</a></li>
+                        <li><a type="button" class="btn btn-default inactive-menu-icon-bg font-size-3 color-2 mt-5 w-100" href="{% url 'add_vcu' %}">Add VCU</a></li>
+                        <li><a type="button" class="btn btn-default inactive-menu-icon-bg font-size-3 color-2 mt-3 w-100" href="{% url 'vcu_list' %}">View All VCU</a></li>
                     </ul>
                 </div>
 
