@@ -51,8 +51,8 @@ services:
         image: jboss/keycloak:16.1.1
 
         environment:
-            # - KEYCLOAK_USER=${USER_NAME}
-            # - KEYCLOAK_PASSWORD=${PASSWORD}
+            - KEYCLOAK_USER=${USER_NAME}
+            - KEYCLOAK_PASSWORD=${PASSWORD}
             - DB_VENDOR=postgres
             - DB_ADDR=timescaledb
             - DB_PORT=5432
