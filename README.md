@@ -1,3 +1,6 @@
+sudo docker exec -it cerberus python3 manage.py createsuperuser
+
+
 Ensure the volumes are empty.
 Run ```docker-compose build _cerberus```.
 Run ```docker-compose --profile all up```,
